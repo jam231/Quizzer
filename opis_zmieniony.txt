@@ -1,0 +1,33 @@
+Autorzy:
+Mateusz Jany
+Karol Lewcio
+
+System do zarządzania quizami (opis funkcjonalności)
+Tematem projektu jest system dający możliwość tworzenia i zarządzania quizami tematycznymi oraz grupami quizowymi. Dla każdej grupy quizowej istnieje osobny ranking zawierający informację o tym, ile punktów dany członek grupy uzyskał rozwiązując quizy w niej dostępne. 
+Nowe quizy i grupy mogą być tworzone przez użytkowników o randze co najmniej "Twórca", która to jest nadawana przez moderatorów systemu. Kontrola dostępu do kont moderatorów i administratora wykonywana jest z poziomu SZBD, natomiast dla rang kontrola przebiega z poziomu aplikacji. Właściciel grupy może nadawać jej członkom uprawnienia pozwalające na: dodawanie, modyfikację i uczestnictwo w quizach lub dyskusjach do quizów.  
+Do każdego quizu dołączona jest grupa dyskusyjna dla uprawnionych do uczestnictwa w danym quizie użytkowników. Każdy nowy użytkownik ma możliwość uczestnictwa w quizach jak i dyskusjach udostępnionych w grupie publicznej.
+Grupy dzielimy na publiczne i prywatne. Te pierwsze widoczne są dla każdego użytkownika, lecz mogą być chronione hasłem. Do grup prywatnych użytkownik uzyskuje wgląd jedynie po zaproszeniu przez uprawnioną osobę.
+Nowy quiz składa się z nowoutworzonych pytań. Każde z pytań należy do dokładnie jednej kategorii, natomiast kategorie quizu dziedziczone są po pytaniach do niego należących. Użytkownik tworzący quiz ma możliwość ustawienia limitu podejść, limitu czasu oraz przynależności quizu do grupy (o ile ma odpowiednie uprawnienia wybranej grupie). Kategoria, typ pytania, punktacja oraz odpowiedzi wzorcowe ustawiane są podczas tworzenia pytania.
+Pytanie może być jednego z trzech typów ogólnych:
+•	Otwarte – użytkownik wpisuje odpowiedź do pustego pola
+•	Zamknięte jednokrotnego wyboru – użytkownik wybiera jedną z n odpowiedzi
+•	Zamknięte wielokrotnego wyboru – użytkownik wybiera od jednej do n z n odpowiedzi
+ Kategorie tworzą hierarchie. Każde z pytań należy do jednej z kategorii, która może mieć swoje nadkategorie. Nadrzędną kategorią jest „Pytanie”. Każda z pozostałych kategorii ma dokładnie jedną bezpośrednią nadkategorię.
+	
+
+
+
+
+
+Opis ról w bazie danych
+•	Administrator
+Ma możliwość wykonywania wszelkich operacji na bazie danych, w tym tworzenie i usuwanie tabeli i użytkowników
+•	Moderator
+Ma dostęp do wszelkich operacji na tabelach, natomiast nie może ich tworzyć ani usuwać
+•	Użytkownik
+Ma wgląd do wszelkich tabel, natomiast nie może ingerować w kategorie ani typy pytań. Dalsza kontrola dostępu (np. usuwanie innych użytkowników) przebiega z poziomu aplikacji
+
+Technologia
+	- Ruby
+	- Ruby on Rails wraz z ActiveRecord,
+	- PostgreSQL 9.2

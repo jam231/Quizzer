@@ -1,0 +1,29 @@
+
+System do zarządzania quizami (opis funkcjonalności)
+--------------------------------------------------------
+
+	System dający możliwość tworzenia i zarządzania quizami tematycznymi
+	oraz grupami quizowymi. Dla każdej grupy istnieje osobny ranking 
+	zawierający informację o tym, ile punktów dany użytkownik uzyskał rozwiązując
+	quizy dostępne w danej grupie. Nowe quizy lub grupy mogą być tworzone
+	przez użytkowników o randze co najmniej "Contributor", która to 
+	jest nadawana przez moderatorów systemu. Właściciel grupy może nadawać członkom 
+	uprawnienia do dodawania\modyfikacji\uczestnictwa w quizach lub dyskusjach do quizów.
+	Do każdego quizu dołączona jest grupa dyskusyjna dla uprawnionych (do uczestnictwa w danym
+	quizie) użytkowników.Każdy nowy użytkownik ma możliwość uczestnictwa w quizach udostępnionych 
+	w grupie publicznej. Nowy quiz składa się z nowo utworzonych pytań po których dziedziczy kategorie, 
+	dodatkowo użytkownik tworzący quiz ma możliwośc ustawienia limitu podejść, limitu czasu 
+	oraz przynależności do grupy (o ile ma odpowiednie uprawnienia wybranej grupie).
+	Kategoria, typ pytania (zamknięte jedno\wielokrotnego wyboru lub otwarte), punktacja
+	oraz odpowiedzi_wzorcowe są ustawiane podczas tworzenia pytania. Kategorie tworzą hierarchie.
+
+	
+Technologia
+---------------------
+	- Ruby,
+	- Ruby on Rails wraz z ActiveRecord,
+	- PostgreSQL.
+	
+	
+Opis ról
+------------
