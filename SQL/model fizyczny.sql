@@ -1,18 +1,17 @@
 CREATE TABLE uzytkownik(
 	id_uz		SERIAL PRIMARY KEY,
 	login		VARCHAR(15) UNIQUE NOT NULL,
-	haslo		VARCHAR(30) NOT NULL, --zwiekszylem
-	nazwa_uz	VARCHAR(30) UNIQUE NOT NULL, --zwiekszylem
+	haslo		VARCHAR(30) NOT NULL,
+	nazwa_uz	VARCHAR(30) UNIQUE NOT NULL,
 	email		VARCHAR(60) UNIQUE NOT NULL,
 	ranga		VARCHAR(30) NOT NULL DEFAULT 'użytkownik'
-	-- tutaj (czy po stronie aplikacji?) powinien byc constraint odnosnie walidacji adresu email
 );
 
 CREATE TABLE grupa_quizowa(
 	id_grupy		SERIAL PRIMARY KEY,
-	id_wlasciciela	INTEGER NOT NULL REFERENCES uzytkownik(id_uz), --nie ma jeszcze na obrazku, ale dysk. mailowo
-	nazwa			VARCHAR(60) NOT NULL,
-	na_zaproszenie	BOOLEAN NOT NULL, --tak, nie, ukryte? byc moze zmienic na jakas domene
+	id_wlasciciela	INTEGER NOT NULL REFERENCES uzytkownik(id_uz),
+	nazwa			VARCHAR(60) UNIQUE NOT NULL,
+	na_zaproszenie	BOOLEAN NOT NULL,
 	haslo			VARCHAR(30)
 );
 
@@ -26,11 +25,11 @@ CREATE TABLE quiz(
 	data_utworzenia	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 	
-CREATE TABLE dyskusja( --zmienilem na dyskusja dla konsekwencji liczby z innymi tabelami
+CREATE TABLE dyskusja(
 	id_quizu		INTEGER NOT NULL REFERENCES quiz(id_quizu) ON DELETE CASCADE,
 	id_uz			INTEGER NOT NULL REFERENCES uzytkownik(id_uz),
 	tresc			VARCHAR NOT NULL,
-	data_wyslania	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP--with time zone? without?
+	data_wyslania	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -46,15 +45,15 @@ CREATE TABLE dostep_grupa(
 		--modyfikacja i usuwanie w dyskusji
 );
 
-CREATE TABLE typ( --zmienilem na typ dla konsekwencji
+CREATE TABLE typ(
 	id_typu		SERIAL PRIMARY KEY,
-	nazwa		VARCHAR(60) NOT NULL, --dodalem dlugosc typu
+	nazwa		VARCHAR(60) UNIQUE NOT NULL,
 	liczba_odp	INTEGER NOT NULL
 );
 
 CREATE TABLE kategoria(
-	id_kategorii	SERIAL PRIMARY KEY, --sugeruje zmiane na id_kat
-	nazwa			VARCHAR(60) UNIQUE NOT NULL --dodalem dlugosc do 60 zn
+	id_kategorii	SERIAL PRIMARY KEY,
+	nazwa			VARCHAR(60) UNIQUE NOT NULL
 );
 
 CREATE TABLE pytanie(
@@ -67,23 +66,17 @@ CREATE TABLE pytanie(
 	id_kategorii 	INTEGER NOT NULL REFERENCES kategoria(id_kategorii)
 );
 
-CREATE TABLE podkategoria( --zmienilem na podkategoria dla konsekwencji
+CREATE TABLE podkategoria(
 	id_nadkategorii INTEGER NOT NULL REFERENCES kategoria(id_kategorii),
-	id_podkategorii	INTEGER NOT NULL REFERENCES kategoria(id_kategorii) UNIQUE --dodalem unique okreslajace warunek ze kazda kategoria moze miec tylko jednego rodzica
+	id_podkategorii	INTEGER NOT NULL REFERENCES kategoria(id_kategorii) UNIQUE
 );
-
--- Wydaje mi sie, że umawialiśmy sie, że to wyrzucimy 
---CREATE TABLE pytanie_kategoria(
---	id_pyt			INTEGER NOT NULL REFERENCES pytanie(id_pyt),
---	id_kategorii	INTEGER NOT NULL REFERENCES kategoria(id_kategorii)
---);	
 
 CREATE TABLE odpowiedz_wzorcowa(
 	id_pyt				INTEGER NOT NULL REFERENCES pytanie(id_pyt) ON DELETE CASCADE,
 	tresc_odp			VARCHAR NOT NULL,
 	poziom_poprawnosci	INTEGER NOT NULL,
 	komentarz			VARCHAR,
-	ost_modyfikacja		TIMESTAMP,
+	ost_modyfikacja		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id_pyt,tresc_odp),
 	CONSTRAINT wk_p_poprawnosci CHECK (poziom_poprawnosci >= 0 AND poziom_poprawnosci <= 100)
 );
@@ -218,22 +211,9 @@ END
 $$ LANGUAGE plpgsql;
 
 
-----DOMYSLNE DANE c.d.
-DELETE FROM grupa_quizowa;
-SELECT setval('grupa_quizowa_id_grupy_seq',1,false);
-INSERT INTO grupa_quizowa(id_wlasciciela,nazwa,na_zaproszenie) VALUES(1,'public',false);
-INSERT INTO dostep_grupa(id_grupy,id_uz,prawa_dost) VALUES(1,1,B'1111111111111111');
-
-
-----ROLE SQL
-CREATE ROLE prawa_admina WITH CREATEDB CREATEROLE;
-GRANT ALL ON ALL TABLES IN SCHEMA public TO prawa_admina;
-
-CREATE ROLE prawa_moderatora;
-GRANT ALL ON ALL TABLES IN SCHEMA public TO prawa_moderatora;
-
-CREATE ROLE prawa_uzytkownika;
-GRANT ALL ON ALL TABLES IN SCHEMA public TO prawa_uzytkownika;
-REVOKE DELETE ON kategoria,podkategoria,typ FROM prawa_uzytkownika;
-REVOKE INSERT ON kategoria,podkategoria,typ FROM prawa_uzytkownika;
-REVOKE UPDATE ON kategoria,podkategoria,typ FROM prawa_uzytkownika;
+CREATE OR REPLACE FUNCTION odpowiedzi(pytanie integer) RETURNS SETOF odpowiedz_wzorcowa AS 
+$$
+BEGIN
+	SELECT * FROM odpowiedz_wzorcowa WHERE id_pyt=pytanie ORDER BY RANDOM();
+END
+$$ LANGUAGE plpgsql;
