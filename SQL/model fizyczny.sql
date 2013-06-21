@@ -214,6 +214,6 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION odpowiedzi(pytanie integer) RETURNS SETOF odpowiedz_wzorcowa AS 
 $$
 BEGIN
-	SELECT * FROM odpowiedz_wzorcowa WHERE id_pyt=pytanie ORDER BY RANDOM();
+	RETURN QUERY SELECT * FROM odpowiedz_wzorcowa WHERE id_pyt=pytanie ORDER BY RANDOM();
 END
 $$ LANGUAGE plpgsql;
