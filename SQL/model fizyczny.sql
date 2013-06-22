@@ -48,7 +48,8 @@ CREATE TABLE dostep_grupa(
 CREATE TABLE typ(
 	id_typu		SERIAL PRIMARY KEY,
 	nazwa		VARCHAR(60) UNIQUE NOT NULL,
-	liczba_odp	INTEGER NOT NULL
+	liczba_odp	INTEGER NOT NULL,
+	wielokrotnego_wyboru BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE kategoria(

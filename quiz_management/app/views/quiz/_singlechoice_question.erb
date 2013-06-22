@@ -1,0 +1,7 @@
+<li><%= pytanie.tresc %></li>
+<% for odpowiedz in pytanie.r_odpowiedzi %>
+    <%= radio_button_tag("#{pytanie.id_pyt}[]", odpowiedz.tresc_odp) %>
+    <%= label_tag("odpowiedz label", odpowiedz.tresc_odp) %>
+    <br />
+
+<% end %>

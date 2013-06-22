@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string  "haslo",          :limit => 30
   end
 
+  add_index "grupa_quizowa", ["nazwa"], :name => "grupa_quizowa_nazwa_key", :unique => true
+
   create_table "kategoria", :primary_key => "id_kategorii", :force => true do |t|
     t.string "nazwa", :limit => 60, :null => false
   end
@@ -87,9 +89,12 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   create_table "typ", :primary_key => "id_typu", :force => true do |t|
-    t.string  "nazwa",      :limit => 60, :null => false
-    t.integer "liczba_odp",               :null => false
+    t.string  "nazwa",                :limit => 60,                    :null => false
+    t.integer "liczba_odp",                                            :null => false
+    t.boolean "wielokrotnego_wyboru",               :default => false, :null => false
   end
+
+  add_index "typ", ["nazwa"], :name => "typ_nazwa_key", :unique => true
 
   create_table "uzytkownik", :primary_key => "id_uz", :force => true do |t|
     t.string "login",    :limit => 15,                           :null => false

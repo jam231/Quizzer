@@ -1,14 +1,15 @@
-<h1>Quiz#index</h1>
+<h1><%= @quiz.nazwa %></h1>
 <ul>
-<% for pytanie in @quiz.pytania %>
-  <li><%= pytanie.tresc %></li>
-      <% for odpowiedz in pytanie.odpowiedzi %>
-
-          <%= radio_button_tag(:odpowiedz, odpowiedz.tresc_odp) %>
-          <%= label_tag("odpowiedz label", odpowiedz.tresc_odp) %>
-          <br />
-
-      <% end %>
-
+<%= form_tag do %>
+  <% for pytanie in @quiz.pytania %>
+          <% if pytanie.wielokrotnego_wyboru? %>
+            <%= render :partial => "multichoice_question", :locals => { :pytanie => pytanie } %>
+          <% elsif pytanie.otwarte? %>
+            <%= render :partial => "open_question", :locals => { :pytanie => pytanie } %>
+          <% else %>
+            <%= render :partial => "singlechoice_question", :locals => { :pytanie => pytanie } %>
+          <% end %>
 <% end %>
 </ul>
+<%= submit_tag "Wyslij" %>
+<% end %>
