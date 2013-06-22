@@ -1,2 +1,14 @@
 <h1>Quiz#index</h1>
-<p>Find me in app/views/quiz/index.html.erb</p>
+<ul>
+<% for pytanie in @quiz.pytania %>
+  <li><%= pytanie.tresc %></li>
+      <% for odpowiedz in pytanie.odpowiedzi %>
+
+          <%= radio_button_tag(:odpowiedz, odpowiedz.tresc_odp) %>
+          <%= label_tag("odpowiedz label", odpowiedz.tresc_odp) %>
+          <br />
+
+      <% end %>
+
+<% end %>
+</ul>
