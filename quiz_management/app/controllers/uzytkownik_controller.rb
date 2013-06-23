@@ -8,7 +8,7 @@ class UzytkownikController < ApplicationController
     if uz.save
       render :text => "Uzytkownik #{uz.nazwa_uz} zostal zarejestrowany."
     else
-      render :text => "Z jakiegos powodu sie nie powiodlo..."
+      render :text => "#{uz.errors.first[1]}"
     end
   end
 end
