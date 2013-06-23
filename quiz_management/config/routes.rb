@@ -1,10 +1,17 @@
 QuizManagement::Application.routes.draw do
+
   get "quiz/index"
   #root :to => 'Quiz#index'
 
   post 'quiz/:id' => 'Quiz#submit'
   match 'quiz/:id' => 'Quiz#index'
   resources :quiz
+
+
+  post 'uzytkownik/register', :to => 'Uzytkownik#create'
+  match 'uzytkownik/register' => 'Uzytkownik#new'
+
+  resources :uzytkownik
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

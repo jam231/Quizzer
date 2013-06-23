@@ -1,0 +1,8 @@
+<h1>Rejestracja </h1>
+<%= form_for Uzytkownik.new, :url =>  {:controller => :uzytkownik, :action => :create} do |f| %>
+    <%=f.label :nazwa_uz%>:<%= f.text_field :nazwa_uz %> <br />
+    <%=f.label :login%>:<%= f.text_field :login %>  <br />
+    <%=f.label :haslo%>:<%= f.text_field :haslo %> <br />
+    <%=f.label :email%>:<%= f.text_field :email %> </br >
+    <%= f.submit %>
+<%end %>
