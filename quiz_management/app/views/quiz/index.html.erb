@@ -1,15 +1,12 @@
+<%= params.inspect %>
 <h1><%= @quiz.nazwa %></h1>
 <ul>
 <%= form_tag do %>
   <% for pytanie in @quiz.pytania %>
-          <% if pytanie.wielokrotnego_wyboru? %>
-            <%= render :partial => "multichoice_question", :locals => { :pytanie => pytanie } %>
-          <% elsif pytanie.otwarte? %>
-            <%= render :partial => "open_question", :locals => { :pytanie => pytanie } %>
-          <% else %>
-            <%= render :partial => "singlechoice_question", :locals => { :pytanie => pytanie } %>
-          <% end %>
+          <%= render :partial => "question", :locals => { :pytanie => pytanie, :score => params[:commit] } %>
 <% end %>
 </ul>
-<%= submit_tag "Wyslij" %>
+<% unless params[:commit] %>
+    <%= submit_tag "Wyslij" %>
+<% end %>
 <% end %>

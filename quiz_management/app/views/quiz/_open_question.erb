@@ -1,2 +1,1 @@
-<li><%= pytanie.tresc %></li>
-<%= text_field("#{pytanie.id_pyt}", "odp_otwarta") %>
+<%= text_field_tag("odpowiedzi[#{pytanie.id_pyt}]", params[:odpowiedzi].to_h[pytanie.id_pyt.to_s] || '') %>

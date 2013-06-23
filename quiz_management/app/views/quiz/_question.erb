@@ -1,0 +1,11 @@
+<li>
+  <%= pytanie.tresc %>
+  <%= controller.points_for_question(pytanie.id_pyt, params[:date_submitted]) if params[:date_submitted] %>
+</li>
+<% if pytanie.wielokrotnego_wyboru? %>
+    <%= render :partial => "multichoice_question", :locals => { :pytanie => pytanie } %>
+<% elsif pytanie.otwarte? %>
+    <%= render :partial => "open_question", :locals => { :pytanie => pytanie } %>
+<% else %>
+    <%= render :partial => "singlechoice_question", :locals => { :pytanie => pytanie } %>
+<% end %>

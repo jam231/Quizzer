@@ -1,6 +1,5 @@
-<li><%= pytanie.tresc %></li>
-<% for odpowiedz in pytanie.r_odpowiedzi %>
-    <%= check_box_tag("#{pytanie.id_pyt}[]", odpowiedz.tresc_odp) %>
+<% for odpowiedz in session[:pytania][pytanie.id_pyt] %>
+    <%= check_box_tag("odpowiedzi[#{pytanie.id_pyt}][]", odpowiedz.tresc_odp, controller.checked?(pytanie.id_pyt, odpowiedz.tresc_odp)) %>
     <%= label_tag("odpowiedz label", odpowiedz.tresc_odp) %>
     <br />
 
