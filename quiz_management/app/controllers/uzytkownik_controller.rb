@@ -1,14 +1,19 @@
 class UzytkownikController < ApplicationController
+  def index
+  end
+
   def new
+    @user = Uzytkownik.new
   end
 
   def create
-    uz = Uzytkownik.new params[:uzytkownik]
+    @user = Uzytkownik.new params[:uzytkownik]
 
-    if uz.save
-      render :text => "Uzytkownik #{uz.nazwa_uz} zostal zarejestrowany."
+    if @user.save
+      #rendirect_to root_url, :notice => "Uzytkownik #{@user.nazwa_uz} zostal zarejestrowany."
+      render :text => "Uzytkownik #{@user.nazwa_uz} zostal zarejestrowany."
     else
-      render :text => "#{uz.errors.first[1]}"
+      render "new"
     end
   end
 end
