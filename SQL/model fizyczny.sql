@@ -87,11 +87,7 @@ CREATE TABLE odpowiedz_uzytkownika(
 	tresc_odp			VARCHAR NOT NULL,
 	id_pyt				INTEGER NOT NULL REFERENCES pytanie(id_pyt) ON DELETE CASCADE,
 	data_wyslania		TIMESTAMP NOT NULL,
-	zaznaczona			BOOLEAN NOT NULL,
-	CONSTRAINT fk_odp_uzytkownika FOREIGN KEY (id_pyt, tresc_odp) 
-		REFERENCES odpowiedz_wzorcowa(id_pyt, tresc_odp)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE
+	zaznaczona			BOOLEAN NOT NULL
 );
 
 CREATE TABLE ranking(
@@ -173,8 +169,35 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION pkt_za_pytanie(uz integer, id_pytania integer, czas TIMESTAMP) RETURNS REAL AS $$
+DECLARE
+	pyt pytanie%ROWTYPE;
+	typ_pytania typ%ROWTYPE;
+	pkt_za_trafienie REAL;
+	pkt_zdobyte REAL;
+BEGIN
+	SELECT * INTO pyt FROM pytanie WHERE id_pyt = id_pytania;
+	SELECT * INTO typ_pytania FROM typ WHERE id_typu = pyt.id_typu;
 
-CREATE OR REPLACE FUNCTION podlicz_punkty(uzytkownik integer,i_quiz integer,czas TIMESTAMP) RETURNS VOID AS $$
+	IF typ_pytania.wielokrotnego_wyboru THEN
+		pkt_za_trafienie = pyt.pkt/typ.liczba_odp;
+		pkt_zdobyte := pyt.pkt - (SELECT 
+				(CASE WHEN (zaznaczona!=poziom_poprawnosci::BOOLEAN) THEN pkt_za_trafienie ELSE 0.00 END) 
+				FROM odpowiedz_uzytkownika ou JOIN odpowiedz_wzorcowa op ON(ou.id_pyt=op.id_pyt AND ou.tresc_odp=op.tresc_odp) 
+				WHERE ou.id_pyt = pyt AND ou.id_uz=uz AND ou.data_wyslania=czas);
+	ELSE
+		pkt_zdobyte :=
+			(SELECT pyt.pkt*poziom_poprawnosci/100 FROM 
+				odpowiedz_uzytkownika ou JOIN odpowiedz_wzorcowa ow ON (ou.id_pyt=ow.id_pyt AND ou.tresc_odp=ow.tresc_odp)
+				WHERE pyt.id_pyt=ou.id_pyt AND zaznaczona=true AND data_wyslania=czas AND id_uz=uz
+			);
+	END IF;
+	RETURN COALESCE(pkt_zdobyte,0::REAL);
+END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION podlicz_punkty(uz integer,i_quiz integer,czas TIMESTAMP) RETURNS REAL AS $$
 DECLARE
 	suma integer;
 	za_pytanie real;
@@ -183,31 +206,20 @@ DECLARE
 	pyt integer;
 BEGIN
 	--PYTANIA PROSTE DO LICZENIA
-	suma := (SELECT SUM(pkt) FROM 
-		odpowiedz_uzytkownika ou JOIN odpowiedz_wzorcowa op ON(ou.id_pyt=op.id_pyt AND ou.tresc_odp=op.tresc_odp) 
-		JOIN pytanie ON(ou.id_pyt=pytanie.id_pyt) 
-		WHERE ou.id_uz=uzytkownik AND quiz.id_quizu=i_quiz AND czas=ou.data_wyslania
-		AND pytanie.id_typu NOT IN (SELECT id_typu FROM typ WHERE nazwa LIKE '%wielokrotn%'));
+	suma := 0
 		
 	--PYTANIA WIELOKROTNEGO WYBORU
 	FOR pyt IN 
-		SELECT id_pyt FROM pytanie 
-		WHERE id_quizu = i_quiz
-		AND id_typu IN (SELECT id_typu FROM typ WHERE nazwa LIKE '%wielokrotn%')
+		(SELECT id_pyt FROM pytanie WHERE id_quizu = i_quiz)
 	LOOP
-		za_pytanie := (SELECT pkt::real FROM pytanie WHERE pytanie.id_pyt=pyt);
-		ulamek := (SELECT za_pytanie/(liczba_odp::real) FROM pytanie JOIN typ USING(id_typu) WHERE pytanie.id_pyt=pyt);
-		za_pytanie := za_pytanie -
-			(SELECT 
-				(CASE WHEN (zaznaczona=FALSE AND poziom_poprawnosci=100) OR (zaznaczona=TRUE AND poziom_poprawnosci=0) THEN ulamek ELSE 0.00 END) 
-				FROM odpowiedz_uzytkownika ou JOIN odpowiedz_wzorcowa op ON(ou.id_pyt=op.id_pyt AND ou.tresc_odp=op.tresc_odp) 
-				WHERE ou.id_pyt = pyt AND ou.id_uz=uzytkownik AND ou.data_wyslania=czas);
+		za_pytanie := pkt_za_pytanie(uz, pyt, czas)
 		suma := suma + za_pytanie;
 	END LOOP;
 	
 	grupa := (SELECT id_grupy FROM quiz WHERE quiz.id_quizu=i_quiz);
 	
-	UPDATE ranking SET pkt=pkt+suma WHERE id_uz=uzytkownik AND id_grupy=grupa;
+	UPDATE ranking SET pkt=pkt+suma WHERE id_uz=uz AND id_grupy=grupa;
+	RETURN suma;
 END
 $$ LANGUAGE plpgsql;
 

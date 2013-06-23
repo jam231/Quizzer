@@ -27,23 +27,23 @@ INSERT INTO pytanie(tresc,id_typu,id_autora,id_quizu,id_kategorii) VALUES('ABCD:
 INSERT INTO odpowiedz_wzorcowa(id_pyt, tresc_odp, poziom_poprawnosci) 
 VALUES
 (1,'A',100),
-(1,'B',100),
-(1,'C',100),
-(1,'D',100);
+(1,'B',0),
+(1,'C',0),
+(1,'D',0);
 
 
 INSERT INTO pytanie(tresc,id_typu,id_autora,id_quizu,id_kategorii) VALUES('ABC++: zaznacz BB',2,1,1,1);
 INSERT INTO odpowiedz_wzorcowa(id_pyt, tresc_odp, poziom_poprawnosci) 
 VALUES
-(2,'AA',100),
+(2,'AA',0),
 (2,'BB',100),
-(2,'CC',100),
-(2,'DD',100);
+(2,'CC',0),
+(2,'DD',0);
 
-INSERT INTO pytanie(tresc,id_typu,id_autora,id_quizu,id_kategorii) VALUES('wpisz XYZ',11,1,1,1);
+INSERT INTO pytanie(tresc,id_typu,id_autora,id_quizu,id_kategorii) VALUES('wpisz abc',11,1,1,1);
 INSERT INTO odpowiedz_wzorcowa(id_pyt, tresc_odp, poziom_poprawnosci) 
 VALUES
 (3,'abc',100),
-(3,'cde',100),
-(3,'efg',100),
-(3,'ghi',100);
+(3,'cde',0),
+(3,'efg',0),
+(3,'ghi',40);
