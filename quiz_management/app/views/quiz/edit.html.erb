@@ -1,7 +1,9 @@
+<%= link_to "Pokaż quiz", quiz_url(@quiz, :id => 1) %>
 <% if session[:user_id] == @quiz.id_wlasciciela %>
     <% for pytanie in @quiz.pytania %>
         <%= render :partial => "pytanie_edit_form", :locals => { :pytanie => pytanie } %>
     <% end %>
+    <%= render :partial => "pytanie_edit_form", :locals => {:pytanie => @nowe_pytanie } %>
 <% else %>
     "To nie jest twoj quiz"
 <% end %>

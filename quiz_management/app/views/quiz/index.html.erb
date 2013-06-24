@@ -1,5 +1,5 @@
-<%= params.inspect %>
 <h1><%= @quiz.nazwa %></h1>
+<%= link_to("Edytuj", edit_quiz_url(:id => @quiz.id_quizu), notice: 'Pytanie zapisane.') if session[:user_id] == @quiz.id_wlasciciela %>
 <ul>
 <%= form_tag do %>
   <% for pytanie in @quiz.pytania %>
@@ -8,7 +8,8 @@
 </ul>
 <% if params[:commit] %>
       <% controller.reset_session %>
-      <%= button_to "Powrot", :action => :index %>
+          <% @MIEJSCE_NA_STRONE_GLOWNA = {:action => "index", :id => @quiz.id_quizu, :test => "abvc" } %>
+      <%= link_to "Powrot", @MIEJSCE_NA_STRONE_GLOWNA %>
 <% else %>
     <%= submit_tag "Wyslij" %>
 <% end %>

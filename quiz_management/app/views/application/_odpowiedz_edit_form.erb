@@ -1,20 +1,14 @@
+<% puts "----- #{odpowiedz.tresc_odp}" %>
 <h3>Odpowiedź</h3>
 <%= form_for(odpowiedz) do |f| %>
-    <% if odpowiedz.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(odpowiedz.errors.count,"error") %> nie pozwolil uzytkownikowi na zapis:</h2>
-
-          <ul>
-            <% odpowiedz.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
 
     <div class="field">
       <%= f.label "Tresc odpowiedzi:" %><br />
-      <%= f.label :tresc_odp, odpowiedz.tresc_odp %><br />
+      <% if odpowiedz.ost_modyfikacja %>
+        <%= f.label :tresc_odp, odpowiedz.tresc_odp %><br />
+      <% else %>
+        <%= f.text_area :tresc_odp, :size=> "60x2" %>
+      <%end %>
     </div>
 
     <div class="field">
@@ -28,11 +22,11 @@
     </div>
 
     <%= f.hidden_field :id_pyt %>
-    <%= f.hidden_field :tresc_odp %>
+    <%= f.hidden_field :tresc_odp if odpowiedz.ost_modyfikacja %>
 
     <div class="actions">
-      <%= f.submit "Dodaj" %>
+      <%= f.submit "Zapisz" %>
     </div>
 
 <% end %>
-<%= button_to "Usun", odpowiedz_wzorcowa_path(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete"} %>
+<%= button_to "Usun", odpowiedz_wzorcowa_path(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete"} if odpowiedz.ost_modyfikacja %>

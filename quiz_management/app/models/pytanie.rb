@@ -7,7 +7,9 @@ class Pytanie < ActiveRecord::Base
     belongs_to :quiz, :class_name => "Quiz"
     belongs_to :kategoria, :class_name => "Kategoria"
 
-    attr_accessible :id_quizu, :tresc, :id_kategorii, :pkt, :id_typu
+    attr_accessible :id_quizu, :tresc, :id_kategorii, :pkt, :id_typu, :id_autora, :id_pyt
+
+    accepts_nested_attributes_for :odpowiedzi
 
   def r_odpowiedzi
     result = []

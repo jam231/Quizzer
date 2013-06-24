@@ -11,11 +11,12 @@ class QuizController < ApplicationController
       session[:pytania][pytanie.id_pyt] ||= pytanie.r_odpowiedzi
       puts session[:pytania][pytanie.id_pyt].class
     end
-    #@pytania = Pytanie.where("id_quizu = ?", params[:id])
   end
 
   def edit
     @quiz = Quiz.find(params[:id])
+    @nowe_pytanie = Pytanie.new(:id_quizu => params[:id])
+    @nowe_pytanie.tresc = 'Nowe pytanie'
   end
 
   def submit
