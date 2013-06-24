@@ -18,11 +18,13 @@ class GrupaQuizowaController < ApplicationController
   end
 
   def quizzes
+    @quizzes = @grupa.quizzes.all
     @what = 'quizzes'
     render 'index'
   end
 
   def users
+    @users = Uzytkownik.find(@grupa.dostep_grupa.where("id_uz <> 1").select(:id_uz).uniq.all.map(&:id_uz))
     @what = 'users'
     render 'index'
   end
@@ -66,7 +68,7 @@ class GrupaQuizowaController < ApplicationController
   # a ta helper_function sprawdza, czy current_user (tez helper function, tylko innego kontrolera)
   # ma zadane argumentem uprawnienie.
   # Przyda sie przy zabawach tworzeniem grup/quizow, etc.
-  def has_privilege?
+  def has_privilege?(pivilege_name)
     true
   end
 end
