@@ -1,5 +1,8 @@
 class GrupaQuizowaController < ApplicationController
   before_filter :available?
+
+  helper :has_privilege?
+
   def index
     @what = 'quizzes'
     # Grupa istnieje, badz nie.
@@ -33,7 +36,7 @@ class GrupaQuizowaController < ApplicationController
       user_from_grupa_dostep = @grupa.dostep_grupa.where(:id_uz => current_user.id)
       # Uzytkownik ma jakies prawa w danej grupie.
       if user_from_grupa_dostep
-        @user_privileges = user_from_grupa_dostep.first.prawa_dost
+        #@user_privileges = user_from_grupa_dostep.first.prawa_dost
         @what = 'users'
         render 'index'
       else
@@ -80,4 +83,11 @@ class GrupaQuizowaController < ApplicationController
     end
   end
 
+  # Domyslnie wysyłamy, jakis symbol (lub cos, do omowienia co to bedzie i co bedzie znaczylo.)
+  # a ta helper_function sprawdza, czy current_user (tez helper function, tylko innego kontrolera)
+  # ma zadane argumentem uprawnienie.
+  # Przyda sie przy zabawach tworzeniem grup/quizow, etc.
+  def has_privilege?
+    true
+  end
 end
