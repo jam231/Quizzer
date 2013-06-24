@@ -1,13 +1,25 @@
 QuizManagement::Application.routes.draw do
-  #root :to => "users#new"
+  get "grupa/:id" => "grupa_quizowa#index", :as => 'grupa'
+  get "grupa/:id/index" => "grupa_quizowa#index", :as => 'grupa'
+  get "grupa/:id/quizy" => "grupa_quizowa#quizzes", :as => 'quizy'
+  get "grupa/:id/ranking" => "grupa_quizowa#ranking", :as => 'ranking'
+  get "grupa/:id/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy'
+
+  #get "grupa/show"
+
+  #get "grupa" => "grupa_quizowas#new"
+
   get "log_out" => "sessions#destroy", :as => 'log_out'
   get "log_in" => "sessions#new", :as => 'log_in'
   get "register" => "uzytkownik#new", :as => 'register'
+
   get "quiz/index"
+
   #root :to => 'Quiz#index'
 
   post 'quiz/:id' => 'Quiz#submit'
   match 'quiz/:id' => 'Quiz#index'
+
   resources :quiz
   resources :uzytkownik
   resource :sessions

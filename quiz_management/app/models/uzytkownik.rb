@@ -5,6 +5,9 @@ class Uzytkownik < ActiveRecord::Base
 
   has_many :quizy, :foreign_key => 'id_wlasciciela', :class_name => "Quiz"
   has_many :grupy, :foreign_key => 'id_wlasciciela', :class_name => "GrupaQuizowa"
+  has_many :dostep_grupa, :foreign_key => 'id_uz', :class_name => "DostepGrupa"
+
+
 
   validates :email, :presence => true, :uniqueness => true, :length => {:maximum =>  60},
             :format => {:with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/}

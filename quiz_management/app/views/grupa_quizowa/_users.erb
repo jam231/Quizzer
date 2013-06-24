@@ -1,0 +1,8 @@
+<h3 style="text-align:center">Użytkownicy zapisani do grupy</h3>
+<ul style="text-padding:left">
+  <% users_ids = @grupa.dostep_grupa.where("id_uz <> 1").select(:id_uz).uniq.all.map(&:id_uz) %>
+  <% for uzytkownik in Uzytkownik.find(users_ids) %>
+      <li> <%= uzytkownik.nazwa_uz %> </li>
+  <%end%>
+
+</ul>

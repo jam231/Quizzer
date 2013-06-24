@@ -1,7 +1,4 @@
 class UzytkownikController < ApplicationController
-  def index
-  end
-
   def new
     @user = Uzytkownik.new
   end

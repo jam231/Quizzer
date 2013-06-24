@@ -1,0 +1,15 @@
+<h1>Grupa <%= params[:id] %></h1>
+<div style="width: 100%; display: table;">
+  <div style="display: table-row">
+    <div style="text-align: center;width: 33.3%; display: table-cell;"> <%= link_to "Quizy", quizy_path %> </div>
+    <div style="text-align: center;width: 33.3%; display: table-cell;"> <%= link_to "Uzytkownicy", uzytkownicy_path %></div>
+    <div style="text-align: center;width: 33.3%; display: table-cell;"> <%= link_to "Ranking", ranking_path %></div>
+  </div>
+  <div style="display: table-row">
+    <div id="content" style="display: table-cell;">
+      <br />
+      CONTENT <br/>
+      <%= render :partial => @what %>
+    </div>
+  </div>
+</div>

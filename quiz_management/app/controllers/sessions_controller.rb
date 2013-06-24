@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_filter :logged?, :only => [:create, :new]
+
   def new
   end
 
@@ -19,4 +21,12 @@ class SessionsController < ApplicationController
     #redirect_to root_url, :notice => "Uzytkownik wylogowany!"
     render :text => "Uzytkownik wylogowany"
   end
+
+  private
+  def logged?
+    if current_user
+      render :text => "Uzytkownik juz zalogowany!"
+    end
+  end
+
 end
