@@ -2,18 +2,16 @@
 <div style="text-padding:left; width: 100%; display: table;">
   <% for quiz in @quizzes %>
     <div style="display: table-row">
-        <div style="text-align: center;width: 40%; display: table-cell;"> <%= link_to quiz.nazwa, quiz_path, params.merge({:id => quiz.id_quizu}) %> </div>
+        <div style="text-align: center;width: 40%; display: table-cell;"> <%= link_to quiz.nazwa, quiz_path(quiz)%> </div>
         <div style="text-align: center;width: 10%; display: table-cell;"> <%= link_to "Info", "INFO DO QUIZU", params.merge({:id => quiz.id_quizu}) %></div>
         <% if has_privilege? :editing_quizzes %>
         <div style="text-align: center;width: 10%; display: table-cell;"> <%= link_to "Edit", "EDIT QUIZU", params.merge({:id => quiz.id_quizu}) %></div>
-        <%end %>
-        <% if has_privilege? :editing_quizzes %>
         <div style="text-align: center;width: 10%; display: table-cell;"> <%= link_to "Delete", "DELETE QUIZU", params.merge({:id => quiz.id_quizu}) %></div>
         <% end %>
     </div>
   <% end %>
   <br />
-  <% if has_privilege? :adding_quizzes %>
+  <% if has_privilege? :creation_of_quizzes %>
     <%= link_to "Nowy quiz", "STWORZ NOWY QUIZ"%>
   <% end %>
 </div>

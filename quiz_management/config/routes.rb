@@ -1,9 +1,9 @@
 QuizManagement::Application.routes.draw do
-  get "grupa/:id" => "grupa_quizowa#index", :as => 'grupa'
-  get "grupa/:id/index" => "grupa_quizowa#index", :as => 'grupa'
-  get "grupa/:id/quizy" => "grupa_quizowa#quizzes", :as => 'quizy'
-  get "grupa/:id/ranking" => "grupa_quizowa#ranking", :as => 'ranking'
-  get "grupa/:id/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy'
+  get "grupa/:id_grupy" => "grupa_quizowa#index", :as => 'grupa'
+  get "grupa/:id_grupy/index" => "grupa_quizowa#index", :as => 'grupa'
+  get "grupa/:id_grupy/quizy" => "grupa_quizowa#quizzes", :as => 'quizy'
+  get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking'
+  get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy'
 
   #get "grupa/show"
 
