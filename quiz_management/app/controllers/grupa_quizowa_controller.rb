@@ -78,7 +78,8 @@ class GrupaQuizowaController < ApplicationController
     #  --tworzenie quizow
     #  --modyfikacja i usuwanie quizow
     #  --modyfikacja i usuwanie w dyskusji
-
-    @@privileges.fetch(privilege_name, 1) == @user_privileges.to_i & @@privileges.fetch(privilege_name)
+    !(current_user.ranga =~ /u.ytkownik.*/)
+    #
+    # @@privileges.fetch(privilege_name, 1) == @user_privileges.to_i & @@privileges.fetch(privilege_name)
   end
 end
