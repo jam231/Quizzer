@@ -211,7 +211,7 @@ BEGIN
 	--PYTANIA WIELOKROTNEGO WYBORU
 	FOR pyt IN (SELECT id_pyt FROM pytanie WHERE id_quizu = i_quiz)
 	LOOP
-		za_pytanie := pkt_za_pytanie(uz, pyt, czas)
+		za_pytanie := pkt_za_pytanie(uz, pyt, czas);
 		suma := suma + za_pytanie;
 	END LOOP;
 	
