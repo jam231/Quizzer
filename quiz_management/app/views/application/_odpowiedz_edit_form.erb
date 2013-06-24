@@ -1,0 +1,38 @@
+<h3>Odpowiedź</h3>
+<%= form_for(odpowiedz) do |f| %>
+    <% if odpowiedz.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(odpowiedz.errors.count,"error") %> nie pozwolil uzytkownikowi na zapis:</h2>
+
+          <ul>
+            <% odpowiedz.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label "Tresc odpowiedzi:" %><br />
+      <%= f.label :tresc_odp, odpowiedz.tresc_odp %><br />
+    </div>
+
+    <div class="field">
+      <%= f.label "Komentarz do odpowiedzi" %><br />
+      <%= f.text_area :komentarz,  :size => "60x1" %>
+    </div>
+
+    <div class="field">
+      <%= f.label "Poziom_poprawnosci" %><br />
+      <%= f.text_field :poziom_poprawnosci, :size => 5 %>
+    </div>
+
+    <%= f.hidden_field :id_pyt %>
+    <%= f.hidden_field :tresc_odp %>
+
+    <div class="actions">
+      <%= f.submit "Dodaj" %>
+    </div>
+
+<% end %>
+<%= button_to "Usun", odpowiedz_wzorcowa_path(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete"} %>

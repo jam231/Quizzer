@@ -43,10 +43,13 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    composite_primary_keys (5.0.13)
+      activerecord (~> 3.2.0, >= 3.2.9)
     diff-lcs (1.2.4)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    ffi (1.9.0)
     ffi (1.9.0-java)
     formatador (0.2.4)
     guard (1.8.0)
@@ -81,6 +84,10 @@ GEM
     mime-types (1.23)
     multi_json (1.7.7)
     polyglot (0.3.3)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     pry (0.9.12.2-java)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -163,6 +170,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   coffee-rails (~> 3.2.1)
+  composite_primary_keys
   guard-rspec
   jquery-rails
   jruby-openssl

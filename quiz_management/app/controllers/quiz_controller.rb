@@ -5,11 +5,17 @@ class QuizController < ApplicationController
 
     @quiz = Quiz.find(params[:id])
 
+    session[:pytania] ||= Hash.new
+
     for pytanie in @quiz.pytania do
       session[:pytania][pytanie.id_pyt] ||= pytanie.r_odpowiedzi
       puts session[:pytania][pytanie.id_pyt].class
     end
     #@pytania = Pytanie.where("id_quizu = ?", params[:id])
+  end
+
+  def edit
+    @quiz = Quiz.find(params[:id])
   end
 
   def submit
@@ -48,11 +54,24 @@ class QuizController < ApplicationController
   end
 
   def checked?(question_id, answer)
-    params[:odpowiedzi][question_id.to_s].include? answer unless !params[:odpowiedzi]
+    params[:odpowiedzi][question_id.to_s].include? answer if params[:odpowiedzi]
   end
 
   def points_for_question(question_id, time)
     #hurray for niekonsekwencja jezykowa
     OdpowiedzUzytkownika.punkty(session[:user_id], question_id, time)
+  end
+
+  def reset_session
+    session[:pytania] = {}
+  end
+
+  def comments(question_id)
+    comment = ''
+
+    session[:pytania][question_id].each { |odpowiedz|
+      comment += odpowiedz.komentarz.to_s if checked?(question_id, odpowiedz.tresc_odp.to_s)
+    }
+    comment = 'Komentarz: ' + comment if comment.length > 0
   end
 end

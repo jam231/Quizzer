@@ -1,7 +1,19 @@
 QuizManagement::Application.routes.draw do
+  post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update'
+  post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
+
+  get "pytanie/edit"
+
+  get "pytanie/create"
+
   post 'quiz' => 'Quiz#submit'
   get 'quiz/:id' => 'Quiz#index'
+  get 'quiz/edit/:id' => 'Quiz#edit'
+  get 'quiz/question/:id_pyt' => 'Pytanie#edit'
+
   resources :quiz
+  resource :pytanie
+  resource :odpowiedz_wzorcowa
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

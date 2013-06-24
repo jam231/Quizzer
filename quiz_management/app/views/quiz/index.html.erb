@@ -6,7 +6,10 @@
           <%= render :partial => "question", :locals => { :pytanie => pytanie, :score => params[:commit] } %>
 <% end %>
 </ul>
-<% unless params[:commit] %>
+<% if params[:commit] %>
+      <% controller.reset_session %>
+      <%= button_to "Powrot", :action => :index %>
+<% else %>
     <%= submit_tag "Wyslij" %>
 <% end %>
 <% end %>

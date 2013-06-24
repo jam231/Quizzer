@@ -7,8 +7,16 @@ class Pytanie < ActiveRecord::Base
     belongs_to :quiz, :class_name => "Quiz"
     belongs_to :kategoria, :class_name => "Kategoria"
 
+    attr_accessible :id_quizu, :tresc, :id_kategorii, :pkt, :id_typu
+
   def r_odpowiedzi
-    odpowiedzi.shuffle[0..(typ.liczba_odp-1)]
+    result = []
+    result += odpowiedzi.shuffle[0..(typ.liczba_odp-1)]
+    if result.index{ |odpowiedz| odpowiedz.poziom_poprawnosci==100 }.nil?
+      result[0] = odpowiedzi[odpowiedzi.index { |odpowiedz| odpowiedz.poziom_poprawnosci == 100 } ]
+    end
+
+    result
   end
 
   def otwarte?

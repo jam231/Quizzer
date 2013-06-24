@@ -1,0 +1,7 @@
+<% if session[:user_id] == @quiz.id_wlasciciela %>
+    <% for pytanie in @quiz.pytania %>
+        <%= render :partial => "pytanie_edit_form", :locals => { :pytanie => pytanie } %>
+    <% end %>
+<% else %>
+    "To nie jest twoj quiz"
+<% end %>

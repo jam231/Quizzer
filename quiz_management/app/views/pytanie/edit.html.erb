@@ -1,0 +1,48 @@
+<h2>Pytanie</h2>
+<%= form_for(@pytanie) do |f| %>
+    <% if @pytanie.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= "blad" %> nie pozwolil uzytkownikowi na zapis:</h2>
+
+          <ul>
+            <% @pytanie.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label "Tresc" %><br />
+      <%= f.text_area :tresc, :size => "30x4" %>
+    </div>
+
+    <div class="field">
+      <%= f.label "Typ" %>
+      <%= f.select :id_typu, options_for_select(Typ.all.map{ |t| [t.nazwa, t.id_typu] }, @pytanie.id_typu)  %>
+    </div>
+
+    <div class="field">
+      <%= f.label "Kategoria" %>
+      <%= f.select :id_kategorii, options_for_select(Kategoria.all.map{ |k| [k.nazwa, k.id_kategorii] }, @pytanie.id_kategorii) %>
+    </div>
+
+    <div class="field">
+      <%= f.label "Punkty" %>
+      <%= f.text_field :pkt, :size => 5 %>
+    </div>
+
+    <%= f.hidden_field :id_pyt %>
+
+    <div class="actions">
+      <%= f.submit "Zapisz" %>
+
+    </div>
+
+
+<% end %>
+
+<% for odpowiedz in @pytanie.odpowiedzi %>
+    <%= render :partial => "odpowiedz_edit_form", :locals => { :odpowiedz => odpowiedz } %>
+    <br />
+<% end %>

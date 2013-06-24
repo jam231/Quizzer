@@ -1,0 +1,2 @@
+module OdpowiedzHelper
+end

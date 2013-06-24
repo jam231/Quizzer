@@ -13,6 +13,7 @@ gem 'jruby-openssl'
 # in production environments by default.
 group :assets do
   gem 'rspec-rails'
+  gem 'composite_primary_keys'
   gem 'guard-rspec'
 
   gem 'sass-rails',   '~> 3.2.3'

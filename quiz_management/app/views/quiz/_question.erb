@@ -1,7 +1,15 @@
 <li>
   <%= pytanie.tresc %>
-  <%= controller.points_for_question(pytanie.id_pyt, params[:date_submitted]) if params[:date_submitted] %>
+  <%= controller.points_for_question(pytanie.id_pyt, params[:date_submitted]).to_s if params[:date_submitted] %>
 </li>
+
+<% if params[:date_submitted] %>
+    <font color=”#0099ff”>
+      <%= controller.comments(pytanie.id_pyt) %>
+    </font>
+    <br />
+<% end %>
+
 <% if pytanie.wielokrotnego_wyboru? %>
     <%= render :partial => "multichoice_question", :locals => { :pytanie => pytanie } %>
 <% elsif pytanie.otwarte? %>
