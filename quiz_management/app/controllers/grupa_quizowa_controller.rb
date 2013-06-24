@@ -4,8 +4,7 @@ class GrupaQuizowaController < ApplicationController
   helper_method :has_privilege?
 
   def index
-    @what = 'quizzes'
-
+    quizzes
   end
 
   def show
