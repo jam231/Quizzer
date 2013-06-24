@@ -1,0 +1,30 @@
+<h1>Rejestracja </h1>
+<%= form_for @user, :url =>  {:controller => :uzytkownik, :action => :create} do |f| %>
+    <% if @user.errors.any? %>
+        <div class="error_messages">
+          <h2>Błąd</h2>
+          <ul>
+            <% for message in @user.errors.full_messages %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <%end%>
+    <p>
+        <%=f.label :nazwa_uz, 'Nazwa użytkownika' %><br />
+        <%= f.text_field :nazwa_uz %>
+    </p>
+    <p>
+        <%=f.label :login, 'Login' %><br />
+        <%= f.text_field :login %>
+    </p>
+    <p>
+        <%=f.label :haslo, 'Hasło' %><br />
+        <%= f.password_field :haslo %>
+    </p>
+    <p>
+        <%=f.label :email, 'Adres e-mail' %><br />
+        <%= f.text_field :email %>
+    </p>
+    <p class = "button"><%= f.submit 'Zarejestruj' %> </p>
+<%end %>

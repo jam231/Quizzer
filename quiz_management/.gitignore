@@ -7,6 +7,11 @@
 # Ignore bundler config
 /.bundle
 
+/config/database.yml
+
+/.idea/
+
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 

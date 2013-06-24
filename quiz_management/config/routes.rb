@@ -11,9 +11,22 @@ QuizManagement::Application.routes.draw do
   get "pytanie/edit" => 'Pytanie#edit'
   get "pytanie/create" => 'Pytanie#create'
 
+  get "grupa/:id_grupy" => "grupa_quizowa#index", :as => 'grupa'
+  get "grupa/:id_grupy/index" => "grupa_quizowa#index", :as => 'grupa'
+  get "grupa/:id_grupy/quizy" => "grupa_quizowa#quizzes", :as => 'quizy'
+  get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking'
+  get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy'
+
+  get "log_out" => "sessions#destroy", :as => 'log_out'
+  get "log_in" => "sessions#new", :as => 'log_in'
+  get "register" => "uzytkownik#new", :as => 'register'
+
   resources :quiz
+  resources :uzytkownik
+  resource :sessions
   resources :pytanie
   resources :odpowiedz_wzorcowa
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
