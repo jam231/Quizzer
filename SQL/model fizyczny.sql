@@ -1,4 +1,4 @@
-CREATE TABLE uzytkownik(
+﻿CREATE TABLE uzytkownik(
 	id_uz		SERIAL PRIMARY KEY,
 	login		VARCHAR(15) UNIQUE NOT NULL,
 	haslo		VARCHAR(30) NOT NULL,
@@ -206,11 +206,10 @@ DECLARE
 	pyt integer;
 BEGIN
 	--PYTANIA PROSTE DO LICZENIA
-	suma := 0
+	suma := 0;
 		
 	--PYTANIA WIELOKROTNEGO WYBORU
-	FOR pyt IN 
-		(SELECT id_pyt FROM pytanie WHERE id_quizu = i_quiz)
+	FOR pyt IN (SELECT id_pyt FROM pytanie WHERE id_quizu = i_quiz)
 	LOOP
 		za_pytanie := pkt_za_pytanie(uz, pyt, czas)
 		suma := suma + za_pytanie;
