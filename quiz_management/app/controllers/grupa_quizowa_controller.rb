@@ -36,7 +36,6 @@ class GrupaQuizowaController < ApplicationController
 
 
   private
-
   #
   def available?
     begin
@@ -58,7 +57,7 @@ class GrupaQuizowaController < ApplicationController
         render :text => "Brak dostepu do tej grupy."
       end
     else
-      redirect_to new_sessions_path, :notice => "Aby uzyksac dostep do grupy musisz sie zalogowac"
+      redirect_to new_sessions_path, :notice => "Aby uzyskac dostep do grupy musisz sie zalogowac"
       #render :text => "Musisz sie zalogowac"
     end
   end
@@ -68,7 +67,6 @@ class GrupaQuizowaController < ApplicationController
                 :creation_of_quizzes => 1 << 11,
                 :editing_quizzes => 1 << 10,
                 :edditing_discussions => 1 << 9}
-
 
   def has_privilege?(privilege_name)
     # Przeklejone z modelu fizycznego:
@@ -83,3 +81,4 @@ class GrupaQuizowaController < ApplicationController
     # @@privileges.fetch(privilege_name, 1) == @user_privileges.to_i & @@privileges.fetch(privilege_name)
   end
 end
+

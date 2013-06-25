@@ -8,7 +8,7 @@
 development:
   adapter: jdbcpostgresql
   username: postgres
-  password: 
+  password: password
   host: localhost
   database: quizy
 
@@ -22,6 +22,6 @@ test:
 development:
   adapter: jdbcpostgresql
   username: postgres
-  password: 
+  password: password
   host: localhost
   database: quizy
