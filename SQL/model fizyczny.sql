@@ -1,4 +1,4 @@
-﻿CREATE TABLE uzytkownik(
+CREATE TABLE uzytkownik(
 	id_uz		SERIAL PRIMARY KEY,
 	login		VARCHAR(15) UNIQUE NOT NULL,
 	haslo		VARCHAR(30) NOT NULL,
@@ -169,6 +169,36 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+--SELECT * from max_pkt_za_quiz(1,1);
+CREATE OR REPLACE FUNCTION max_pkt_za_quiz(uz integer, quiz integer) RETURNS REAL AS $$
+DECLARE
+	pyt pytanie%ROWTYPE;
+	typ_pytania typ%ROWTYPE;
+	pkt REAL;
+	pkt_najlepszy REAL = 0.00;
+	data_podejscia TIMESTAMP;
+	pytanie INTEGER;
+BEGIN
+
+	FOR data_podejscia IN (SELECT distinct data_wyslania FROM odpowiedz_uzytkownika ou WHERE ou.id_uz = uz)
+	LOOP
+		pkt = 0;
+		FOR pytanie IN (SELECT distinct ou.id_pyt FROM odpowiedz_uzytkownika ou JOIN pytanie p ON ou.id_pyt = p.id_pyt WHERE ou.id_uz = uz AND p.id_quizu = quiz)
+		LOOP
+			pkt := pkt + (SELECT * FROM pkt_za_pytanie(uz, pytanie, data_podejscia));
+		END LOOP;
+		
+		IF (pkt > pkt_najlepszy) THEN
+			pkt_najlepszy = pkt;
+		END IF;
+	END LOOP;
+	
+	RETURN pkt_najlepszy;
+	
+END
+$$ LANGUAGE plpgsql;
+
+
 CREATE OR REPLACE FUNCTION pkt_za_pytanie(uz integer, id_pytania integer, czas TIMESTAMP) RETURNS REAL AS $$
 DECLARE
 	pyt pytanie%ROWTYPE;
@@ -206,12 +236,13 @@ DECLARE
 	pyt integer;
 BEGIN
 	--PYTANIA PROSTE DO LICZENIA
-	suma := 0;
+	suma := 0
 		
 	--PYTANIA WIELOKROTNEGO WYBORU
-	FOR pyt IN (SELECT id_pyt FROM pytanie WHERE id_quizu = i_quiz)
+	FOR pyt IN 
+		(SELECT id_pyt FROM pytanie WHERE id_quizu = i_quiz)
 	LOOP
-		za_pytanie := pkt_za_pytanie(uz, pyt, czas);
+		za_pytanie := pkt_za_pytanie(uz, pyt, czas)
 		suma := suma + za_pytanie;
 	END LOOP;
 	
