@@ -172,8 +172,6 @@ $$ LANGUAGE plpgsql;
 --SELECT * from max_pkt_za_quiz(1,1);
 CREATE OR REPLACE FUNCTION max_pkt_za_quiz(uz integer, quiz integer) RETURNS REAL AS $$
 DECLARE
-	pyt pytanie%ROWTYPE;
-	typ_pytania typ%ROWTYPE;
 	pkt REAL;
 	pkt_najlepszy REAL = 0.00;
 	data_podejscia TIMESTAMP;
@@ -236,13 +234,13 @@ DECLARE
 	pyt integer;
 BEGIN
 	--PYTANIA PROSTE DO LICZENIA
-	suma := 0
+	suma := 0;
 		
 	--PYTANIA WIELOKROTNEGO WYBORU
 	FOR pyt IN 
 		(SELECT id_pyt FROM pytanie WHERE id_quizu = i_quiz)
 	LOOP
-		za_pytanie := pkt_za_pytanie(uz, pyt, czas)
+		za_pytanie := pkt_za_pytanie(uz, pyt, czas);
 		suma := suma + za_pytanie;
 	END LOOP;
 	
