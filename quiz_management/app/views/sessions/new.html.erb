@@ -8,12 +8,12 @@
       </div>
     </div>
     <div class="control-group">
-      <%= label_tag :haslo, 'Hasło', :class => 'control-label', :for => 'inputPassword' %>
+      <%= label_tag :password, 'Hasło', :class => 'control-label', :for => 'inputPassword' %>
       <div class="controls">
-        <%= password_field_tag :haslo, nil, :id => 'inputPassword', :placeholder => 'Hasło' %>
+        <%= password_field_tag :password, nil, :id => 'inputPassword', :placeholder => 'Hasło' %>
       </div>
     </div>
-    <div class="control-group" class="form-buttons">
+    <div class="control-group form-buttons">
       <button type="submit" class="btn btn-primary" name='commit'>Zaloguj</button> lub <%= link_to 'Zarejestruj nowe konto', new_uzytkownik_path%>
     </div>
 <% end %>
