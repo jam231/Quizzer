@@ -2,6 +2,7 @@ class GrupaQuizowaController < ApplicationController
   before_filter :available?
 
   helper_method :has_privilege?
+  helper_method :active?
 
   def index
     quizzes
@@ -33,9 +34,20 @@ class GrupaQuizowaController < ApplicationController
     render 'index'
   end
 
-
-
   private
+
+  def active?(what)
+    case what
+      when :quizy
+        @what == 'quizzes'
+      when :ranking
+        @what == 'ranking'
+      when :uzytkownicy
+        @what == 'users'
+      else
+        false
+    end
+  end
   #
   def available?
     begin

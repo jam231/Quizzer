@@ -32,3 +32,20 @@ h1.header {
     text-align: center;
     padding-top: 40px;
 }
+
+a:hover {
+  text-decoration: none !important;
+}
+
+a.warn:hover {
+    color: red;
+}
+/*
+ * Bootstrap's nav-justify doesn't seem to work
+ * and my skill is too weak for any worthy solution.   ;-(
+ *
+ */
+.three-part-menu {
+    width: 33% !important;
+    text-align: center !important;
+}
