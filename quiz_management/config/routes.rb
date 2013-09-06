@@ -20,9 +20,14 @@ QuizManagement::Application.routes.draw do
   get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking'
   get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy'
 
+
+  get "grupa/:id_grupy/quiz/:id" => "quiz#index", :as => 'quiz'
+  get "grupa/:id_grupy/quiz/:id/info" => "quiz#info", :as => 'quiz_info'
+
   get "log_out" => "sessions#destroy", :as => 'log_out'
-  get "log_in" => "sessions#new", :as => 'log_in'
-  get "register" => "uzytkownik#new", :as => 'register'
+
+  post "log_in" => "sessions#new", :as => 'log_in'
+  post "register" => "uzytkownik#new", :as => 'register'
 
   resources :quiz
   resources :uzytkownik

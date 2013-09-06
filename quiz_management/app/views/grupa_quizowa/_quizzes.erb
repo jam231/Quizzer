@@ -3,10 +3,10 @@
   <% for quiz in @quizzes %>
     <tr>
       <td>
-        <%= link_to quiz.nazwa, quiz_path + '/' + quiz.id_quizu.to_s%>
+        <%= link_to quiz.nazwa, quiz_url(:id => quiz.id_quizu)%>
       </td>
       <td>
-        <%= link_to 'Info', quiz_path + '/' + quiz.id_quizu.to_s + '/info', params.merge({:id => quiz.id_quizu}) %>
+        <%= link_to 'Info', quiz_info_url(:id_grupy => @grupa.id_grupy, :id =>  quiz.id_quizu), params.merge({:id => quiz.id_quizu}) %>
       </td>
     </tr>
   <% end %>
