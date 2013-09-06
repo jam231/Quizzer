@@ -1,7 +1,6 @@
 class GrupaQuizowaController < ApplicationController
-  before_filter :available?
+  before_filter :group_available?
 
-  helper_method :has_privilege?
   helper_method :active?
 
   def index
@@ -34,7 +33,7 @@ class GrupaQuizowaController < ApplicationController
     render 'index'
   end
 
-  private
+  protected
 
   def active?(what)
     case what
@@ -46,29 +45,6 @@ class GrupaQuizowaController < ApplicationController
         @what == 'users'
       else
         false
-    end
-  end
-  #
-  def available?
-    begin
-      @grupa = GrupaQuizowa.find(params[:id_grupy])
-      @id_grupy = params[:id]
-    rescue
-      redirect_to root_url, :alert => "Grupa nie istnieje."
-      return nil
-    end
-    # Uzytkownik jest zalogowany, or so I hope.
-    if current_user
-      user_from_grupa_dostep = @grupa.dostep_grupa.where(:id_uz => current_user.id)
-      # Uzytkownik ma jakies prawa w danej grupie.
-      if user_from_grupa_dostep
-        @user_privileges = user_from_grupa_dostep.first.prawa_dost
-      else
-        #redirect_to :back, :notice => "Brak dostepu do tej grupy."
-        redirect_to root_url, :alert => "Brak dostepu do tej grupy."
-      end
-    else
-      redirect_to new_sessions_path, :alert => "Aby uzyskac dostep do grupy musisz sie zalogowac"
     end
   end
 

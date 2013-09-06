@@ -7,9 +7,9 @@ QuizManagement::Application.routes.draw do
 
   #post 'quiz' => 'Quiz#submit'
 
-  get 'quiz/:id' => 'Quiz#index'
-  get 'quiz/question/:id' => 'Pytanie#edit'
-  get 'pytanie/:id' => 'Pytanie#edit'
+  get 'quiz/:id_quizu' => 'Quiz#index'
+  get 'quiz/question/:id_quizu' => 'Pytanie#edit'
+  get 'pytanie/:id_quizu' => 'Pytanie#edit'
 
   get 'pytanie/edit' => 'Pytanie#edit'
   get 'pytanie/create' => 'Pytanie#create'
@@ -17,11 +17,11 @@ QuizManagement::Application.routes.draw do
 
   ############################# QUIZ ###############################################
   # GET i POST
-  match "grupa/:id_grupy/quiz/:id" => "quiz#index", :as => 'quiz'
-
-  get "grupa/:id_grupy/quiz/:id/edit" => "quiz#edit", :as => 'quiz_edit'
-  get "grupa/:id_grupy/quiz/:id/destroy" => "quiz#destroy", :as => 'quiz_destroy'
-  get "grupa/:id_grupy/quiz/:id/info" => "quiz#info", :as => 'quiz_info'
+  match "grupa/:id_grupy/quiz/:id_quizu" => "quiz#index", :as => 'quiz'
+  get "grupa/:id_grupy/quiz/new" => "quiz#index", :as => 'quiz_new'
+  get "grupa/:id_grupy/quiz/:id_quizu/edit" => "quiz#edit", :as => 'quiz_edit'
+  get "grupa/:id_grupy/quiz/:id_quizu/destroy" => "quiz#destroy", :as => 'quiz_destroy'
+  get "grupa/:id_grupy/quiz/:id_quizu/info" => "quiz#info", :as => 'quiz_info'
 
 
   ############################# GRUPY QUIZOWE ######################################

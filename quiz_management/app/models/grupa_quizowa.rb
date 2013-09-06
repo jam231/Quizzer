@@ -8,8 +8,8 @@
     @@privileges = {:participation_in_quizzes => 1 << 13,
                     :participation_in_discussions => 1 << 12,
                     :creation_of_quizzes => 1 << 11,
-                    :editing_quizzes => 1 << 10,
-                    :editing_discussions => 1 << 9}
+                    :editing_and_deleteing_quizzes => 1 << 10,
+                    :editing_and_deleting_discussions => 1 << 9}
 
     def has_privilege?(user, privilege_name)
 	    # Przeklejone z modelu fizycznego:

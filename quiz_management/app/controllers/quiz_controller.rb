@@ -1,10 +1,18 @@
 class QuizController < ApplicationController
+	before_filter :has_access_to_quiz?, :only => [:info, :index]
+	before_filter :has_quiz_creation_privilege?, :only => [:edit]
+	before_filter :has_quiz_modify_privilege?, :only => [:submit]
+	before_filter :has_quiz_destroy_privilege?, :only => [:destroy]
+
+
+	#helper_method :has_access_to_quiz?
+
   def index
     session[:user_id] = 1
 
     logger.info "Uzytkownik #{current_user.nazwa_uz} {id_uz => #{current_user.id_uz} }"
 
-    @quiz = Quiz.find(params[:id])
+    @quiz = Quiz.find(params[:id_quizu])
 
     session[:pytania] ||= Hash.new
 
@@ -20,20 +28,24 @@ class QuizController < ApplicationController
     end
   end
 
+  def info
+		redirect_to :back, :alert => "Not implemented."
+  end
+
   def destroy
-		redirect_to :back
+		redirect_to :back, :alert => "Not implemented."
   end
 
   def edit
-    @quiz = Quiz.find(params[:id])
-    @nowe_pytanie = Pytanie.new(:id_quizu => params[:id])
+    @quiz = Quiz.find(params[:id_quizu])
+    @nowe_pytanie = Pytanie.new(:id_quizu => params[:id_quizu])
     @nowe_pytanie.tresc = 'Nowe pytanie'
   end
 
   def submit
     date = Time.now.strftime("%F %T.%L")
 
-    @quiz = Quiz.find(params[:id])
+    @quiz = Quiz.find(params[:id_quizu])
 
     @quiz.pytania.each { |pytanie|
       odp = OdpowiedzUzytkownika.new

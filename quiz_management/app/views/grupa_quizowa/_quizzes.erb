@@ -3,21 +3,21 @@
   <% for quiz in @quizzes %>
     <tr>
       <td>
-        <%= link_to quiz.nazwa, quiz_url(:id => quiz.id_quizu)%>
+        <%= link_to quiz.nazwa, quiz_url(:id_grupy => quiz.id_quizu, :id_quizu => quiz.id_quizu)%>
       </td>
       <td>
-        <%= link_to 'Info', quiz_info_url(:id_grupy => @grupa.id_grupy, :id =>  quiz.id_quizu),
+        <%= link_to 'Info', quiz_info_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
                             :class => 'btn btn-info' %>
       </td>
       <% if @grupa.has_privilege? current_user, :edit %>
         <td>
-            <%= link_to 'Edytuj', quiz_edit_url(:id_grupy => @grupa.id_grupy, :id =>  quiz.id_quizu),
+            <%= link_to 'Edytuj', quiz_edit_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
                                  :class => 'btn btn-warning' %>
         </td>
       <% end %>
       <% if @grupa.has_privilege? current_user, :delete %>
           <td>
-            <%= link_to 'Usuń', quiz_destroy_url(:id_grupy => @grupa.id_grupy, :id =>  quiz.id_quizu),
+            <%= link_to 'Usuń', quiz_destroy_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
                                 :class => 'btn btn-danger' %>
           </td>
       <% end %>
@@ -26,6 +26,6 @@
 </table>
 <% if @grupa.has_privilege? current_user, :creation_of_quizzes %>
     <div class="control-group">
-        <%= link_to 'Nowy quiz', '/quiz/new', :class => 'btn btn-primary'%>
+      <%= link_to 'Nowy quiz', quiz_new_url(:id_grupy => @grupa.id_grupy), :class => 'btn btn-primary'%>
     </div>
 <% end %>

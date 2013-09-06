@@ -6,4 +6,5 @@ class Quiz < ActiveRecord::Base
     belongs_to :uzytkownik, :class_name => "Uzytkownik"
 
   attr_accessible :pytania
+
 end
