@@ -54,8 +54,7 @@ class GrupaQuizowaController < ApplicationController
       @grupa = GrupaQuizowa.find(params[:id_grupy])
       @id_grupy = params[:id]
     rescue
-      #redirect_to :back, :notice => "Grupa nie istnieje."
-      render :text => "Grupa nie istnieje.", :layout => true
+      redirect_to root_url, :alert => "Grupa nie istnieje."
       return nil
     end
     # Uzytkownik jest zalogowany, or so I hope.
@@ -66,7 +65,7 @@ class GrupaQuizowaController < ApplicationController
         @user_privileges = user_from_grupa_dostep.first.prawa_dost
       else
         #redirect_to :back, :notice => "Brak dostepu do tej grupy."
-        render :text => "Brak dostepu do tej grupy.", :layout => true
+        redirect_to root_url, :alert => "Brak dostepu do tej grupy."
       end
     else
       redirect_to new_sessions_path, :alert => "Aby uzyskac dostep do grupy musisz sie zalogowac"
