@@ -9,13 +9,13 @@
         <%= link_to 'Info', quiz_info_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
                             :class => 'btn btn-info' %>
       </td>
-      <% if @grupa.has_privilege? current_user, :edit %>
+      <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
         <td>
             <%= link_to 'Edytuj', quiz_edit_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
                                  :class => 'btn btn-warning' %>
         </td>
       <% end %>
-      <% if @grupa.has_privilege? current_user, :delete %>
+      <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
           <td>
             <%= link_to 'Usuń', quiz_destroy_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
                                 :class => 'btn btn-danger' %>
@@ -24,7 +24,7 @@
     </tr>
   <% end %>
 </table>
-<% if @grupa.has_privilege? current_user, :creation_of_quizzes %>
+<% if @grupa.has_privileges? current_user, :creation_of_quizzes %>
     <div class="control-group">
       <%= link_to 'Nowy quiz', quiz_new_url(:id_grupy => @grupa.id_grupy), :class => 'btn btn-primary'%>
     </div>

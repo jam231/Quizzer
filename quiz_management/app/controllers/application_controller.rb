@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   def has_quiz_destroy_privilege?
 	  if group_available?
-		  has_quiz_privilege? :editing_and_deleteing_quizzes
+		  has_quiz_privilege? :editing_and_deleting_quizzes
 	  else
 		  false
 	  end
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
 
   def has_quiz_modify_privilege?
 	  if group_available?
-		  has_quiz_privilege? :editing_and_deleteing_quizzes
+		  has_quiz_privilege? :editing_and_deleting_quizzes
 	  else
 		  false
 	  end
@@ -68,12 +68,18 @@ class ApplicationController < ActionController::Base
 	  begin
 		  user = current_user
 		  quiz = Quiz.find(params[:id_quizu])
-		  grupa_quizowa = quiz.grupa_quizowa
-		  if grupa_quizowa.id_grupy == params[:id_grupy]
+		  logger.debug "Czy uzytkownik #{user.nazwa_uz} ma odpowiednie uprawnienia do quizu #{quiz.nazwa} {:id_quizu => #{quiz.id_quizu}} ? "
+		  grupa_quizowa = GrupaQuizowa.find(params[:id_grupy])
+		  logger.debug "Grupa quizowa #{grupa_quizowa.nazwa}"
+		  if grupa_quizowa.id_grupy == quiz.id_grupy
 			  unless grupa_quizowa.has_privileges?(user, privilege_name)
+				  logger.debug "Uzytkownik #{user.nazwa_uz} nie ma odpowiednich uprawnien do quizu #{quiz.nazwa} {:id_quizu => #{params[:id_quizu]}}. "
 				  redirect_to grupa_url(:id_grupy => params[:id_grupy]), :alert =>  privilege_violation_message
+			  else
+					logger.debug "Tak"
 			  end
 		  else
+			  logger.debug "Quiz #{quiz.nazwa} {:id_quizu => #{params[:id_quizu]}} nie nalezy do grupy #{grupa_quizowa.nazwa} {:id_grupy => #{grupa_quizowa.id_grupy}} "
 			  redirect_to grupa_url(:id_grupy => params[:id_grupy]), :alert => 'Quiz jest niedostepny w tej grupie.'
 		  end
 	  rescue
