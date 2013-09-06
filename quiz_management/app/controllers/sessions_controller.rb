@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if user
       session[:user_id] = user.id
       #redirect_to root_url, :notice => "Uzytkownik #{user.nazwa_uz} zalogowany!"
-      redirect_to root_url, :notice => "Uzytkownik #{user.nazwa_uz} zalogowany"
+      redirect_to grupa_public_url, :notice => "Uzytkownik #{user.nazwa_uz} zalogowany"
     else
       redirect_to root_url, :alert => "Niepoprawny login lub haslo."
     end
@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
   private
   def logged?
     if current_user
-      flash.now.alert = "Uzytkownik juz zalogowany!"
+      redirect_to grupa_public_url
     end
   end
 

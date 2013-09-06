@@ -1,6 +1,7 @@
 QuizManagement::Application.routes.draw do
 
-  root :to => "grupa_quizowa#index", :id_grupy => 1
+  root :to => "sessions#new"
+  #root :to => "grupa_quizowa#index", :id_grupy => 1
 
   post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update'
   post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
@@ -13,6 +14,9 @@ QuizManagement::Application.routes.draw do
 
   get "pytanie/edit" => 'Pytanie#edit'
   get "pytanie/create" => 'Pytanie#create'
+
+
+  get "public" => "grupa_quizowa#index", :id_grupy => 1, :as => 'grupa_public'
 
   get "grupa/:id_grupy" => "grupa_quizowa#index", :as => 'grupa'
   get "grupa/:id_grupy/index" => "grupa_quizowa#index", :as => 'grupa'
