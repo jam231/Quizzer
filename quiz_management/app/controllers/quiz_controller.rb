@@ -2,15 +2,26 @@ class QuizController < ApplicationController
   def index
     session[:user_id] = 1
 
+    logger.info "Uzytkownik #{current_user.nazwa_uz} {id_uz => #{current_user.id_uz} }"
 
     @quiz = Quiz.find(params[:id])
 
     session[:pytania] ||= Hash.new
 
+    logger.info "Id quizu = #{@quiz.id_quizu}"
+
     for pytanie in @quiz.pytania do
+
+		    logger.debug "Id pytania = #{pytanie.id_pyt}"
+
       session[:pytania][pytanie.id_pyt] ||= pytanie.r_odpowiedzi
       puts session[:pytania][pytanie.id_pyt].class
+
     end
+  end
+
+  def destroy
+		redirect_to :back
   end
 
   def edit

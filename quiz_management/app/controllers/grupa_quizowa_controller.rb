@@ -72,23 +72,5 @@ class GrupaQuizowaController < ApplicationController
     end
   end
 
-  @@privileges = {:participation_in_quizzes => 1 << 13,
-                :participation_in_discussions => 1 << 12,
-                :creation_of_quizzes => 1 << 11,
-                :editing_quizzes => 1 << 10,
-                :edditing_discussions => 1 << 9}
-
-  def has_privilege?(privilege_name)
-    # Przeklejone z modelu fizycznego:
-    #  --SPECYFIKACJA PRAW DOSTEPU OD NAJWIEKSZEGO BITU (get_bit, rzutowanie dziala od najw.):
-    #  --uczestnictwo w quizach
-    #  --uczestnictwo w dyskusji
-    #  --tworzenie quizow
-    #  --modyfikacja i usuwanie quizow
-    #  --modyfikacja i usuwanie w dyskusji
-    !(current_user.ranga =~ /u.ytkownik.*/)
-    #
-    # @@privileges.fetch(privilege_name, 1) == @user_privileges.to_i & @@privileges.fetch(privilege_name)
-  end
 end
 

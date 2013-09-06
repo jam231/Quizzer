@@ -18,7 +18,7 @@ class Uzytkownik < ActiveRecord::Base
 
   # Po co ?
   # Odsylam do http://blog.remarkablelabs.com/2012/12/strong-parameters-rails-4-countdown-to-2013
-  attr_accessible :nazwa_uz, :login, :haslo, :email, :password
+  attr_accessible :nazwa_uz, :login, :haslo, :email, :password, :ranga
   attr_accessor :password
 
   def self.authenticate(login, password)
