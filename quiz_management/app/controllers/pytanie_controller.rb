@@ -1,7 +1,8 @@
 class PytanieController < ApplicationController
   def edit
-    @pytanie = Pytanie.find(params[:id] || params[:pytanie][:id_pyt])
-    @nowa_odpowiedz = OdpowiedzWzorcowa.new(:id_pyt => params[:id])
+    id_pytania = params[:id_pyt] || params[:id] || params[:pytanie][:id_pyt]
+    @pytanie = Pytanie.find(id_pytania)
+    @nowa_odpowiedz = OdpowiedzWzorcowa.new(:id_pyt => id_pytania)
     @nowa_odpowiedz.tresc_odp = 'Nowa odpowiedz'
   end
 

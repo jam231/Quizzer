@@ -1,5 +1,5 @@
 <h2>Pytanie</h2>
-<%= form_for pytanie, :url =>  {:controller => :pytanie, :action => (if pytanie.id_pyt then :update else :create end)},
+<%#= form_for pytanie, :url =>  {:controller => :pytanie, :action => (if pytanie.id_pyt then :edit else :create end)},
              :html => {:class => 'form-horizontal'} do |f| %>
     <% if pytanie.errors.any? %>
         <div id="error_explanation">
@@ -14,31 +14,42 @@
     <% end %>
 
     <div class="field">
-      <%= f.label "Tresc" %><br />
-      <%= f.text_area :tresc, :size => "30x4" %>
+      <%#= label "Tresc" %><br />
+      Tresc
+      <%= text_area :tresc, :size => "30x4" %>
     </div>
 
     <div class="field">
-      <%= f.label "Typ" %>
-    <%= f.select :id_typu, options_for_select(Typ.all.map{ |t| [t.nazwa, t.id_typu] }, pytanie.id_typu) %>
+      Typ
+      <%#= label "Typ" %>
+    <%#= select :id_typu, options_for_select(Typ.all.map{ |t| [t.nazwa, t.id_typu] }, pytanie.id_typu) %>
     </div>
 
     <div class="field">
-      <%= f.label "Kategoria" %>
-    <%= f.select :id_kategorii, options_for_select(Kategoria.all.map{ |k| [k.nazwa, k.id_kategorii] }, :selected => :id_kategorii) %>
+      Kategoria
+      <%#= label "Kategoria" %>
+    <%#= select :id_kategorii, options_for_select(Kategoria.all.map{ |k| [k.nazwa, k.id_kategorii] }, :selected => :id_kategorii) %>
     </div>
 
     <div class="field">
-      <%= f.label "Punkty" %>
-    <%= f.text_field :pkt, :size => 5 %>
+      Punkty
+      <%#= label "Punkty" %>
+    <%= text_field :pkt, :size => 5 %>
     </div>
 
-    <%= f.hidden_field :id_pyt if pytanie.id_pyt %>
-    <%= f.hidden_field :id_quizu %>
+    <%#= hidden_field :id_pyt if pytanie.id_pyt %>
+    <%#= hidden_field :id_quizu %>
 
     <div class="actions">
-      <%= f.submit "Edytuj" %>
+      <%#= submit "Edytuj" %>
     </div>
 
+<%# end %>
+
+<%#= link_to 'Edytuj', pytanie_edit_url(:id_pyt => pytanie.id_pyt), :class => 'btn btn-warning' %>
+<% if pytanie.id_pyt then %>
+    <%= button_to "Edytuj", pytanie_edit_url(:id_pyt => pytanie.id_pyt), :id_pyt => pytanie.id_pyt, :method => "get" %>
+    <%= button_to "Usuń", pytanie_destroy_url(params.merge :id_pyt => pytanie.id_pyt, :pytanie => pytanie.attributes), {:method => "delete"}%>
+<% else %>
+    <%= button_to "Stwórz", pytanie_create_url %>
 <% end %>
-<%= button_to "Usuń", pytanie_destroy_url(params.merge :id_pyt => pytanie.id_pyt, :pytanie => pytanie.attributes), {:method => "delete"} if pytanie.id_pyt %>

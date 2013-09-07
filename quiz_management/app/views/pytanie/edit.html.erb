@@ -46,11 +46,11 @@
     <% end %>
 
     <% for odpowiedz in @pytanie.odpowiedzi %>
-        <%= render :partial => "odpowiedz_edit_form", :locals => {:odpowiedz => odpowiedz} %>
+        <%= render :partial => "odpowiedz_edit_form", :locals => {:odpowiedz => odpowiedz, :action => "update"} %>
         <br/>
     <% end %>
 
-    <%= render :partial => "odpowiedz_edit_form", :locals => {:odpowiedz => @nowa_odpowiedz } %>
+    <%= render :partial => "odpowiedz_edit_form", :locals => {:odpowiedz => @nowa_odpowiedz, :action => "create" } %>
 
 <% else %>
     to nie jest twoj quiz

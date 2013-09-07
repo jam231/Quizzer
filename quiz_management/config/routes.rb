@@ -2,8 +2,12 @@ QuizManagement::Application.routes.draw do
 
   root :to => "sessions#new"
 
-  post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update'
+  post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update', :as => 'odpowiedz_wzorcowa'
   post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
+  resources :odpowiedz_wzorcowa
+
+  #get "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update'
+  #get "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
 
   #post 'quiz' => 'Quiz#submit'
 
@@ -18,11 +22,12 @@ QuizManagement::Application.routes.draw do
   ############################# PYTANIE ############################################
 
   get "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt" => "pytanie#edit", :as => 'pytanie'
-  #get "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#new", :as => 'pytanie_new'
+  get "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#new", :as => 'pytanie_new'
 
 
   post "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#create", :as => 'pytanie_create'
-  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/update" => "pytanie#update", :as => 'pytanie_update'
+  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/edit" => "pytanie#edit", :as => 'pytanie_edit'
+  #post "grupa/:id_grupy/quiz/:id_quizu/pytanie/update" => "pytanie#update", :as => 'pytanie_update'
 
   get "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/edit" => "pytanie#edit", :as => 'pytanie_edit'
 
