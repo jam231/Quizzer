@@ -12,14 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require_self
 //= require_tree .
 
-
-// On document ready, find all things with data-dismiss='alert' attribute and then assign two them
-// onClick function() {$this.parent().remove()}
 $(document).ready(function() {
-    $("[data-dismiss=alert]").click(function() {
+    $("button[data-dismiss='alert']").click(function() {
         $(this).parent().remove();
-    });
-
+    })
 });
