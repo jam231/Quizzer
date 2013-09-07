@@ -2,27 +2,27 @@
 <%= form_for @user, :url =>  {:controller => :uzytkownik, :action => :create},
                     :html => {:class => 'form-horizontal'} do |f| %>
     <div class="control-group">
-      <%= f.label :nazwa_uz, 'Nazwa użytkownika', :class => 'control-label', :for => 'inputNazwaUz'%>
+      <%= f.label :nazwa_uz, 'Nazwa użytkownika', :class => 'control-label span2,', :for => 'inputNazwaUz'%>
       <div class="controls">
-        <%= f.text_field :nazwa_uz, :id => 'inputNazwaUz', :placeholder => 'Nazwa użytkownika' %>
+        <%= f.text_field :nazwa_uz, :class => 'span2', :id => 'inputNazwaUz', :placeholder => 'Nazwa użytkownika' %>
       </div>
     </div>
     <div class="control-group">
-      <%= f.label :login, 'Login', :class => 'control-label', :for => 'inputLogin'%>
+      <%= f.label :login, 'Login', :class => 'control-label span2', :for => 'inputLogin'%>
       <div class="controls">
-        <%= f.text_field :login, :id => 'inputLogin', :placeholder => 'Login' %>
+        <%= f.text_field :login, :class => 'span2', :id => 'inputLogin', :placeholder => 'Login' %>
       </div>
     </div>
     <div class="control-group">
-      <%= f.label :haslo, 'Hasło', :class => 'control-label', :for => 'inputPassword' %>
+      <%= f.label :haslo, 'Hasło', :class => 'control-label span2', :for => 'inputPassword' %>
       <div class="controls">
-        <%= f.password_field :haslo, :id => 'inputPassword', :placeholder => 'Hasło' %>
+        <%= f.password_field :haslo, :class => 'span2', :id => 'inputPassword', :placeholder => 'Hasło' %>
       </div>
     </div>
     <div class="control-group">
-      <%= f.label :email, 'Adres email', :class => 'control-label', :for => 'inputEmail'%>
+      <%= f.label :email, 'Adres email', :class => 'control-label span2', :for => 'inputEmail'%>
       <div class="controls">
-        <%= f.text_field :email, :id => 'inputLogin', :placeholder => 'Adres email' %>
+        <%= f.text_field :email, :class => 'span2', :id => 'inputLogin', :placeholder => 'Adres email' %>
       </div>
     </div>
     <div class="control-group form-buttons">

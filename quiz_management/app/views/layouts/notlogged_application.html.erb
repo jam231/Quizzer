@@ -38,21 +38,21 @@
   </head>
   <body>
 
-    <div class="navbar navbar-fluid-top navbar-inverse">
+    <div class="navbar navbar-top navbar-inverse">
       <div class="navbar-inner">
-        <div class="container-fluid">
+        <div class="container">
           <%= link_to 'Quiz Management', root_url, :class => 'brand' %>
         </div>
       </div>
     </div>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span4 offset2">
+    <div class="container">
+      <div class="row">
+        <div class="span5 offset1 horizontally-padded-container">
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
-        <div class="span4">
+        <div class="span4 horizontally-padded-container">
           <h2> About</h2>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor

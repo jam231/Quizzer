@@ -64,3 +64,9 @@ a.warn:hover {
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
+
+
+.horizontally-padded-container {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
