@@ -36,7 +36,6 @@
 	    dostep_grupa = self.dostep_grupa.where(["id_uz = ?", user.id_uz]).first
 
 	    logger.debug "Czy uzytkownik #{user.nazwa_uz} ma dostep do grupy #{self.nazwa} ? : #{dostep_grupa != nil}"
-	    logger.debug "ADFDSFDSFS FDSFDSFDSFDS FDSFDS FDS #{is_superuser || (dostep_grupa && dostep_grupa.prawa_dost.to_i(2) & privileges == privileges)}"
 			is_superuser || (dostep_grupa && dostep_grupa.prawa_dost.to_i(2) & privileges == privileges)
     end
 

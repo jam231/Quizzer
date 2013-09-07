@@ -1,5 +1,6 @@
 <h2>Pytanie</h2>
-<%= form_for(pytanie) do |f| %>
+<%= form_for pytanie, :url =>  {:controller => :pytanie, :action => (if pytanie.id_pyt then :update else :create end)},
+             :html => {:class => 'form-horizontal'} do |f| %>
     <% if pytanie.errors.any? %>
         <div id="error_explanation">
           <h2><%= "blad" %> nie pozwolil uzytkownikowi na zapis:</h2>
@@ -19,17 +20,17 @@
 
     <div class="field">
       <%= f.label "Typ" %>
-      <%= f.select :id_typu, options_for_select(Typ.all.map{ |t| [t.nazwa, t.id_typu] }, pytanie.id_typu) %>
+    <%= f.select :id_typu, options_for_select(Typ.all.map{ |t| [t.nazwa, t.id_typu] }, pytanie.id_typu) %>
     </div>
 
     <div class="field">
       <%= f.label "Kategoria" %>
-      <%= f.select :id_kategorii, options_for_select(Kategoria.all.map{ |k| [k.nazwa, k.id_kategorii] }, :selected => :id_kategorii) %>
+    <%= f.select :id_kategorii, options_for_select(Kategoria.all.map{ |k| [k.nazwa, k.id_kategorii] }, :selected => :id_kategorii) %>
     </div>
 
     <div class="field">
       <%= f.label "Punkty" %>
-      <%= f.text_field :pkt, :size => 5 %>
+    <%= f.text_field :pkt, :size => 5 %>
     </div>
 
     <%= f.hidden_field :id_pyt if pytanie.id_pyt %>
@@ -40,4 +41,4 @@
     </div>
 
 <% end %>
-<%= button_to "Usun", pytanie_path(pytanie, :pytanie => pytanie.attributes), {:method => "delete"} if pytanie.id_pyt %>
+<%= button_to "Usuń", pytanie_destroy_url(params.merge :id_pyt => pytanie.id_pyt, :pytanie => pytanie.attributes), {:method => "delete"} if pytanie.id_pyt %>

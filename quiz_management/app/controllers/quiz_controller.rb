@@ -1,14 +1,11 @@
 class QuizController < ApplicationController
 	before_filter :has_access_to_quiz?, :only => [:info, :index]
-	before_filter :has_quiz_creation_privilege?, :only => [:edit]
-	before_filter :has_quiz_modify_privilege?, :only => [:submit]
+	before_filter :has_quiz_creation_privilege?, :only => [:new, :create]
+	before_filter :has_quiz_modify_privilege?, :only => [:edit, :update]
 	before_filter :has_quiz_destroy_privilege?, :only => [:destroy]
 
 
-	#helper_method :has_access_to_quiz?
-
   def index
-    session[:user_id] = 1
 
     logger.info "Uzytkownik #{current_user.nazwa_uz} {id_uz => #{current_user.id_uz} }"
 
@@ -20,20 +17,29 @@ class QuizController < ApplicationController
 
     for pytanie in @quiz.pytania do
 
-		    logger.debug "Id pytania = #{pytanie.id_pyt}"
-
+			logger.debug "Id pytania = #{pytanie.id_pyt}"
       session[:pytania][pytanie.id_pyt] ||= pytanie.r_odpowiedzi
       puts session[:pytania][pytanie.id_pyt].class
 
     end
   end
 
+	# GET - wygeneruj formularz do tworzenia quizu
+	def new
+		redirect_to :back, :alert => "Not implemented yet."
+	end
+
+	# POST - zwaliduj otrzymany formularz, nastepnie zapisz quiz lub przekieruj do new z zaznaczonymi bledami.
+	def create
+		redirect_to :back, :alert => "Not implemented yet."
+	end
+
   def info
-		redirect_to :back, :alert => "Not implemented."
+		redirect_to :back, :alert => "Not implemented yet."
   end
 
   def destroy
-		redirect_to :back, :alert => "Not implemented."
+		redirect_to :back, :alert => "Not implemented yet."
   end
 
   def edit
@@ -74,7 +80,7 @@ class QuizController < ApplicationController
     }
     params.merge!(:date_submitted => date)
 
-    redirect_to quiz_path(params)
+    redirect_to quiz_url(params)
   end
 
   def checked?(question_id, answer)

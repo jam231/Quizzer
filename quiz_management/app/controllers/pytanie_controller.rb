@@ -9,7 +9,7 @@ class PytanieController < ApplicationController
     @pytanie = Pytanie.new(params[:pytanie])
     @pytanie.id_autora = session[:user_id]
     @pytanie.save
-    redirect_to edit_quiz_url(:id => @pytanie.id_quizu), notice: 'Pytanie zapisane.'
+    redirect_to quiz_edit_url(:id => @pytanie.id_quizu), notice: 'Pytanie zapisane.'
   end
 
   def update
@@ -17,13 +17,13 @@ class PytanieController < ApplicationController
     @pytanie.update_attributes(params[:pytanie].except(:id_pyt))
     @pytanie.save
     puts @pytanie.inspect, @params.inspect
-    redirect_to edit_pytanie_url(:id => @pytanie.id_pyt), notice: 'Pytanie zapisane.'
+    redirect_to pytanie_edit_url(:id => @pytanie.id_pyt), notice: 'Pytanie zapisane.'
   end
 
   def destroy
     @pytanie = Pytanie.find(params[:pytanie][:id_pyt])
     @pytanie.destroy
-    redirect_to edit_quiz_url(:id => @pytanie.id_quizu), notice: 'Pytanie usuniete.'
+    redirect_to quiz_edit_url(:id => @pytanie.id_quizu), notice: 'Pytanie usuniete.'
   end
 
 end

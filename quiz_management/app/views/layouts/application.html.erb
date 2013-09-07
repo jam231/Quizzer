@@ -46,8 +46,8 @@
             <ul class="nav">
               <li>
                 <p class="navbar-text">Zalogowany jako
-                  <%= link_to current_user.nazwa_uz, '/my_profile' %>
-                  (<%= link_to 'wyloguj', '/log_out', :class => 'warn' %>)</p>
+                  <%= link_to current_user.nazwa_uz, my_profile_url %>
+                  (<%= link_to 'wyloguj', log_out_url, :class => 'warn', :method => 'delete' %>)</p>
               </li>
             </ul>
           </div>

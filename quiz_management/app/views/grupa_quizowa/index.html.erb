@@ -1,13 +1,13 @@
 <h1 class="header">Grupa <%= @grupa.nazwa %></h1>
 <ul class="nav nav-pills">
   <li class= "three-part-menu <%= active?(:quizy) ? 'active' : '' %>">
-    <%= link_to "Quizy", quizy_path %>
+    <%= link_to "Quizy", quizy_url %>
   </li>
   <li class= "three-part-menu <%= active?(:uzytkownicy) ? 'active' : '' %>">
-    <%= link_to "Użytkownicy", uzytkownicy_path %>
+    <%= link_to "Użytkownicy", uzytkownicy_url %>
   </li>
   <li class= "three-part-menu <%= active?(:ranking) ? 'active' : '' %>">
-    <%= link_to "Ranking", ranking_path %>
+    <%= link_to "Ranking", ranking_url %>
   </li>
 </ul>
 <div class="container-fluid">

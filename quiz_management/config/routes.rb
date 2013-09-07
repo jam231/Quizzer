@@ -7,20 +7,39 @@ QuizManagement::Application.routes.draw do
 
   #post 'quiz' => 'Quiz#submit'
 
-  get 'quiz/:id_quizu' => 'Quiz#index'
-  get 'quiz/question/:id_quizu' => 'Pytanie#edit'
-  get 'pytanie/:id_quizu' => 'Pytanie#edit'
+  #get 'quiz/:id_quizu' => 'Quiz#index'
+  #get 'quiz/question/:id_quizu' => 'Pytanie#edit'
+  #get 'pytanie/:id_quizu' => 'Pytanie#edit'
 
-  get 'pytanie/edit' => 'Pytanie#edit'
-  get 'pytanie/create' => 'Pytanie#create'
+  #get 'pytanie/edit' => 'Pytanie#edit'
+  #get 'pytanie/create' => 'Pytanie#create'
+
+
+  ############################# PYTANIE ############################################
+
+  get "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt" => "pytanie#edit", :as => 'pytanie'
+  #get "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#new", :as => 'pytanie_new'
+
+
+  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#create", :as => 'pytanie_create'
+  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/update" => "pytanie#update", :as => 'pytanie_update'
+
+  get "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/edit" => "pytanie#edit", :as => 'pytanie_edit'
+
+  delete "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/destroy" => "pytanie#destroy", :as => 'pytanie_destroy'
 
 
   ############################# QUIZ ###############################################
+
   # GET i POST
-  match "grupa/:id_grupy/quiz/:id_quizu" => "quiz#index", :as => 'quiz'
-  get "grupa/:id_grupy/quiz/new" => "quiz#index", :as => 'quiz_new'
+  get "grupa/:id_grupy/quiz/new" => "quiz#new", :as => 'quiz_new'
+  get "grupa/:id_grupy/quiz/:id_quizu" => "quiz#index", :as => 'quiz'
+
+  post "grupa/:id_grupy/quiz/create" => "quiz#create", :as => 'quiz_create'
+  post "grupa/:id_grupy/quiz/:id_quizu/submit" => "quiz#submit", :as => 'quiz_submit'
+
   get "grupa/:id_grupy/quiz/:id_quizu/edit" => "quiz#edit", :as => 'quiz_edit'
-  get "grupa/:id_grupy/quiz/:id_quizu/destroy" => "quiz#destroy", :as => 'quiz_destroy'
+  delete "grupa/:id_grupy/quiz/:id_quizu/destroy" => "quiz#destroy", :as => 'quiz_destroy'
   get "grupa/:id_grupy/quiz/:id_quizu/info" => "quiz#info", :as => 'quiz_info'
 
 
@@ -37,16 +56,20 @@ QuizManagement::Application.routes.draw do
   ############################# Rejestracja, logowanie, profil, etc. ###############
 
   get "my_profile" => "uzytkownik#my_profile", :as => 'my_profile'
-  get "log_out" => "sessions#destroy", :as => 'log_out'
 
-  post "log_in" => "sessions#new", :as => 'log_in'
-  post "register" => "uzytkownik#new", :as => 'register'
+  delete "log_out" => "sessions#destroy", :as => 'log_out'
 
-  resources :quiz
-  resources :uzytkownik
-  resource :sessions
-  resources :pytanie
-  resources :odpowiedz_wzorcowa
+  get "log_in" => "sessions#new", :as => 'log_in'
+  post "log_in" => "sessions#create", :as => 'log_in'
+
+  get "register" => "uzytkownik#new", :as => 'register'
+  post "register" => "uzytkownik#create", :as => 'register'
+
+  #resources :quiz
+  #resources :uzytkownik
+  #resource :sessions
+  #resources :pytanie
+  #resources :odpowiedz_wzorcowa
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

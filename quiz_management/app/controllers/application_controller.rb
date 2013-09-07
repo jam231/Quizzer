@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
 			  redirect_to root_url, :alert => "Brak dostepu do tej grupy."
 		  end
 	  else
-		  redirect_to new_sessions_path, :alert => "Aby uzyskac dostep do grupy musisz sie zalogowac"
+		  redirect_to log_in_url, :alert => "Aby uzyskac dostep do grupy musisz sie zalogowac"
 	  end
 		false # User has failed.
   end
@@ -58,14 +58,15 @@ class ApplicationController < ActionController::Base
 
   def has_quiz_creation_privilege?
 	  if group_available?
-		  has_quiz_privilege? :creation_of_quizzes
+		  grupa_quizowa = GrupaQuizowa.find(params[:id_grupy])
+		  grupa_quizowa.has_privileges? current_user, :creation_of_quizzes
 	  else
 		  false
 	  end
   end
 
   def has_quiz_privilege?(privilege_name, privilege_violation_message = 'Uzytkownik nie ma odpowiednich uprawnien dla tego quizu.')
-	  begin
+	  #begin
 		  user = current_user
 		  quiz = Quiz.find(params[:id_quizu])
 		  logger.debug "Czy uzytkownik #{user.nazwa_uz} ma odpowiednie uprawnienia do quizu #{quiz.nazwa} {:id_quizu => #{quiz.id_quizu}} ? "
@@ -82,9 +83,9 @@ class ApplicationController < ActionController::Base
 			  logger.debug "Quiz #{quiz.nazwa} {:id_quizu => #{params[:id_quizu]}} nie nalezy do grupy #{grupa_quizowa.nazwa} {:id_grupy => #{grupa_quizowa.id_grupy}} "
 			  redirect_to grupa_url(:id_grupy => params[:id_grupy]), :alert => 'Quiz jest niedostepny w tej grupie.'
 		  end
-	  rescue
-		  raise ActionController::RoutingError.new('Not Found')
-	  end
+	  #rescue
+		  #raise ActionController::RoutingError.new('Not Found')
+	  #end
   end
 	
 end
