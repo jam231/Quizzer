@@ -5,7 +5,7 @@ class Pytanie < ActiveRecord::Base
     has_many :odpowiedzi, :foreign_key => 'id_pyt', :class_name => "OdpowiedzWzorcowa"
     belongs_to :typ, :foreign_key => 'id_typu', :class_name => "Typ"
     belongs_to :quiz, :foreign_key => 'id_quizu', :class_name => "Quiz"
-    belongs_to :kategoria, :class_name => "Kategoria"
+    belongs_to :kategoria, :foreign_key => 'id_kategorii', :class_name => "Kategoria"
 
     attr_accessible :id_quizu, :tresc, :id_kategorii, :pkt, :id_typu, :id_autora, :id_pyt
 
