@@ -1,30 +1,31 @@
-<h1>Rejestracja </h1>
-<%= form_for @user, :url =>  {:controller => :uzytkownik, :action => :create} do |f| %>
-    <% if @user.errors.any? %>
-        <div class="error_messages">
-          <h2>Błąd</h2>
-          <ul>
-            <% for message in @user.errors.full_messages %>
-                <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-    <%end%>
-    <p>
-        <%=f.label :nazwa_uz, 'Nazwa użytkownika' %><br />
-        <%= f.text_field :nazwa_uz %>
-    </p>
-    <p>
-        <%=f.label :login, 'Login' %><br />
-        <%= f.text_field :login %>
-    </p>
-    <p>
-        <%=f.label :haslo, 'Hasło' %><br />
-        <%= f.password_field :haslo %>
-    </p>
-    <p>
-        <%=f.label :email, 'Adres e-mail' %><br />
-        <%= f.text_field :email %>
-    </p>
-    <p class = "button"><%= f.submit 'Zarejestruj' %> </p>
+<h1 class="header">Rejestracja </h1>
+<%= form_for @user, :url =>  {:controller => :uzytkownik, :action => :create},
+                    :html => {:class => 'form-horizontal'} do |f| %>
+    <div class="control-group">
+      <%= f.label :nazwa_uz, 'Nazwa użytkownika', :class => 'control-label', :for => 'inputNazwaUz'%>
+      <div class="controls">
+        <%= f.text_field :nazwa_uz, :id => 'inputNazwaUz', :placeholder => 'Nazwa użytkownika' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :login, 'Login', :class => 'control-label', :for => 'inputLogin'%>
+      <div class="controls">
+        <%= f.text_field :login, :id => 'inputLogin', :placeholder => 'Login' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :haslo, 'Hasło', :class => 'control-label', :for => 'inputPassword' %>
+      <div class="controls">
+        <%= f.password_field :haslo, :id => 'inputPassword', :placeholder => 'Hasło' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :email, 'Adres email', :class => 'control-label', :for => 'inputEmail'%>
+      <div class="controls">
+        <%= f.text_field :email, :id => 'inputLogin', :placeholder => 'Adres email' %>
+      </div>
+    </div>
+    <div class="control-group form-buttons">
+      <button type="submit" class="btn btn-primary" name='commit'>Zarejestruj</button> lub <%= link_to 'Zaloguj na już istniejące konto', log_in_url%>
+    </div>
 <%end %>

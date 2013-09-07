@@ -1,14 +1,17 @@
-<h1 style="text-padding:center">Grupa <%= @grupa.nazwa %></h1>
-<div style="width: 600px; display: table;">
-  <div style="display: table-row">
-    <div style="text-align: center;width: 33.3%; display: table-cell;"> <%= link_to "Quizy", quizy_path %> </div>
-    <div style="text-align: center;width: 33.3%; display: table-cell;"> <%= link_to "Uzytkownicy", uzytkownicy_path %></div>
-    <div style="text-align: center;width: 33.3%; display: table-cell;"> <%= link_to "Ranking", ranking_path %></div>
-  </div>
-  <div style="display: table-row">
-    <div id="content" style="display: table-cell;">
-      <br />
-      <%= render :partial => @what %>
-    </div>
+<h1 class="header">Grupa <%= @grupa.nazwa %></h1>
+<ul class="nav nav-pills">
+  <li class= "three-part-menu <%= active?(:quizy) ? 'active' : '' %>">
+    <%= link_to "Quizy", quizy_url %>
+  </li>
+  <li class= "three-part-menu <%= active?(:uzytkownicy) ? 'active' : '' %>">
+    <%= link_to "Użytkownicy", uzytkownicy_url %>
+  </li>
+  <li class= "three-part-menu <%= active?(:ranking) ? 'active' : '' %>">
+    <%= link_to "Ranking", ranking_url %>
+  </li>
+</ul>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <%= render :partial => @what %>
   </div>
 </div>

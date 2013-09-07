@@ -1,13 +1,31 @@
-<h3 style="text-align:center">Quizy</h3>
-<div style="text-padding:left; width: 100%; display: table;">
+<h3 class="header centered">Quizy</h3>
+<table class="table table-hover">
   <% for quiz in @quizzes %>
-    <div style="display: table-row">
-        <div style="text-align: center;width: 40%; display: table-cell;"> <%= link_to quiz.nazwa, quiz_path + '/' + quiz.id_quizu.to_s%> </div>
-        <div style="text-align: center;width: 10%; display: table-cell;"> <%= link_to "Info", "INFO DO QUIZU", params.merge({:id => quiz.id_quizu}) %></div>
+    <tr>
+      <td>
+        <%= link_to quiz.nazwa, quiz_url(:id_grupy => quiz.id_quizu, :id_quizu => quiz.id_quizu)%>
+      </td>
+      <td>
+        <%= link_to 'Info', quiz_info_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
+                            :class => 'btn btn-info' %>
+      </td>
+      <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
+        <td>
+            <%= link_to 'Edytuj', quiz_edit_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
+                                 :class => 'btn btn-warning' %>
+        </td>
+      <% end %>
+      <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
+          <td>
+            <%= link_to 'Usuń', quiz_destroy_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
+                                :class => 'btn btn-danger', :method => 'delete' %>
+          </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+<% if @grupa.has_privileges? current_user, :creation_of_quizzes %>
+    <div class="control-group">
+      <%= link_to 'Nowy quiz', quiz_new_url(:id_grupy => @grupa.id_grupy), :class => 'btn btn-primary'%>
     </div>
-  <% end %>
-  <br />
-  <% if has_privilege? :creation_of_quizzes %>
-    <%= link_to "Nowy quiz", "STWORZ NOWY QUIZ"%>
-  <% end %>
-</div>
+<% end %>
