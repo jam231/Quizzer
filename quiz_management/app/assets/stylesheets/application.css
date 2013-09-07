@@ -11,3 +11,56 @@
  *= require_self
  *= require_tree .
  */
+
+
+
+footer {
+    padding-top: 60px;
+    text-align: center;
+}
+
+h1.header {
+    padding-bottom: 60px;
+}
+h3.header {
+    padding-bottom: 20px;
+}
+
+h3.header.centered
+{
+    text-align: center;
+}
+
+.form-horizontal .control-label {
+    /* text-align:right; */
+    text-align: left !important;
+}
+
+.form-buttons {
+    text-align: center;
+    padding-top: 40px;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+a.warn:hover {
+    color: red;
+}
+/*
+ * Bootstrap's nav-justify doesn't seem to work
+ * and my skill is too weak for any worthy solution.   ;-(
+ *
+ */
+.three-part-menu {
+    width: 33% !important;
+    text-align: center !important;
+}
+
+
+.light-blue-container {
+    color: #3a87ad;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}

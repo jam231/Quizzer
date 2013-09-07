@@ -29,4 +29,4 @@
     </div>
 
 <% end %>
-<%= button_to "Usun", odpowiedz_wzorcowa_path(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete"} if odpowiedz.ost_modyfikacja %>
+<%= button_to "Usun", odpowiedz_wzorcowa_url(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete"} if odpowiedz.ost_modyfikacja %>

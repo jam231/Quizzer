@@ -1,7 +1,26 @@
-<h3 style="text-align:center">Użytkownicy zapisani do grupy</h3>
-<ul style="text-padding:left">
-  <% for uzytkownik in @users %>
-      <li> <%= uzytkownik.nazwa_uz %> </li>
-  <%end%>
+<h3 class="header centered">Użytkownicy zapisani do grupy</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>
+        #
+      </th>
+      <th>
+        Nazwa uzytkownika
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+   <% for uzytkownik, i in @users.each_with_index %>
+     <tr>
+       <td>
+         <%= i+1 %>
+       </td>
+        <td>
+         <%= uzytkownik.nazwa_uz %>
+        </td>
+      </tr>
+    <% end %>
+ </tbody>
+</table>
 
-</ul>
