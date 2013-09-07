@@ -1,4 +1,3 @@
-<% puts "----- #{odpowiedz.tresc_odp}" %>
 <h3>Odpowiedź</h3>
 <%= form_for(odpowiedz) do |f| %>
 
@@ -21,12 +20,12 @@
       <%= f.text_field :poziom_poprawnosci, :size => 5 %>
     </div>
 
-    <%= f.hidden_field :id_pyt %>
+    <%= f.hidden_field "id_pyt", :value => odpowiedz.id_pyt.to_s if odpowiedz.id_pyt %>
     <%= f.hidden_field :tresc_odp if odpowiedz.ost_modyfikacja %>
 
     <div class="actions">
-      <%= f.submit "Zapisz" %>
+      <%= f.submit "Zapisz", :class => 'btn btn-success' %>
     </div>
 
 <% end %>
-<%= button_to "Usun", odpowiedz_wzorcowa_url(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete"} if odpowiedz.ost_modyfikacja %>
+<%= button_to "Usuń", odpowiedz_wzorcowa_url(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete", :class => 'btn btn-danger'} if odpowiedz.ost_modyfikacja %>
