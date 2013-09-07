@@ -2,8 +2,13 @@
 <%#= form_for pytanie, :url =>  {:controller => :pytanie, :action => (if pytanie.id_pyt then :edit else :create end)},
              :html => {:class => 'form-horizontal'} do |f| %>
 
-<%= form_for pytanie, :url =>  pytanie_edit_url( :id_quizu => pytanie.id_quizu, :id_grupy => pytanie.quiz.id_grupy, :id_pyt => pytanie.id_pyt||-1),
-             :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for(pytanie,
+             :url => (pytanie.id_pyt.nil? == true ?
+                     (pytanie_create_url( :id_quizu => pytanie.id_quizu, :id_grupy => pytanie.quiz.id_grupy))
+             :
+                     (pytanie_edit_url( :id_quizu => pytanie.id_quizu, :id_grupy => pytanie.quiz.id_grupy, :id_pyt => pytanie.id_pyt))),
+             :method => (:id_pyt.nil? == true ? "post" : "get" ),
+             :html => {:class => 'form-horizontal'}) do |f| %>
     <% if pytanie.errors.any? %>
         <div id="error_explanation">
           <h2><%= "blad" %> nie pozwolil uzytkownikowi na zapis:</h2>
@@ -40,7 +45,7 @@
     <%= f.hidden_field :id_quizu %>
 
     <div class="actions">
-      <%= f.submit "Edytuj" %>
+      <%= f.submit (pytanie.id_pyt.nil? == true ?"Stwórz":"Edytuj") %>
     </div>
 
 <% end %>
@@ -50,5 +55,5 @@
     <%#= button_to "Edytuj", pytanie_edit_url(:id_pyt => pytanie.id_pyt), :id_pyt => pytanie.id_pyt, :method => "get" %>
     <%= button_to "Usuń", pytanie_destroy_url(params.merge :id_pyt => pytanie.id_pyt, :pytanie => pytanie.attributes), {:method => "delete"}%>
 <% else %>
-    <%= button_to "Stwórz", pytanie_create_url %>
+    <%#= button_to "Stwórz", pytanie_create_url(params) %>
 <% end %>

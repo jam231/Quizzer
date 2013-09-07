@@ -21,8 +21,8 @@ QuizManagement::Application.routes.draw do
 
   ############################# PYTANIE ############################################
 
+  get "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#create", :as => 'pytanie_create'
   get "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt" => "pytanie#edit", :as => 'pytanie'
-  get "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#new", :as => 'pytanie_new'
 
 
   post "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#create", :as => 'pytanie_create'
