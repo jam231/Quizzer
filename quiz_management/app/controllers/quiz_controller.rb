@@ -46,6 +46,8 @@ class QuizController < ApplicationController
     @quiz = Quiz.find(params[:id_quizu])
     @nowe_pytanie = Pytanie.new(:id_quizu => params[:id_quizu])
     @nowe_pytanie.tresc = 'Nowe pytanie'
+
+
   end
 
   def submit

@@ -15,7 +15,13 @@ class Pytanie < ActiveRecord::Base
     result = []
     result += odpowiedzi.shuffle[0..(typ.liczba_odp-1)]
     if result.index{ |odpowiedz| odpowiedz.poziom_poprawnosci==100 }.nil?
-      result[0] = odpowiedzi[odpowiedzi.index { |odpowiedz| odpowiedz.poziom_poprawnosci == 100 } ]
+      id_poprawnej_odpowiedzi = odpowiedzi.index { |odpowiedz| odpowiedz.poziom_poprawnosci == 100 }
+
+      if (id_poprawnej_odpowiedzi.nil?)
+        raise "Brak poprawnej odpowiedzi dla pytania #{id_pyt.to_i}."
+      else
+        result[0] = odpowiedzi[id_poprawnej_odpowiedzi]
+      end
     end
 
     result
