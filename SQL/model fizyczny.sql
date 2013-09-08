@@ -93,7 +93,8 @@ CREATE TABLE odpowiedz_uzytkownika(
 CREATE TABLE ranking(
 	id_uz		INTEGER NOT NULL REFERENCES uzytkownik(id_uz) ON DELETE CASCADE,
 	id_grupy	INTEGER NOT NULL REFERENCES grupa_quizowa(id_grupy) ON DELETE CASCADE,
-	pkt			REAL NOT NULL DEFAULT 0.00
+	pkt			REAL NOT NULL DEFAULT 0.00,
+	PRIMARY KEY (id_uz,id_grupy)
 );
 
 
@@ -285,10 +286,10 @@ BEGIN
 	DELETE FROM ranking WHERE id_grupy = grupa AND id_uz = uz;
 
 	suma = (SELECT SUM(max_pkt_za_quiz(uz, t.id_quizu))
-		FROM (SELECT distinct id_quizu FROM quiz q JOIN dostep_grupa dg ON q.id_quizu = dg.id_quizu
+		FROM (SELECT distinct id_quizu FROM quiz q JOIN dostep_grupa dg ON q.id_grupy = dg.id_grupy
 			WHERE q.id_grupy = grupa AND dg.id_uz = uz) t);
 	
-	INSERT INTO ranking(id_uz, id_grupy, pkt) VALUES(uz, grupa, pkt);
+	INSERT INTO ranking(id_uz, id_grupy, pkt) VALUES(uz, grupa, suma);
 
 	--BRAK KONTROLI FLAG JESZCZE
 	--FOR quiz IN (SELECT DISTINCT q.id_quizu FROM

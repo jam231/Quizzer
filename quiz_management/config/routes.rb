@@ -19,6 +19,9 @@ QuizManagement::Application.routes.draw do
   #get 'pytanie/create' => 'Pytanie#create'
 
 
+  ############################# RANKING ############################################
+  get "grupa/:id_grupy/ranking" => "ranking#index", :as => 'ranking'
+
   ############################# PYTANIE ############################################
 
   get "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#create", :as => 'pytanie_create'
