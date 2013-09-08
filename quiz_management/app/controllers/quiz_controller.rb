@@ -80,6 +80,11 @@ class QuizController < ApplicationController
       end
 
     }
+
+    przelicz_ranking = "SELECT * FROM przelicz_ranking()"
+    ActiveRecord::Base.connection.execute(przelicz_ranking)
+
+
     params.merge!(:date_submitted => date)
 
     redirect_to quiz_url(params)
