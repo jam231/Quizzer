@@ -1,7 +1,7 @@
 <div class="container-fluid text-centered">
   <div class="row-fluid">
     <h1 class="header centered">Profil użytkownika <i><%= @user.nazwa_uz %> </i></h1>
-    <%= form_tag profile_update_url(@user), :class => 'form-horizontal', :style => "position:relative; left:25%" do %>
+    <%= form_tag user_update_url(@user), :class => 'form-horizontal', :style => "position:relative; left:25%" do %>
         <div class="control-group">
           <%= label_tag :login, 'Login', :class => 'control-label span2', :for => 'inputLogin'%>
           <div class="controls">

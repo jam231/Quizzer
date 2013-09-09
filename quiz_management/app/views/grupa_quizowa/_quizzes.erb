@@ -18,7 +18,7 @@
       <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
           <td>
             <%= link_to 'Usuń', quiz_destroy_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
-                                :class => 'btn btn-danger', :method => 'delete' %>
+                                :class => 'btn btn-danger', :method => 'delete', :confirm => 'Jesteś pewny?' %>
           </td>
       <% end %>
     </tr>

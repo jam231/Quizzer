@@ -60,7 +60,7 @@ QuizManagement::Application.routes.draw do
 
   ############################# Rejestracja, logowanie, profil, etc. ###############
 
-  get "uzytkownik/profil" => "uzytkownik#show", :as => 'user_profile'
+  get "uzytkownik/profil" => "uzytkownik#edit", :as => 'user_edit'
 
   delete "log_out" => "sessions#destroy", :as => 'log_out'
 
@@ -70,7 +70,7 @@ QuizManagement::Application.routes.draw do
   get "register" => "uzytkownik#new", :as => 'register'
   post "register" => "uzytkownik#create", :as => 'register'
 
-	post "uzytkownik/profil/:id_uz" => "uzytkownik#update", :as => 'profile_update'
+	post "uzytkownik/profil/:id_uz" => "uzytkownik#update", :as => 'user_update'
 
   #resources :quiz
   #resources :uzytkownik

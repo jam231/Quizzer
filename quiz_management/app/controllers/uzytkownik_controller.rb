@@ -22,15 +22,15 @@ class UzytkownikController < ApplicationController
   def update
 	  user = Uzytkownik.find params[:id_uz]
 	  if user.update_attributes(:nazwa_uz => params[:nazwa_uz], :login => params[:login], :email => params[:email])
-			redirect_to user_profile_url, :notice => "Zapisano zmiany."
+			redirect_to user_edit_url, :notice => "Zapisano zmiany."
 	  else
 		  alert_msg = ''
 		  alert_msg = user.errors.full_messages.first().to_s if user.errors.any?
-		  redirect_to user_profile_url, :alert => alert_msg
+		  redirect_to user_edit_url, :alert => alert_msg
 	  end
   end
 
-  def show
+  def edit
 		@user = current_user
   end
 end
