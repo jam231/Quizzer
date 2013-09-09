@@ -13,7 +13,7 @@ class UzytkownikController < ApplicationController
       redirect_to log_in_url, :notice => "Uzytkownik #{@user.nazwa_uz} zostal zarejestrowany."
     else
       alert_msg = ''
-      alert_msg = @user.errors.full_messages.first().to_s if @user.errors.any?
+      alert_msg = @user.errors.full_messages.values.first.first.to_s if @user.errors.any?
       redirect_to log_in_url, :alert => alert_msg
     end
   end
@@ -25,7 +25,7 @@ class UzytkownikController < ApplicationController
 			redirect_to user_edit_url, :notice => "Zapisano zmiany."
 	  else
 		  alert_msg = ''
-		  alert_msg = user.errors.full_messages.first().to_s if user.errors.any?
+		  alert_msg = user.errors.messages.values.first.first.to_s if user.errors.any?
 		  redirect_to user_edit_url, :alert => alert_msg
 	  end
   end
