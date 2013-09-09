@@ -1,16 +1,15 @@
 class UzytkownikController < ApplicationController
   layout 'notlogged_application', :only => [:new, :create]
+  before_filter :logged?, :only => [:update, :show]
 
   def new
     @user = Uzytkownik.new
-
   end
 
   def create
     @user = Uzytkownik.new params[:uzytkownik]
 
     if @user.save
-      #rendirect_to root_url, :notice => "Uzytkownik #{@user.nazwa_uz} zostal zarejestrowany."
       redirect_to log_in_url, :notice => "Uzytkownik #{@user.nazwa_uz} zostal zarejestrowany."
     else
       alert_msg = ''
@@ -19,8 +18,19 @@ class UzytkownikController < ApplicationController
     end
   end
 
-  def my_profile
-    @user = current_user
-		redirect_to :back, :alert => 'Not implemented yet.'
+
+  def update
+	  user = Uzytkownik.find params[:id_uz]
+	  if user.update_attributes(:nazwa_uz => params[:nazwa_uz], :login => params[:login], :email => params[:email])
+			redirect_to user_profile_url, :notice => "Zapisano zmiany."
+	  else
+		  alert_msg = ''
+		  alert_msg = user.errors.full_messages.first().to_s if user.errors.any?
+		  redirect_to user_profile_url, :alert => alert_msg
+	  end
+  end
+
+  def show
+		@user = current_user
   end
 end

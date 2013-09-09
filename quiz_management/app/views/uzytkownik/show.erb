@@ -1,0 +1,29 @@
+<div class="container-fluid text-centered">
+  <div class="row-fluid">
+    <h1 class="header centered">Profil użytkownika <i><%= @user.nazwa_uz %> </i></h1>
+    <%= form_tag profile_update_url(@user), :class => 'form-horizontal', :style => "position:relative; left:25%" do %>
+        <div class="control-group">
+          <%= label_tag :login, 'Login', :class => 'control-label span2', :for => 'inputLogin'%>
+          <div class="controls">
+            <%= text_field_tag :login, @user.login, :class => 'span4', :id => 'inputLogin', :placeholder => 'Login' %>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= label_tag :nazwa_uz, 'Nazwa użytkownika', :class => 'control-label span2', :for => 'inputPassword' %>
+          <div class="controls">
+            <%= text_field_tag :nazwa_uz, @user.nazwa_uz, :class => 'span4', :id => 'inputPassword', :placeholder => 'Hasło' %>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= label_tag :email, 'Hasło', :class => 'control-label span2', :for => 'inputPassword' %>
+          <div class="controls">
+            <%= text_field_tag :email, @user.email, :class => 'span4', :id => 'inputPassword', :placeholder => 'Hasło' %>
+          </div>
+        </div>
+        <div class="control-group form-buttons span6">
+          <%= submit_tag 'Zapisz', :class => 'btn btn-success', :confirm =>  'Jesteś pewien?' %>
+          <%= link_to 'Anuluj', :back, :class => 'btn' %>
+        </div>
+    <% end %>
+  </div>
+</div>
