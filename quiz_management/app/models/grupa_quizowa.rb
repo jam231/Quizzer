@@ -29,7 +29,7 @@
 	    logger.debug "Czy uzytkownik #{user.nazwa_uz} ma przywileje #{privileges} ?"
 
 	    # Nad tym ponizej moznaby sie zastanowic, np. czy nie lepiej byloby zapewnic to w bazie.
-		  is_superuser = !(user.ranga =~ /u.ytkownik.*/)
+		  is_superuser = !(user.ranga =~ /u.ytkownik.|u..ytkownik.*/)
 
 	    logger.debug "Czy uzytkownik #{user.nazwa_uz} jest superuzytkownikiem ? : #{is_superuser} "
 
