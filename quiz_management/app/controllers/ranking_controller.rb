@@ -9,8 +9,6 @@ class RankingController < ApplicationController
 
   end
 
-
-
   def reset_session
     session[:pytania] = {}
   end

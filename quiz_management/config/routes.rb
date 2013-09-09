@@ -4,6 +4,7 @@ QuizManagement::Application.routes.draw do
 
   post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update', :as => 'odpowiedz_wzorcowa'
   post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
+
   resources :odpowiedz_wzorcowa
 
   #get "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update'
@@ -17,10 +18,6 @@ QuizManagement::Application.routes.draw do
 
   #get 'pytanie/edit' => 'Pytanie#edit'
   #get 'pytanie/create' => 'Pytanie#create'
-
-
-  ############################# RANKING ############################################
-  get "grupa/:id_grupy/ranking" => "ranking#index", :as => 'ranking'
 
   ############################# PYTANIE ############################################
 
