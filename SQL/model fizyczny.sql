@@ -93,7 +93,8 @@ CREATE TABLE odpowiedz_uzytkownika(
 CREATE TABLE ranking(
 	id_uz		INTEGER NOT NULL REFERENCES uzytkownik(id_uz) ON DELETE CASCADE,
 	id_grupy	INTEGER NOT NULL REFERENCES grupa_quizowa(id_grupy) ON DELETE CASCADE,
-	pkt			REAL NOT NULL DEFAULT 0.00
+	pkt			REAL NOT NULL DEFAULT 0.00,
+	PRIMARY KEY (id_uz,id_grupy)
 );
 
 
@@ -256,5 +257,72 @@ CREATE OR REPLACE FUNCTION odpowiedzi(pytanie integer) RETURNS SETOF odpowiedz_w
 $$
 BEGIN
 	RETURN QUERY SELECT * FROM odpowiedz_wzorcowa WHERE id_pyt=pytanie ORDER BY RANDOM();
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION przelicz_ranking_uz(uz integer) RETURNS VOID AS $$
+DECLARE
+	grupa INTEGER;
+BEGIN
+
+	FOR grupa IN (SELECT DISTINCT id_grupy FROM quiz q 
+		JOIN pytanie p ON q.id_quizu = p.id_quizu
+		JOIN odpowiedz_uzytkownika ou ON ou.id_pyt = p.id_pyt
+		WHERE ou.id_uz = uz)
+	LOOP
+		PERFORM przelicz_ranking_uz_grupa(uz, grupa);
+	END LOOP;
+	
+END
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION przelicz_ranking_uz_grupa(uz integer, grupa integer) RETURNS VOID AS $$
+DECLARE
+	pytanie INTEGER;
+	suma REAL = 0;
+BEGIN
+	DELETE FROM ranking WHERE id_grupy = grupa AND id_uz = uz;
+
+	suma = (SELECT SUM(max_pkt_za_quiz(uz, t.id_quizu))
+		FROM (SELECT distinct id_quizu FROM quiz q JOIN dostep_grupa dg ON q.id_grupy = dg.id_grupy
+			WHERE q.id_grupy = grupa AND dg.id_uz = uz) t);
+	
+	INSERT INTO ranking(id_uz, id_grupy, pkt) VALUES(uz, grupa, suma);
+
+	--BRAK KONTROLI FLAG JESZCZE
+	--FOR quiz IN (SELECT DISTINCT q.id_quizu FROM
+	--			quiz q JOIN dostep_grupa dg ON q.id_grupy = dg.id_grupy
+	--			WHERE dg.id_uz = uz AND dg.id_grupy = grupa)
+	--LOOP
+	--	suma = suma + max_pkt_za_quiz(uz, quiz);
+	--END LOOP;
+END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION przelicz_grupe(grupa integer) RETURNS VOID AS $$
+DECLARE
+	pkt REAL;
+	uz INTEGER;
+BEGIN
+	FOR uz IN (SELECT id_uz FROM dostep_grupa dg WHERE id_grupy = grupa)
+	LOOP
+		PERFORM przelicz_ranking_uz_grupa(uz, grupa);
+	END LOOP;
+END
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION przelicz_ranking() RETURNS VOID AS $$
+DECLARE
+	grupa INTEGER;
+BEGIN
+	FOR grupa IN (SELECT id_grupy FROM grupa_quizowa)
+	LOOP
+		PERFORM przelicz_grupe(grupa);
+	END LOOP;
 END
 $$ LANGUAGE plpgsql;
