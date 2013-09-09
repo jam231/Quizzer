@@ -9,15 +9,15 @@
           </div>
         </div>
         <div class="control-group">
-          <%= label_tag :nazwa_uz, 'Nazwa użytkownika', :class => 'control-label span2', :for => 'inputPassword' %>
+          <%= label_tag :nazwa_uz, 'Nazwa użytkownika', :class => 'control-label span2', :for => 'inputNazwaUz' %>
           <div class="controls">
-            <%= text_field_tag :nazwa_uz, @user.nazwa_uz, :class => 'span4', :id => 'inputPassword', :placeholder => 'Hasło' %>
+            <%= text_field_tag :nazwa_uz, @user.nazwa_uz, :class => 'span4', :id => 'inputNazwaUz', :placeholder => 'Nazwa użytkownka' %>
           </div>
         </div>
         <div class="control-group">
-          <%= label_tag :email, 'Hasło', :class => 'control-label span2', :for => 'inputPassword' %>
+          <%= label_tag :email, 'Adres email', :class => 'control-label span2', :for => 'inputEmail' %>
           <div class="controls">
-            <%= text_field_tag :email, @user.email, :class => 'span4', :id => 'inputPassword', :placeholder => 'Hasło' %>
+            <%= text_field_tag :email, @user.email, :class => 'span4', :id => 'inputEmail', :placeholder => 'Adres email' %>
           </div>
         </div>
         <div class="control-group form-buttons span6">
