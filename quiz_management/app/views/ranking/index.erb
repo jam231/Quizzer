@@ -1,0 +1,21 @@
+<h1>Ranking dla grupy <%= @grupa.nazwa %></h1>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Użytkownik</th>
+    <th>Liczba punktów</th>
+  </tr>
+  </thead>
+  <% @ranking.each{ |ranking_row| %>
+    <tr>
+      <td>
+        <%= ranking_row.uzytkownik[:nazwa_uz] %>
+      </td>
+      <td>
+        <%= ranking_row[:pkt] %>
+      </td>
+    </tr>
+  <% } %>
+</table>
+
+<% @ranking.all.each { |ranking_field|} %>

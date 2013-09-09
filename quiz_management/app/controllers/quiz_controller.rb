@@ -80,13 +80,26 @@ class QuizController < ApplicationController
       end
 
     }
+
+    przelicz_ranking = "SELECT * FROM przelicz_ranking()"
+    ActiveRecord::Base.connection.execute(przelicz_ranking)
+
+
     params.merge!(:date_submitted => date)
 
     redirect_to quiz_url(params)
   end
 
   def checked?(question_id, answer)
-    params[:odpowiedzi][question_id.to_s].include? answer if params[:odpowiedzi]
+    if params[:odpowiedzi]
+      if params[:odpowiedzi][question_id.to_s]
+        params[:odpowiedzi][question_id.to_s].include? answer
+      else
+        false
+      end
+    else
+      false
+    end
   end
 
   def points_for_question(question_id, time)
