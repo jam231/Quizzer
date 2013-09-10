@@ -198,7 +198,9 @@ END
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION pkt_za_pytanie(uz integer, id_pytania integer, czas TIMESTAMP) RETURNS REAL AS $$
+CREATE OR REPLACE FUNCTION pkt_za_pytanie(uz integer, id_pytania integer, czas timestamp without time zone)
+  RETURNS real AS
+$BODY$
 DECLARE
 	pyt pytanie%ROWTYPE;
 	typ_pytania typ%ROWTYPE;
@@ -209,11 +211,11 @@ BEGIN
 	SELECT * INTO typ_pytania FROM typ WHERE id_typu = pyt.id_typu;
 
 	IF typ_pytania.wielokrotnego_wyboru THEN
-		pkt_za_trafienie = pyt.pkt/typ.liczba_odp;
+		pkt_za_trafienie = pyt.pkt/typ_pytania.liczba_odp;
 		pkt_zdobyte := pyt.pkt - (SELECT 
-				(CASE WHEN (zaznaczona!=poziom_poprawnosci::BOOLEAN) THEN pkt_za_trafienie ELSE 0.00 END) 
+				sum(CASE WHEN (zaznaczona!=poziom_poprawnosci::BOOLEAN) THEN pkt_za_trafienie ELSE 0.00 END) 
 				FROM odpowiedz_uzytkownika ou JOIN odpowiedz_wzorcowa op ON(ou.id_pyt=op.id_pyt AND ou.tresc_odp=op.tresc_odp) 
-				WHERE ou.id_pyt = pyt AND ou.id_uz=uz AND ou.data_wyslania=czas);
+				WHERE ou.id_pyt = pyt.id_pyt AND ou.id_uz=uz AND ou.data_wyslania=czas);
 	ELSE
 		pkt_zdobyte :=
 			(SELECT pyt.pkt*poziom_poprawnosci/100 FROM 
@@ -223,7 +225,9 @@ BEGIN
 	END IF;
 	RETURN COALESCE(pkt_zdobyte,0::REAL);
 END
-$$ LANGUAGE plpgsql;
+
+$BODY$
+  LANGUAGE plpgsql
 
 
 CREATE OR REPLACE FUNCTION podlicz_punkty(uz integer,i_quiz integer,czas TIMESTAMP) RETURNS REAL AS $$
