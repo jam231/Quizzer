@@ -6,7 +6,15 @@ class ApplicationController < ActionController::Base
   def current_user
 	  @current_user ||= Uzytkownik.find(session[:user_id]) if session[:user_id]
   end
-  
+
+  def logged?
+		if current_user.nil?
+			redirect_to log_in_url, :alert => "Aby uzyskac dostep do grupy musisz sie zalogowac"
+			false
+		end
+		true
+  end
+
   def group_available?
 	  begin
 		  @grupa = GrupaQuizowa.find(params[:id_grupy])

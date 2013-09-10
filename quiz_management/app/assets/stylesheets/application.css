@@ -26,9 +26,9 @@ h3.header {
     padding-bottom: 20px;
 }
 
-h3.header.centered
+.centered
 {
-    text-align: center;
+    text-align: center !important;
 }
 
 .form-horizontal .control-label {
