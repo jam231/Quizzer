@@ -30,6 +30,7 @@ class GrupaQuizowaController < ApplicationController
 
   def ranking
     @what = 'ranking'
+    @ranking = Ranking.where(:id_grupy => params[:id_grupy]).order("pkt DESC")
     render 'index'
   end
 
