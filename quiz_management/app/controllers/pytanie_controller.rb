@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class PytanieController < ApplicationController
   def edit
     id_pytania = params[:id_pyt] || params[:id] || params[:pytanie][:id_pyt]
