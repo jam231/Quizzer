@@ -36,7 +36,12 @@ class QuizController < ApplicationController
 	end
 
   def info
-		redirect_to :back, :alert => "Not implemented yet."
+	  @quiz = Quiz.find(params[:id_quizu])
+	  logger.debug  @quiz.podejscia_uzytkownika(current_user)
+		@attempts = @quiz.podejscia_uzytkownika(current_user).map do |dict|
+			[dict[:zdobyte_pkt], dict[:max_pkt], dict[:data_wyslania]]
+		end
+	  #logger.info "Użytkownik #{current_user.nazwa_uz} chce uzyskac informacje o quizie #{@quiz.data_utworzenia} {id => #{@quiz.id_quizu}}."
   end
 
   def destroy
@@ -47,8 +52,6 @@ class QuizController < ApplicationController
     @quiz = Quiz.find(params[:id_quizu])
     @nowe_pytanie = Pytanie.new(:id_quizu => params[:id_quizu])
     @nowe_pytanie.tresc = "Nowe pytanie"
-
-
   end
 
   def submit
