@@ -1,3 +1,4 @@
+# encoding: UTF-8
   class GrupaQuizowa < ActiveRecord::Base
     self.table_name = 'grupa_quizowa'
     self.primary_key = :id_grupy
@@ -26,17 +27,12 @@
 				privileges |= @@privileges.fetch(privilege_name, 1)
 			end
 
-	    logger.debug "Czy uzytkownik #{user.nazwa_uz} ma przywileje #{privileges} ?"
-
-	    # Nad tym ponizej moznaby sie zastanowic, np. czy nie lepiej byloby zapewnic to w bazie.
-		  is_superuser = !(user.ranga =~ /u.ytkownik.|u..ytkownik.*/)
-
-	    logger.debug "Czy uzytkownik #{user.nazwa_uz} jest superuzytkownikiem ? : #{is_superuser} "
+	    logger.debug "Czy użytkownik #{user.nazwa_uz} ma przywileje #{privileges} ?"
 
 	    dostep_grupa = self.dostep_grupa.where(["id_uz = ?", user.id_uz]).first
 
-	    logger.debug "Czy uzytkownik #{user.nazwa_uz} ma dostep do grupy #{self.nazwa} ? : #{dostep_grupa != nil}"
-			is_superuser || (dostep_grupa && dostep_grupa.prawa_dost.to_i(2) & privileges == privileges)
+	    logger.debug "Czy użytkownik #{user.nazwa_uz} ma dostęp do grupy #{self.nazwa} ? : #{dostep_grupa != nil}"
+			user.superuser? || (dostep_grupa && dostep_grupa.prawa_dost.to_i(2) & privileges == privileges)
     end
 
   end
