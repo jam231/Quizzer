@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class Uzytkownik < ActiveRecord::Base
 
   self.table_name = 'uzytkownik'
@@ -29,4 +30,10 @@ class Uzytkownik < ActiveRecord::Base
       nil
     end
   end
+
+  def superuser?
+	  is_superuser = !(self.ranga =~ /u.ytkownik.|u..ytkownik.*/)
+	  logger.debug "Czy użytkownik #{self.nazwa_uz} jest superużytkownikiem ? : #{is_superuser} "
+    is_superuser
+	end
 end

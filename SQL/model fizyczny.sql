@@ -227,7 +227,7 @@ BEGIN
 END
 
 $BODY$
-  LANGUAGE plpgsql
+  LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION podlicz_punkty(uz integer,i_quiz integer,czas TIMESTAMP) RETURNS REAL AS $$
