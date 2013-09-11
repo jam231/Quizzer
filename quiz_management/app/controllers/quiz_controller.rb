@@ -84,7 +84,7 @@ class QuizController < ApplicationController
       end
     end
 
-    Ranking.przelicz_ranking!
+    Ranking.przelicz_ranking! @quiz.grupa_quizowa
 
     params.merge!(:date_submitted => date)
 
