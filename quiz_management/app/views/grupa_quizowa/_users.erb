@@ -11,13 +11,13 @@
     </tr>
   </thead>
   <tbody>
-   <% for uzytkownik, i in @users.each_with_index %>
+   <% @users.each_with_index do |user, index|%>
      <tr>
        <td>
-         <%= i+1 %>
+         <%= index + 1 %>
        </td>
         <td>
-         <%= uzytkownik.nazwa_uz %>
+         <%= user.nazwa_uz %>
         </td>
       </tr>
     <% end %>

@@ -7,7 +7,7 @@ class Ranking < ActiveRecord::Base
   belongs_to :grupa, :foreign_key => 'id_grupy', :class_name => "GrupaQuizowa"
   self.table_name = 'ranking'
 
-
-
-
+	def self.przelicz_ranking!
+		ActiveRecord::Base.connection.execute("SELECT * FROM przelicz_ranking()")
+	end
 end

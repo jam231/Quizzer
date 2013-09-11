@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class OdpowiedzWzorcowa < ActiveRecord::Base
   self.table_name = 'odpowiedz_wzorcowa'
   self.primary_keys = :id_pyt, :tresc_odp

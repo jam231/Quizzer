@@ -2,7 +2,6 @@ class GrupaQuizowaController < ApplicationController
   before_filter :group_available?
 
   helper_method :active?
-
   def index
     quizzes
   end
