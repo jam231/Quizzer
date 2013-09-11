@@ -120,7 +120,7 @@ CREATE OR REPLACE FUNCTION quiz_on_delete() RETURNS TRIGGER AS $$
 BEGIN
 	--- Przenies quiz do LIMBO, id_grupy = 0
 	--- Zamien wlasciciela na limbo, id_uz = 0
-	UPDATE quiz q SET id_grupy = 0, id_wlasciciela = 0 WHERE id_grupy = OLD.id_grupy;
+	UPDATE quiz SET id_grupy = 0, id_wlasciciela = 0 WHERE id_quizu = OLD.id_quizu;
 	EXECUTE przelicz_grupe(OLD.id_grupy);
 
 	RETURN NULL;	
@@ -129,7 +129,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS transfer_quiz_to_limbo ON quiz;
 CREATE TRIGGER transfer_quiz_to_limbo BEFORE DELETE ON quiz 
-	FOR EACH ROW EXECUTE PROCEDURE quiz_on_delete(); 
+	FOR ROW EXECUTE PROCEDURE quiz_on_delete(); 
 	
 CREATE OR REPLACE FUNCTION dostep_grupa_on_insert() RETURNS TRIGGER AS $$
 BEGIN
