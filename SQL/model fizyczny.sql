@@ -116,7 +116,20 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER dodaj_do_public AFTER INSERT ON uzytkownik
 	FOR EACH ROW EXECUTE PROCEDURE uzytkownik_on_insert();
 
+CREATE OR REPLACE FUNCTION quiz_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+	--- Przenies quiz do LIMBO, id_grupy = 0
+	--- Zamien wlasciciela na limbo, id_uz = 0
+	UPDATE quiz q SET id_grupy = 0, id_wlasciciela = 0 WHERE id_grupy = OLD.id_grupy;
+	EXECUTE przelicz_grupe(OLD.id_grupy);
 
+	RETURN NULL;	
+END
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS transfer_quiz_to_limbo ON quiz;
+CREATE TRIGGER transfer_quiz_to_limbo BEFORE DELETE ON quiz 
+	FOR EACH ROW EXECUTE PROCEDURE quiz_on_delete(); 
 	
 CREATE OR REPLACE FUNCTION dostep_grupa_on_insert() RETURNS TRIGGER AS $$
 BEGIN
@@ -288,9 +301,9 @@ DECLARE
 BEGIN
 	DELETE FROM ranking WHERE id_grupy = grupa AND id_uz = uz;
 
-	suma = (SELECT SUM(max_pkt_za_quiz(uz, t.id_quizu))
+	suma = COALESCE((SELECT SUM(max_pkt_za_quiz(uz, t.id_quizu))
 		FROM (SELECT distinct id_quizu FROM quiz q JOIN dostep_grupa dg ON q.id_grupy = dg.id_grupy
-			WHERE q.id_grupy = grupa AND dg.id_uz = uz) t);
+			WHERE q.id_grupy = grupa AND dg.id_uz = uz) t), 0);
 	
 	INSERT INTO ranking(id_uz, id_grupy, pkt) VALUES(uz, grupa, suma);
 
