@@ -100,12 +100,6 @@ class QuizController < ApplicationController
     end
   end
 
-  def points_for_question(question_id, time)
-    #hurray for niekonsekwencja jezykowa
-	  points_odp, points_pyt = OdpowiedzUzytkownika.punkty(session[:user_id], question_id, time)
-		"(#{points_odp} / #{points_pyt} punktów)"
-  end
-
   def reset_session
     session[:pytania] = {}
   end

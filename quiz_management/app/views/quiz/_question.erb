@@ -1,6 +1,6 @@
 <li>
   <%= pytanie.tresc %>
-  <%= controller.points_for_question(pytanie.id_pyt, params[:date_submitted]).to_s if params[:date_submitted] %>
+  <%= score_tag pytanie.punkty_za_odpowiedz(current_user, params[:date_submitted]), pytanie.pkt if params[:date_submitted] %>
 </li>
 
 <% if params[:date_submitted] %>
@@ -11,9 +11,9 @@
 <% end %>
 
 <% if pytanie.wielokrotnego_wyboru? %>
-    <%= render :partial => "multichoice_question", :locals => { :pytanie => pytanie } %>
+    <%= render :partial => "multichoice_question", :locals => { :pytanie => pytanie, :quiz_completed => !params[:date_submitted].nil? } %>
 <% elsif pytanie.otwarte? %>
-    <%= render :partial => "open_question", :locals => { :pytanie => pytanie } %>
+    <%= render :partial => "open_question", :locals => { :pytanie => pytanie, :quiz_completed => !params[:date_submitted].nil? } %>
 <% else %>
-    <%= render :partial => "singlechoice_question", :locals => { :pytanie => pytanie } %>
+    <%= render :partial => "singlechoice_question", :locals => { :pytanie => pytanie, :quiz_completed => !params[:date_submitted].nil? } %>
 <% end %>
