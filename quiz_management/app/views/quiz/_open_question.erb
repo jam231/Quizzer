@@ -1,1 +1,1 @@
-<%= text_field_tag("odpowiedzi[#{pytanie.id_pyt}]", params[:odpowiedzi].to_h[pytanie.id_pyt.to_s] || '') %>
+<%= text_field_tag "odpowiedzi[#{pytanie.id_pyt}]", params[:odpowiedzi].to_h[pytanie.id_pyt.to_s] || '', :disabled => quiz_completed%>

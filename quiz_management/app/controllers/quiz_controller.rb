@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class QuizController < ApplicationController
 	before_filter :has_access_to_quiz?, :only => [:info, :index]
 	before_filter :has_quiz_creation_privilege?, :only => [:new, :create]
@@ -7,7 +8,7 @@ class QuizController < ApplicationController
 
   def index
 
-    logger.info "Uzytkownik #{current_user.nazwa_uz} {id_uz => #{current_user.id_uz} }"
+    logger.info "Użytkownik #{current_user.nazwa_uz} {id_uz => #{current_user.id_uz} }"
 
     @quiz = Quiz.find(params[:id_quizu])
 
@@ -45,7 +46,7 @@ class QuizController < ApplicationController
   def edit
     @quiz = Quiz.find(params[:id_quizu])
     @nowe_pytanie = Pytanie.new(:id_quizu => params[:id_quizu])
-    @nowe_pytanie.tresc = 'Nowe pytanie'
+    @nowe_pytanie.tresc = "Nowe pytanie"
 
 
   end
@@ -55,14 +56,14 @@ class QuizController < ApplicationController
 
     @quiz = Quiz.find(params[:id_quizu])
 
-    @quiz.pytania.each { |pytanie|
+    @quiz.pytania.each do |pytanie|
       odp = OdpowiedzUzytkownika.new
       odp.id_uz = session[:user_id]
       odp.id_pyt = pytanie.id_pyt
       odp.data_wyslania = date
 
       if pytanie.otwarte?
-        odp.tresc_odp = params[:odpowiedzi][pytanie.id_pyt.to_s] || 'nil'
+        odp.tresc_odp = params[:odpowiedzi][pytanie.id_pyt.to_s] || "nil"
         odp.zaznaczona = true
         odp.save!
       else
@@ -78,12 +79,9 @@ class QuizController < ApplicationController
           odp.save!
         }
       end
+    end
 
-    }
-
-    przelicz_ranking = "SELECT * FROM przelicz_ranking()"
-    ActiveRecord::Base.connection.execute(przelicz_ranking)
-
+    Ranking.przelicz_ranking!
 
     params.merge!(:date_submitted => date)
 
@@ -102,11 +100,6 @@ class QuizController < ApplicationController
     end
   end
 
-  def points_for_question(question_id, time)
-    #hurray for niekonsekwencja jezykowa
-    OdpowiedzUzytkownika.punkty(session[:user_id], question_id, time)
-  end
-
   def reset_session
     session[:pytania] = {}
   end
@@ -117,6 +110,6 @@ class QuizController < ApplicationController
     session[:pytania][question_id].each { |odpowiedz|
       comment += odpowiedz.komentarz.to_s if checked?(question_id, odpowiedz.tresc_odp.to_s)
     }
-    comment = 'Komentarz: ' + comment if comment.length > 0
+    comment = "Komentarz: #{comment}" if comment.length > 0
   end
 end

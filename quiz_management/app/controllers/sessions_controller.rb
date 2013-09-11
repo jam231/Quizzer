@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class SessionsController < ApplicationController
   before_filter :logged?, :only => [:create, :new]
   before_filter :not_logged?, :only => [:destroy]
@@ -11,9 +12,9 @@ class SessionsController < ApplicationController
     if user
       session[:user_id] = user.id
       #redirect_to root_url, :notice => "Uzytkownik #{user.nazwa_uz} zalogowany!"
-      redirect_to grupa_public_url, :notice => "Uzytkownik #{user.nazwa_uz} zalogowany"
+      redirect_to grupa_public_url, :notice => "Użytkownik #{user.nazwa_uz} zalogowany"
     else
-      redirect_to root_url, :alert => "Niepoprawny login lub haslo."
+      redirect_to root_url, :alert => "Niepoprawny login lub hasło."
     end
   end
 
@@ -22,12 +23,12 @@ class SessionsController < ApplicationController
     nazwa_uz = current_user.nazwa_uz
     reset_session
     #redirect_to root_url, :notice => "Uzytkownik wylogowany!"
-    redirect_to root_url, :notice => "Uzytkownik #{nazwa_uz} wylogowany"
+    redirect_to root_url, :notice => "Użytkownik #{nazwa_uz} wylogowany"
   end
 
   private
   def not_logged?
-    if not current_user
+    if current_user.nil?
       redirect_to root_url
     end
   end

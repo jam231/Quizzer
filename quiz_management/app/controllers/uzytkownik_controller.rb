@@ -1,6 +1,7 @@
+# encoding: UTF-8
 class UzytkownikController < ApplicationController
   layout 'notlogged_application', :only => [:new, :create]
-  before_filter :logged?, :only => [:update, :show]
+  before_filter :logged?, :only => [:update, :edit]
 
   def new
     @user = Uzytkownik.new
@@ -10,7 +11,7 @@ class UzytkownikController < ApplicationController
     @user = Uzytkownik.new params[:uzytkownik]
 
     if @user.save
-      redirect_to log_in_url, :notice => "Uzytkownik #{@user.nazwa_uz} zostal zarejestrowany."
+      redirect_to log_in_url, :notice => "Użytkownik #{@user.nazwa_uz} został zarejestrowany."
     else
       alert_msg = ''
       alert_msg = @user.errors.messages.values.first.first.to_s if @user.errors.any?
