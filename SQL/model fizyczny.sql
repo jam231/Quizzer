@@ -228,7 +228,10 @@ END
 
 $BODY$
   LANGUAGE plpgsql;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 
 CREATE OR REPLACE FUNCTION podlicz_punkty(uz integer,i_quiz integer,czas TIMESTAMP) RETURNS REAL AS $$
 DECLARE
@@ -330,3 +333,32 @@ BEGIN
 	END LOOP;
 END
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION przelicz_grupe(grupa integer) RETURNS VOID AS $$
+DECLARE
+	pkt REAL;
+	uz INTEGER;
+BEGIN
+	FOR uz IN (SELECT id_uz FROM dostep_grupa dg WHERE id_grupy = grupa)
+	LOOP
+		PERFORM przelicz_ranking_uz_grupa(uz, grupa);
+	END LOOP;
+END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION podejscia_uzytkownika(id_uz integer, id_quizu integer) 
+RETURNS TABLE(zdobyte_pkt REAL, max_pkt REAL, data_wyslania TIMESTAMP) AS $$
+	SELECT CAST(SUM(pkt_za_pytanie($1, id_pyt, data_wyslania)) AS REAL), CAST(SUM(pkt) AS REAL), data_wyslania AS timestamp   
+	FROM 
+		(SELECT DISTINCT ou.data_wyslania, p.id_pyt, p.pkt
+		 FROM
+			 quiz q JOIN pytanie p ON(q.id_quizu = p.id_quizu)
+					JOIN odpowiedz_uzytkownika ou ON (p.id_pyt = ou.id_pyt)
+		 WHERE ou.id_uz = $1 AND q.id_quizu = $2
+		) AS SUBQUERY
+	GROUP BY data_wyslania
+	ORDER BY data_wyslania;
+$$ LANGUAGE sql;
+
+
