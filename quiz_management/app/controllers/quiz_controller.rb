@@ -52,6 +52,11 @@ class QuizController < ApplicationController
     @quiz = Quiz.find(params[:id_quizu])
     @nowe_pytanie = Pytanie.new(:id_quizu => params[:id_quizu])
     @nowe_pytanie.tresc = "Nowe pytanie"
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> origin/master
   end
 
   def submit
@@ -84,7 +89,11 @@ class QuizController < ApplicationController
       end
     end
 
+<<<<<<< HEAD
+    Ranking.przelicz_ranking!
+=======
     Ranking.przelicz_ranking! @quiz.grupa_quizowa
+>>>>>>> origin/master
 
     params.merge!(:date_submitted => date)
 

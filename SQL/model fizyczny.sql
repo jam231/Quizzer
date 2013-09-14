@@ -228,6 +228,10 @@ END
 
 $BODY$
   LANGUAGE plpgsql;
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
 
 CREATE OR REPLACE FUNCTION podlicz_punkty(uz integer,i_quiz integer,czas TIMESTAMP) RETURNS REAL AS $$
 DECLARE
