@@ -45,17 +45,14 @@ class QuizController < ApplicationController
   end
 
   def destroy
-		if @grupa.limbo?
-	    flash[:alert] = "Quizy przeniosione do limbo nie mogą zostać z niego usunięte, a jedynie przeniesione."
-		else
-	     if Quiz.destroy(params[:id_quizu])
-				logger.info "Quiz #{quiz.nazwa} {:id => #{quiz.id_quizu}} został usunięty przez użytkownika #{current_user.nazwa_uz}."
-				flash[:notice] = "Quiz #{quiz.nazwa} został usunięty."
-			else
-				flash[:alert] = "Usunięcie quizu się nie powiodło."
-			end
-	  end
-		redirect_to grupa_url
+	quiz = Quiz.find(params[:id_quizu])
+	if quiz.destroy
+		logger.info "Quiz #{quiz.nazwa} {:id => #{quiz.id_quizu}} został usunięty przez użytkownika #{current_user.nazwa_uz}."
+		flash[:notice] = "Quiz #{quiz.nazwa} został usunięty."
+	else
+		flash[:alert] = "Usunięcie quizu się nie powiodło."
+	end
+	redirect_to grupa_url
   end
 
   def edit

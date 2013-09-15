@@ -5,6 +5,7 @@
 
     has_many :dostep_grupa, :foreign_key => 'id_grupy', :class_name => "DostepGrupa"
     has_many :quizzes, :foreign_key => 'id_grupy', :class_name =>  "Quiz"
+    belongs_to :wlasciciel, :foreign_key => 'id_wlasciciela', :class_name => "Uzytkownik"
 
     @@privileges = {:participation_in_quizzes => 1 << 13,
                     :participation_in_discussions => 1 << 12,
@@ -15,6 +16,10 @@
 
     def limbo?
 			self.id_grupy == 0
+    end
+
+    def self.Limbo
+			GrupaQuizowa.find(0)
     end
 
     def has_privileges?(user, *privilege_names)

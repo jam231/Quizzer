@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <h2 class="text-center"> Informacje o quizie <i> <%= @quiz.nazwa %> </i> ( id = <%= @quiz.id_quizu %> )  </h2>
+    <br />
+    <%= content_tag :h4, "Data utworzenia : #{@quiz.data_utworzenia} ", :class => "header left-padded-30px" if @quiz.data_utworzenia %>
+    <%= content_tag :h4, "Limit czasowy  : #{@quiz.limit_czasowy} ", :class => "header left-padded-30px" if @quiz.limit_czasowy %>
+    <%= content_tag :h4 , "Limit podejść  : #{@quiz.limit_podejsc} ", :class => "header left-padded-30px" if @quiz.limit_podejsc %>
+    <br />
+    <br />
+
+    <h1 class="text-center"> Jakieś statystki ! </h1>
+
+
+  </div>
+</div>

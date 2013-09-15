@@ -3,6 +3,12 @@
     <h1 class="header centered">Profil użytkownika <i><%= @user.nazwa_uz %> </i></h1>
     <%= form_tag user_update_url(@user), :class => 'form-horizontal', :style => "position:relative; left:25%" do %>
         <div class="control-group">
+          <%= label_tag :ranga, 'Ranga', :class => 'control-label span2'%>
+          <div class="controls">
+            <%= label_tag :ranga, @user.ranga.to_s, :class => 'span4', :id => 'labelRanga' %>
+          </div>
+        </div>
+        <div class="control-group">
           <%= label_tag :login, 'Login', :class => 'control-label span2', :for => 'inputLogin'%>
           <div class="controls">
             <%= text_field_tag :login, @user.login, :class => 'span4', :id => 'inputLogin', :placeholder => 'Login' %>

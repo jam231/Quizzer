@@ -49,6 +49,5 @@ class GrupaQuizowaController < ApplicationController
         false
     end
   end
-
 end
 

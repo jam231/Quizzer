@@ -370,4 +370,11 @@ RETURNS TABLE(zdobyte_pkt REAL, max_pkt REAL, data_wyslania TIMESTAMP) AS $$
 	ORDER BY data_wyslania;
 $$ LANGUAGE sql;
 
+CREATE OR REPLACE FUNCTION usun_odpowiedzi_uzytkownikow(id_quizu integer) 
+RETURNS VOID AS $$
+	DELETE FROM odpowiedz_uzytkownika WHERE id_pyt IN 
+	(SELECT id_pyt FROM quiz JOIN pytanie using(id_quizu) where id_quizu = $1)
+$$ LANGUAGE sql;
+
+
 

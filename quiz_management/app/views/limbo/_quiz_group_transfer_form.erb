@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <h2 class="header centered">  <i> <%= @quiz.nazwa %> </i> ( id = <%= @quiz.id_quizu %> ) </h2>
+
+    </br>
+    <%= content_tag :h3 , "Dostępne grupy", :class => "header centered" %>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>ID grupy</th>
+        <th>Nazwa grupy</th>
+        <th>Nazwa właściciela</th>
+      </tr>
+      </thead>
+      <% @available_groups.each do |group| %>
+          <tr class="group">
+            <td class="id hand-cursord">
+              <%= group.id_grupy %>
+            </td>
+            <td class="name hand-cursor">
+              <%= group.nazwa %>
+            </td>
+            <td class="owner-name hand-cursor">
+              <%= group.wlasciciel.nazwa_uz %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+
+    </br>
+    <%= content_tag :h3 , "Wybrana grupa:", :class => "header centered" %>
+
+    <%= form_tag limbo_transfer_quiz_to_group_url, :class => 'form-inline', :id => 'new-group-owner'  do %>
+
+        <div class="row-fluid text-center">
+          <div class="control-group">
+            <div class="controls form-inline offset3">
+              <%= label_tag :id, 'Id grupy' , :class => 'span3 no-margin-left' %>
+              <%= label_tag :group_name, 'Nazwa grupy' , :class => 'span3 no-margin-left'  %>
+              <%= label_tag :owner_name, 'Nazwa właściciela' , :class => 'span3 no-margin-left'  %>
+            </div>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="control-group">
+            <div class="controls form-inline offset3">
+              <%= hidden_field_tag :group_id, @limbo.id_grupy %>
+              <%= text_field_tag :id, @limbo.id_grupy, :class => 'span3 text-center', :id => 'group-id', :disabled => true, :placeholder => 'ID grupy' %>
+              <%= text_field_tag :group_name, @limbo.nazwa , :class => 'span3 text-center', :id => 'group-name', :disabled => true, :placeholder => 'Nazwa grupy' %>
+              <%= text_field_tag :owner_name, @limbo.wlasciciel.nazwa_uz , :class => 'span3 text-center', :id => 'group-owner-name', :disabled => true, :placeholder => 'Nazwa właściciela' %>
+            </div>
+          </div>
+          <div class="control-group form-buttons">
+            <%= submit_tag 'Przenieś quiz', :class => "btn btn-danger", :confirm => 'Zatwierdzenie spowoduje trwałe przeniesienie quizu.' %>
+            <%= link_to 'Anuluj', grupa_limbo_url, :class => "btn btn-primary" %>
+          </div>
+        </div>
+        </div>
+    <% end %>
+    </div>
