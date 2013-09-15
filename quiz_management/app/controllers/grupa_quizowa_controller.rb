@@ -1,14 +1,14 @@
 # encoding: UTF-8
 
 class GrupaQuizowaController < ApplicationController
-  before_filter :group_available?
+  include GrupaQuizowaHelper
+
+	before_filter :logged?, :group_available?
 
   helper_method :active?
+
   def index
     quizzes
-  end
-
-  def show
   end
 
   def new
@@ -31,7 +31,7 @@ class GrupaQuizowaController < ApplicationController
 
   def ranking
     @what = 'ranking'
-    @ranking = Ranking.where(:id_grupy => params[:id_grupy]).order("pkt DESC")
+    @ranking = Ranking.where(:id_grupy => @grupa.id_grupy).order("pkt DESC")
     render 'index'
   end
 
