@@ -41,7 +41,7 @@ class LimboController < ApplicationController
 		end
 		# POST
 		def transfer_quiz_ownership
-			logger.debug "Nowym właścieielem quizu #{params[:id_quizu]} zostaje uzytkownik o id = #{params[:new_owner_id]}"
+			logger.debug "Nowym właścicielem quizu #{params[:id_quizu]} zostaje uzytkownik o id = #{params[:new_owner_id]}"
 			quiz = Quiz.find(params[:id_quizu])
 			quiz.id_wlasciciela = params[:owner_id]
 			quiz.save
@@ -50,7 +50,13 @@ class LimboController < ApplicationController
 
 		# DELETE
 		def delete_user_answers
-			redirect_to grupa_limbo_url, :alert => 'Not implemented yet.'
+			quiz = Quiz.find(params[:id_quizu])
+			logger.debug "Uzytkownik #{current_user.nazwa_uz} usunał wszystkie odpowiedzi użytkowników dla quizu #{quiz.nazwa} (id = #{quiz.id_quizu})"
+
+			quiz.usun_odpowiedzi_uzytkownikow!
+
+			redirect_to grupa_limbo_url, :notice => "Odpowiedzi użytkowników dla quizu #{quiz.nazwa} (id = #{quiz.id_quizu}) zostały usunięte."
+			#redirect_to grupa_limbo_url, :alert => 'Not implemented yet.'
 		end
 
 		# GET
@@ -68,6 +74,9 @@ class LimboController < ApplicationController
 			quiz = Quiz.find(params[:id_quizu])
 			quiz.id_grupy = grupa.id_grupy
 			quiz.save
+
+			Ranking.przelicz_ranking! grupa
+
 			redirect_to grupa_limbo_url, :notice => "Quiz #{quiz.nazwa}(id = #{quiz.id_quizu}) został przeniesiony do #{grupa.nazwa}(id = #{grupa.id_grupy})."
 		end
 

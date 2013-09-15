@@ -71,7 +71,7 @@ QuizManagement::Application.routes.draw do
 
   post "limbo/transfer_quiz_to_group/:id_quizu" => "limbo#transfer_quiz_to_group", :as => 'limbo_transfer_quiz_to_group'
   post "limbo/transfer_ownership/:id_quizu" => "limbo#transfer_quiz_ownership", :as => 'limbo_transfer_quiz_ownership'
-  post "limbo/delete_user_answers/:id_quizu" => "limbo#delete_user_answers", :as => 'limbo_delete_user_answers'
+  delete "limbo/delete_user_answers/:id_quizu" => "limbo#delete_user_answers", :as => 'limbo_delete_user_answers'
 
 
   ############################# Rejestracja, logowanie, profil, etc. ###############

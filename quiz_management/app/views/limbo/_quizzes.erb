@@ -1,12 +1,12 @@
 <h3 class="header centered">Quizy</h3>
 <table class="table table-hover">
+  <thead>
+  <tr>
+    <th class="centered">Nazwa</th>
+    <th class="centered">Id</th>
+  </tr>
+  </thead>
 <% for quiz in @quizzes %>
-      <thead>
-      <tr>
-        <th class="centered">Nazwa</th>
-        <th class="centered">Id</th>
-      </tr>
-      </thead>
     <tr>
       <td class="centered">
         <%= link_to quiz.nazwa, quiz_url(@limbo, quiz) %>
@@ -32,7 +32,7 @@
       </td>
       <td class="centered">
         <%= link_to 'Usuń odpowiedzi użytkowników', limbo_delete_user_answers_url(quiz),
-                    :class => 'btn btn-danger', :method => 'post', :confirm => 'Jesteś pewny?' %>
+                    :class => 'btn btn-danger', :method => 'delete', :confirm => 'Jesteś pewny?' %>
       </td>
     </tr>
 <% end %>

@@ -7,6 +7,12 @@ class Quiz < ActiveRecord::Base
 
   attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela
 
+  def usun_odpowiedzi_uzytkownikow!
+		# ActiveRecord nie chce tego normalnie usuwac, bo niby nie ma primary key...
+
+	  query = ActiveRecord::Base.send :sanitize_sql_array, ["select * from usun_odpowiedzi_uzytkownikow(%s)", self.id_quizu]
+	  query_results = self.connection.execute(query)
+  end
 
 	def podejscia_uzytkownika(uzytkownik)
 		id_uz = if uzytkownik.is_a? Integer then uzytkowniky else uzytkownik.id_uz end
