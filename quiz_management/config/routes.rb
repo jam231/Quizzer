@@ -64,6 +64,7 @@ QuizManagement::Application.routes.draw do
 
   get "limbo" => "limbo#index", :as => 'grupa_limbo'
   get "limbo/quizzes" => "limbo#quizzes", :as => 'quizzes'
+  get "limbo/info/:id_quizu" => "limbo#info", :as => 'limbo_quiz_info'
   get "limbo/moderators" => "limbo#moderators", :as => 'moderators'
   get "limbo/transfer_quiz_to_group/:id_quizu" => "limbo#quiz_group_transfer_form", :as => 'limbo_transfer_quiz_to_group'
   get "limbo/transfer_ownership/:id_quizu" => "limbo#quiz_ownership", :as => 'limbo_transfer_quiz_ownership'

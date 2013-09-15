@@ -11,7 +11,9 @@ class LimboController < ApplicationController
 			quizzes
 		end
 
-		def show
+		def info
+			@quiz = Quiz.find(params[:id_quizu])
+			render :template => 'limbo/index', :locals => {:what => 'info'}
 		end
 
 		def quizzes
@@ -31,7 +33,7 @@ class LimboController < ApplicationController
 			@limbo = GrupaQuizowa.Limbo
 			@quiz = Quiz.find(params[:id_quizu])
 			@current_owner = Uzytkownik.find(@quiz.id_wlasciciela)
-			@available_users = Uzytkownik.scoped.select {|uzytkownik| not (uzytkownik.superuser? or uzytkownik.limbo?) }
+			@available_users = Uzytkownik.scoped.select {|uzytkownik| not (uzytkownik.superuser? or uzytkownik.limbo? or uzytkownik == @current_owner) }
 			render :template => 'limbo/index', :locals => {:what => 'quiz_ownership'}
 		end
 		# POST

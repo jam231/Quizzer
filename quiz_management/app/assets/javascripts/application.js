@@ -15,6 +15,8 @@
 //= require_self
 //= require_tree .
 
+"use strict";
+
 $(document).ready(function() {
     $("button[data-dismiss='alert']").click(function() {
         $(this).parent().remove();
