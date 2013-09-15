@@ -1,0 +1,14 @@
+<h1 class="header">LIMBO</h1>
+<ul class="nav nav-pills">
+  <li class= "two-part-menu <%= active?(what, :quizzes)  ? 'active' : '' %>">
+    <%= link_to "Quizy", quizzes_url %>
+  </li>
+  <li class= "two-part-menu <%= active?(what, :moderators) ? 'active' : '' %>">
+    <%= link_to "Moderatorzy", moderators_url %>
+  </li>
+</ul>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <%= render :partial => what %>
+  </div>
+</div>

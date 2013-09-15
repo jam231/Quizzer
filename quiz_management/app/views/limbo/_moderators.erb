@@ -1,4 +1,4 @@
-<h3 class="header centered">Użytkownicy zapisani do grupy</h3>
+<h3 class="header centered">Moderatorzy</h3>
 <table class="table table-hover">
   <thead>
   <tr>
@@ -8,16 +8,22 @@
     <th>
       Nazwa użytkownika
     </th>
+    <th>
+      Ranga
+    </th>
   </tr>
   </thead>
   <tbody>
-  <% @users.each_with_index do |user, index|%>
+  <% @moderators.each_with_index do |moderator, index|%>
       <tr>
         <td>
           <%= index + 1 %>
         </td>
         <td>
-          <%= user.nazwa_uz %>
+          <%= moderator.nazwa_uz %>
+        </td>
+        <td>
+          <%= moderator.ranga %>
         </td>
       </tr>
   <% end %>
