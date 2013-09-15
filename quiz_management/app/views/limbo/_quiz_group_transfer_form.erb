@@ -14,13 +14,13 @@
       </thead>
       <% @available_groups.each do |group| %>
           <tr class="group">
-            <td class="id">
+            <td class="id hand-cursord">
               <%= group.id_grupy %>
             </td>
-            <td class="name">
+            <td class="name hand-cursor">
               <%= group.nazwa %>
             </td>
-            <td class="owner-name">
+            <td class="owner-name hand-cursor">
               <%= group.wlasciciel.nazwa_uz %>
             </td>
           </tr>

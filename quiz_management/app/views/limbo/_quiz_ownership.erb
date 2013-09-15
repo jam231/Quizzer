@@ -14,12 +14,12 @@
         </div>
       </div>
     </div>
-    <div class="row-fluid">
+    <div class="row-fluid hand-cursor">
       <div class="control-group">
         <div class="controls form-inline offset3" id='current-owner'>
-          <%= text_field_tag :id_uz, @current_owner.id_uz , :class => 'span3 normal-cursor text-center', :id => 'current-owner-id', :disabled => true, :placeholder => 'Id użytkownika' %>
-          <%= text_field_tag :nazwa_uz, @current_owner.nazwa_uz , :class => 'span3 normal-cursor text-center', :id => 'current-owner-name', :disabled => true, :placeholder => 'Nazwa użytkownika' %>
-          <%= text_field_tag :ranga, @current_owner.ranga , :class => 'span3 normal-cursor text-center', :id => 'current-owner-rank', :disabled => true, :placeholder => 'Ranga użytkownika' %>
+          <%= text_field_tag :id_uz, @current_owner.id_uz , :class => 'span3 hand-cursor text-center', :id => 'current-owner-id', :disabled => true, :placeholder => 'Id użytkownika' %>
+          <%= text_field_tag :nazwa_uz, @current_owner.nazwa_uz , :class => 'span3 hand-cursor text-center', :id => 'current-owner-name', :disabled => true, :placeholder => 'Nazwa użytkownika' %>
+          <%= text_field_tag :ranga, @current_owner.ranga , :class => 'span3 hand-cursor text-center', :id => 'current-owner-rank', :disabled => true, :placeholder => 'Ranga użytkownika' %>
         </div>
       </div>
     </div>
@@ -36,13 +36,13 @@
       </thead>
       <% @available_users.each do |user| %>
           <tr class="user">
-            <td class="id">
+            <td class="id hand-cursor">
               <%= user.id_uz %>
             </td>
-            <td class="name">
+            <td class="name hand-cursor">
               <%= user.nazwa_uz %>
             </td>
-            <td class="rank">
+            <td class="rank hand-cursor">
               <%= user.ranga %>
             </td>
           </tr>
