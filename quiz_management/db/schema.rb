@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.de --fine(:version => 20130909221012) do
+ActiveRecord::Schema.define(:version => 20130909221012) do
 
   create_table "dostep_grupa", :id => false, :force => true do |t|
     t.integer "id_grupy",                                                 :null => false
@@ -47,9 +47,10 @@ ActiveRecord::Schema.de --fine(:version => 20130909221012) do
     t.integer  "id_pyt",                       :null => false
     t.datetime "data_wyslania",                :null => false
     t.boolean  "zaznaczona",                   :null => false
+    t.integer  "id_odp_u",                     :null => false
   end
 
-  create_table "odpowiedz_wzorcowa", :id => false, :force => true do |t|
+  create_table "odpowiedz_wzorcowa", :primary_key => "id_odp_w", :force => true do |t|
     t.integer  "id_pyt",                            :null => false
     t.string   "tresc_odp",          :limit => nil, :null => false
     t.integer  "poziom_poprawnosci",                :null => false
@@ -107,11 +108,11 @@ ActiveRecord::Schema.de --fine(:version => 20130909221012) do
   add_index "typ", ["nazwa"], :name => "typ_nazwa_key", :unique => true
 
   create_table "uzytkownik", :primary_key => "id_uz", :force => true do |t|
-    t.string "login",    :limit => 15,                            :null => false
-    t.string "haslo",    :limit => 30,                            :null => false
-    t.string "nazwa_uz", :limit => 30,                            :null => false
-    t.string "email",    :limit => 60,                            :null => false
-    t.string "ranga",    :limit => 30, :default => "uĹĽytkownik", :null => false
+    t.string "login",    :limit => 15,                           :null => false
+    t.string "haslo",    :limit => 30,                           :null => false
+    t.string "nazwa_uz", :limit => 30,                           :null => false
+    t.string "email",    :limit => 60,                           :null => false
+    t.string "ranga",    :limit => 30, :default => "uľytkownik", :null => false
   end
 
   add_index "uzytkownik", ["email"], :name => "uzytkownik_email_key", :unique => true

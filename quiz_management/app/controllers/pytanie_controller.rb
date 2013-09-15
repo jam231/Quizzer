@@ -1,6 +1,8 @@
 # encoding: UTF-8
 
 class PytanieController < ApplicationController
+  before_filter :has_quiz_modify_privilege?, :only => [:edit, :update]
+
   def edit
     id_pytania = params[:id_pyt] || params[:id] || params[:pytanie][:id_pyt]
     @pytanie = Pytanie.find(id_pytania)

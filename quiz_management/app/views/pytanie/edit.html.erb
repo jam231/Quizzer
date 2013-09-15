@@ -1,7 +1,7 @@
 <%= session[:user_id].to_i %>
 <% if session[:user_id] == @pytanie.id_autora %>
     <h2>Pytanie</h2>
-    <%= form_for(@pytanie) do |f| %>
+    <%= form_for(@pytanie, :method => "post") do |f| %>
         <% if @pytanie.errors.any? %>
             <div id="error_explanation">
               <h2><%= "blad" %> nie pozwolil uzytkownikowi na zapis:</h2>
@@ -22,7 +22,7 @@
 
         <div class="field">
           <%= f.label "Typ" %>
-          <%= f.select :id_typu, options_for_select(Typ.all.map { |t| [t.nazwa, t.id_typu] }, @pytanie.id_typu) %>
+          <%= f.select(:id_typu, options_for_select(Typ.all.map { |t| [t.nazwa, t.id_typu] }, @pytanie.id_typu),:multiple => true) %>
         </div>
 
         <div class="field">
@@ -37,6 +37,10 @@
 
         <%= f.hidden_field :id_pyt %>
 
+        <%= f.fields_for(:odpowiedzi) do |builder| %>
+            <%= render :partial => "odpowiedz_edit_form", :locals => { :pytanie => @pytanie, :f => builder } %>
+        <% end %>
+
         <div class="actions">
           <%= f.submit "Zapisz" %>
 
@@ -45,10 +49,7 @@
 
     <% end %>
 
-    <% for odpowiedz in @pytanie.odpowiedzi %>
-        <%= render :partial => "odpowiedz_edit_form", :locals => {:odpowiedz => odpowiedz, :action => "update"} %>
-        <br/>
-    <% end %>
+
 
     <%= render :partial => "odpowiedz_edit_form", :locals => {:odpowiedz => @nowa_odpowiedz, :action => "create" } %>
 

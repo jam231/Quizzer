@@ -73,16 +73,17 @@ CREATE TABLE podkategoria(
 );
 
 CREATE TABLE odpowiedz_wzorcowa(
+	id_odp_w			SERIAL PRIMARY KEY,
 	id_pyt				INTEGER NOT NULL REFERENCES pytanie(id_pyt) ON DELETE CASCADE,
 	tresc_odp			VARCHAR NOT NULL,
 	poziom_poprawnosci	INTEGER NOT NULL,
 	komentarz			VARCHAR,
 	ost_modyfikacja		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (id_pyt,tresc_odp),
 	CONSTRAINT wk_p_poprawnosci CHECK (poziom_poprawnosci >= 0 AND poziom_poprawnosci <= 100)
 );
 
 CREATE TABLE odpowiedz_uzytkownika(
+	id_odp_u			SERIAL PRIMARY KEY,
 	id_uz				INTEGER NOT NULL REFERENCES uzytkownik(id_uz) ON DELETE CASCADE,
 	tresc_odp			VARCHAR NOT NULL,
 	id_pyt				INTEGER NOT NULL REFERENCES pytanie(id_pyt) ON DELETE CASCADE,
