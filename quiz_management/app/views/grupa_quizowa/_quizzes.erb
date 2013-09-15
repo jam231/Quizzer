@@ -3,7 +3,7 @@
   <% for quiz in @quizzes %>
     <tr>
       <td>
-        <%= link_to quiz.nazwa, quiz_url(:id_grupy => quiz.id_quizu, :id_quizu => quiz.id_quizu)%>
+        <%= link_to quiz.nazwa, quiz_url(:id_grupy => @grupa.id_grupy, :id_quizu => quiz.id_quizu)%>
       </td>
       <td>
         <%= link_to 'Info', quiz_info_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),

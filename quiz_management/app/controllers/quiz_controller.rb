@@ -36,19 +36,32 @@ class QuizController < ApplicationController
 	end
 
   def info
-		redirect_to :back, :alert => "Not implemented yet."
+	  @quiz = Quiz.find(params[:id_quizu])
+	  logger.debug  @quiz.podejscia_uzytkownika(current_user)
+		@attempts = @quiz.podejscia_uzytkownika(current_user).map do |dict|
+			[dict[:zdobyte_pkt], dict[:max_pkt], dict[:data_wyslania]]
+		end
+	  #logger.info "Użytkownik #{current_user.nazwa_uz} chce uzyskac informacje o quizie #{@quiz.data_utworzenia} {id => #{@quiz.id_quizu}}."
   end
 
   def destroy
-		redirect_to :back, :alert => "Not implemented yet."
+		if @grupa.limbo?
+	    flash[:alert] = "Quizy przeniosione do limbo nie mogą zostać z niego usunięte, a jedynie przeniesione."
+		else
+	     if Quiz.destroy(params[:id_quizu])
+				logger.info "Quiz #{quiz.nazwa} {:id => #{quiz.id_quizu}} został usunięty przez użytkownika #{current_user.nazwa_uz}."
+				flash[:notice] = "Quiz #{quiz.nazwa} został usunięty."
+			else
+				flash[:alert] = "Usunięcie quizu się nie powiodło."
+			end
+	  end
+		redirect_to grupa_url
   end
 
   def edit
     @quiz = Quiz.find(params[:id_quizu])
     @nowe_pytanie = Pytanie.new(:id_quizu => params[:id_quizu])
     @nowe_pytanie.tresc = "Nowe pytanie"
-
-
   end
 
   def submit
@@ -81,7 +94,7 @@ class QuizController < ApplicationController
       end
     end
 
-    Ranking.przelicz_ranking!
+    Ranking.przelicz_ranking! @quiz.grupa_quizowa
 
     params.merge!(:date_submitted => date)
 

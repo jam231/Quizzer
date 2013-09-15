@@ -51,6 +51,7 @@ QuizManagement::Application.routes.draw do
   ############################# GRUPY QUIZOWE ######################################
 
   get "public" => "grupa_quizowa#index", :id_grupy => 1, :as => 'grupa_public'
+  get "limbo" => "grupa_quizowa#index", :id_grupy => 0, :as => 'grupa_limbo'
 
   get "grupa/:id_grupy" => "grupa_quizowa#index", :as => 'grupa'
   get "grupa/:id_grupy/index" => "grupa_quizowa#index", :as => 'grupa'

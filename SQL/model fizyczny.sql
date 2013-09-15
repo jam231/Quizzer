@@ -116,7 +116,20 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER dodaj_do_public AFTER INSERT ON uzytkownik
 	FOR EACH ROW EXECUTE PROCEDURE uzytkownik_on_insert();
 
+CREATE OR REPLACE FUNCTION quiz_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+	--- Przenies quiz do LIMBO, id_grupy = 0
+	--- Zamien wlasciciela na limbo, id_uz = 0
+	UPDATE quiz SET id_grupy = 0, id_wlasciciela = 0 WHERE id_quizu = OLD.id_quizu;
+	EXECUTE przelicz_grupe(OLD.id_grupy);
 
+	RETURN NULL;	
+END
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS transfer_quiz_to_limbo ON quiz;
+CREATE TRIGGER transfer_quiz_to_limbo BEFORE DELETE ON quiz 
+	FOR ROW EXECUTE PROCEDURE quiz_on_delete(); 
 	
 CREATE OR REPLACE FUNCTION dostep_grupa_on_insert() RETURNS TRIGGER AS $$
 BEGIN
@@ -229,7 +242,6 @@ END
 $BODY$
   LANGUAGE plpgsql;
 
-
 CREATE OR REPLACE FUNCTION podlicz_punkty(uz integer,i_quiz integer,czas TIMESTAMP) RETURNS REAL AS $$
 DECLARE
 	suma integer;
@@ -289,9 +301,9 @@ DECLARE
 BEGIN
 	DELETE FROM ranking WHERE id_grupy = grupa AND id_uz = uz;
 
-	suma = (SELECT SUM(max_pkt_za_quiz(uz, t.id_quizu))
+	suma = COALESCE((SELECT SUM(max_pkt_za_quiz(uz, t.id_quizu))
 		FROM (SELECT distinct id_quizu FROM quiz q JOIN dostep_grupa dg ON q.id_grupy = dg.id_grupy
-			WHERE q.id_grupy = grupa AND dg.id_uz = uz) t);
+			WHERE q.id_grupy = grupa AND dg.id_uz = uz) t), 0);
 	
 	INSERT INTO ranking(id_uz, id_grupy, pkt) VALUES(uz, grupa, suma);
 
@@ -330,3 +342,32 @@ BEGIN
 	END LOOP;
 END
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION przelicz_grupe(grupa integer) RETURNS VOID AS $$
+DECLARE
+	pkt REAL;
+	uz INTEGER;
+BEGIN
+	FOR uz IN (SELECT id_uz FROM dostep_grupa dg WHERE id_grupy = grupa)
+	LOOP
+		PERFORM przelicz_ranking_uz_grupa(uz, grupa);
+	END LOOP;
+END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION podejscia_uzytkownika(id_uz integer, id_quizu integer) 
+RETURNS TABLE(zdobyte_pkt REAL, max_pkt REAL, data_wyslania TIMESTAMP) AS $$
+	SELECT CAST(SUM(pkt_za_pytanie($1, id_pyt, data_wyslania)) AS REAL), CAST(SUM(pkt) AS REAL), data_wyslania AS timestamp   
+	FROM 
+		(SELECT DISTINCT ou.data_wyslania, p.id_pyt, p.pkt
+		 FROM
+			 quiz q JOIN pytanie p ON(q.id_quizu = p.id_quizu)
+					JOIN odpowiedz_uzytkownika ou ON (p.id_pyt = ou.id_pyt)
+		 WHERE ou.id_uz = $1 AND q.id_quizu = $2
+		) AS SUBQUERY
+	GROUP BY data_wyslania
+	ORDER BY data_wyslania;
+$$ LANGUAGE sql;
+
+

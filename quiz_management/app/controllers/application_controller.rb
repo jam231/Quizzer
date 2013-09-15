@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :group_available?, :has_access_to_quiz?, :has_quiz_modify_privilege?,
@@ -27,11 +29,10 @@ class ApplicationController < ActionController::Base
 	  if current_user
 		  user_from_grupa_dostep = @grupa.dostep_grupa.where(:id_uz => current_user.id)
 		  # Uzytkownik ma jakies prawa w danej grupie.
-		  if user_from_grupa_dostep
+		  unless user_from_grupa_dostep.empty?
 			  @user_privileges = user_from_grupa_dostep.first.prawa_dost
 				return true # Let 'em pass.
 		  else
-			  #redirect_to :back, :notice => "Brak dostepu do tej grupy."
 			  redirect_to root_url, :alert => "Brak dostepu do tej grupy."
 		  end
 	  else

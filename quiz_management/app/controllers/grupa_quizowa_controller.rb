@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class GrupaQuizowaController < ApplicationController
   before_filter :group_available?
 

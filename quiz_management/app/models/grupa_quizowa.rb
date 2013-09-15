@@ -13,6 +13,10 @@
                     :editing_and_deleting_discussions => 1 << 9,
                     :access_to_group => 0}
 
+    def limbo?
+			self.id_grupy == 0
+    end
+
     def has_privileges?(user, *privilege_names)
 	    # Przeklejone z modelu fizycznego:
 	    #  --SPECYFIKACJA PRAW DOSTEPU OD NAJWIEKSZEGO BITU (get_bit, rzutowanie dziala od najw.):
