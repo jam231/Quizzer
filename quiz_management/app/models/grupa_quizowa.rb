@@ -17,6 +17,10 @@
 			self.id_grupy == 0
     end
 
+    def Limbo
+			GrupaQuizowa.find(0)
+    end
+
     def has_privileges?(user, *privilege_names)
 	    # Przeklejone z modelu fizycznego:
 	    #  --SPECYFIKACJA PRAW DOSTEPU OD NAJWIEKSZEGO BITU (get_bit, rzutowanie dziala od najw.):

@@ -22,9 +22,17 @@ class Uzytkownik < ActiveRecord::Base
   attr_accessible :nazwa_uz, :login, :haslo, :email, :password, :ranga
   attr_accessor :password
 
+  def limbo?
+		self.id_uz == 0
+  end
+
+  def Limbo
+		Uzytkownk.find(0)
+  end
+
   def self.authenticate(login, password)
     user = find_by_login(login)
-    if user && user.password = password
+    if user && user.password == password
       user
     else
       nil
