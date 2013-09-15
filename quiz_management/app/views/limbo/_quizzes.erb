@@ -1,0 +1,39 @@
+<h3 class="header centered">Quizy</h3>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th class="centered">Nazwa</th>
+    <th class="centered">Id</th>
+  </tr>
+  </thead>
+<% for quiz in @quizzes %>
+    <tr>
+      <td class="centered">
+        <%= link_to quiz.nazwa, quiz_url(@limbo, quiz) %>
+      </td>
+      <td class="centered">
+        <%= quiz.id_quizu %>
+      </td>
+      <td class="centered">
+        <%= link_to 'Info', limbo_quiz_info_url(quiz),
+                                :class => 'btn btn-info'%>
+      </td>
+      <td class="centered">
+        <%= link_to 'Edytuj', quiz_edit_url(@limbo, quiz),
+                             :class => 'btn btn-warning' %>
+      </td>
+      <td class="centered">
+        <%= link_to 'Przenieś do grupy', limbo_transfer_quiz_to_group_url(quiz),
+                                        :class => 'btn btn-warning', :method => 'get' %>
+      </td>
+      <td class="centered">
+        <%= link_to 'Nadaj autora', limbo_transfer_quiz_ownership_url(quiz),
+                                    :class => 'btn btn-primary', :method => 'get' %>
+      </td>
+      <td class="centered">
+        <%= link_to 'Usuń odpowiedzi użytkowników', limbo_delete_user_answers_url(quiz),
+                    :class => 'btn btn-danger', :method => 'delete', :confirm => 'Jesteś pewny?' %>
+      </td>
+    </tr>
+<% end %>
+</table>

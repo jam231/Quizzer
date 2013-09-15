@@ -47,7 +47,7 @@
               <li>
                 <p class="navbar-text">Zalogowany jako
                   <%= link_to current_user.nazwa_uz, user_edit_url %>
-                  (<%= link_to 'wyloguj', log_out_url, :class => 'warn', :method => 'delete' %>)</p>
+                  (<%= link_to 'wyloguj', log_out_url, :class => 'warn', :method => :delete %>)</p>
               </li>
             </ul>
           </div>

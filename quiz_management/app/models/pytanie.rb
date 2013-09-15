@@ -5,7 +5,7 @@ class Pytanie < ActiveRecord::Base
     self.primary_key = :id_pyt
 
     has_many :odpowiedzi, :foreign_key => 'id_pyt', :class_name => "OdpowiedzWzorcowa"
-    #has_many :odpowiedz_uzytkownika, :foreign_key => 'id_pyt', :class_name => "OdpowiedzUzytkownika"
+    has_many :odpowiedzi_uzytkownika, :foreign_key => 'id_pyt', :class_name => "OdpowiedzUzytkownika"
     belongs_to :typ, :foreign_key => 'id_typu', :class_name => "Typ"
     belongs_to :quiz, :foreign_key => 'id_quizu', :class_name => "Quiz"
     belongs_to :kategoria, :foreign_key => 'id_kategorii', :class_name => "Kategoria"
@@ -13,7 +13,7 @@ class Pytanie < ActiveRecord::Base
     attr_accessible :id_quizu, :tresc, :id_kategorii, :pkt, :id_typu, :id_autora, :id_pyt
 
     accepts_nested_attributes_for :odpowiedzi
-    #accepts_nested_attributes_for :odpowiedzi_uzytkownika
+    accepts_nested_attributes_for :odpowiedzi_uzytkownika
 
   def r_odpowiedzi
     result = []

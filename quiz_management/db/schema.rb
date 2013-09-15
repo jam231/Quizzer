@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.de --fine(:version => 20130909221012) do
+ActiveRecord::Schema.define(:version => 20130909221012) do
 
   create_table "dostep_grupa", :id => false, :force => true do |t|
     t.integer "id_grupy",                                                 :null => false
