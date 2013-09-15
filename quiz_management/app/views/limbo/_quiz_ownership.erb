@@ -66,10 +66,10 @@
      <div class="row-fluid">
        <div class="control-group">
          <div class="controls form-inline offset3">
-           <%= hidden_field_tag :new_owner_id, @current_owner.id_uz %>
-           <%= text_field_tag :id_uz, @current_owner.id_uz , :class => 'span3 text-center', :id => 'new-owner-id', :disabled => true, :placeholder => 'Id użytkownika' %>
-           <%= text_field_tag :nazwa_uz, @current_owner.nazwa_uz , :class => 'span3 text-center', :id => 'new-owner-name', :disabled => true, :placeholder => 'Nazwa użytkownika' %>
-           <%= text_field_tag :ranga, @current_owner.ranga , :class => 'span3 text-center', :id => 'new-owner-rank', :disabled => true, :placeholder => 'Ranga użytkownika' %>
+           <%= hidden_field_tag :owner_id, @current_owner.id_uz %>
+           <%= text_field_tag :id_uz, @current_owner.id_uz , :class => 'span3 text-center', :id => 'owner-id', :disabled => true, :placeholder => 'Id użytkownika' %>
+           <%= text_field_tag :nazwa_uz, @current_owner.nazwa_uz , :class => 'span3 text-center', :id => 'owner-name', :disabled => true, :placeholder => 'Nazwa użytkownika' %>
+           <%= text_field_tag :ranga, @current_owner.ranga , :class => 'span3 text-center', :id => 'owner-rank', :disabled => true, :placeholder => 'Ranga użytkownika' %>
         </div>
       </div>
       <div class="control-group form-buttons">

@@ -33,14 +33,14 @@ class LimboController < ApplicationController
 			@limbo = GrupaQuizowa.Limbo
 			@quiz = Quiz.find(params[:id_quizu])
 			@current_owner = Uzytkownik.find(@quiz.id_wlasciciela)
-			@available_users = Uzytkownik.scoped.select {|uzytkownik| not (uzytkownik.superuser? or uzytkownik.limbo? or uzytkownik == @current_owner) }
+			@available_users = Uzytkownik.scoped.select {|uzytkownik| not (uzytkownik.limbo? or uzytkownik == @current_owner) }
 			render :template => 'limbo/index', :locals => {:what => 'quiz_ownership'}
 		end
 		# POST
 		def transfer_quiz_ownership
 			logger.debug "Nowym właścieielem quizu #{params[:id_quizu]} zostaje uzytkownik o id = #{params[:new_owner_id]}"
 			quiz = Quiz.find(params[:id_quizu])
-			quiz.id_wlasciciela = params[:new_owner_id]
+			quiz.id_wlasciciela = params[:owner_id]
 			quiz.save
 			redirect_to limbo_transfer_quiz_ownership_url, :notice => "Zapisano zmiany."
 		end
@@ -53,9 +53,21 @@ class LimboController < ApplicationController
 		# GET
 		def quiz_group_transfer_form
 			@limbo = GrupaQuizowa.Limbo
-			@groups = GrupaQuizowa.scoped.select {|grupa| not grupa.limbo?}
+			@quiz = Quiz.find(params[:id_quizu])
+			@available_groups =  GrupaQuizowa.scoped.select {|grupa| not grupa.limbo?}
 			render :template => 'limbo/index', :locals => {:what => 'quiz_group_transfer_form'}
 		end
+
+		# POST
+		def transfer_quiz_to_group
+			grupa = GrupaQuizowa.find(params[:group_id])
+			logger.debug "Quizu #{params[:id_quizu]} został przeniesiony do grupy #{grupa.nazwa} o id = #{grupa.id_grupy}"
+			quiz = Quiz.find(params[:id_quizu])
+			quiz.id_grupy = grupa.id_grupy
+			quiz.save
+			redirect_to grupa_limbo_url, :notice => "Quiz #{quiz.nazwa}(id = #{quiz.id_quizu}) został przeniesiony do #{grupa.nazwa}(id = #{grupa.id_grupy})."
+		end
+
 
 		protected
 
