@@ -40,7 +40,7 @@ class Uzytkownik < ActiveRecord::Base
   end
 
   def superuser?
-	  is_superuser = !(self.ranga =~ /u.ytkownik.|u..ytkownik.*/)
+	  is_superuser = !(self.ranga =~ /u.ytkownik.?|u..ytkownik.?*/)
 	  logger.debug "Czy użytkownik #{self.nazwa_uz} jest superużytkownikiem ? : #{is_superuser} "
     is_superuser
 	end
