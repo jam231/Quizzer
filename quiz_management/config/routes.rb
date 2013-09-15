@@ -66,10 +66,10 @@ QuizManagement::Application.routes.draw do
   get "limbo/quizzes" => "limbo#quizzes", :as => 'quizzes'
   get "limbo/moderators" => "limbo#moderators", :as => 'moderators'
   get "limbo/transfer_quiz_to_group/:id_quizu" => "limbo#quiz_group_transfer_form", :as => 'limbo_transfer_quiz_to_group'
-  get "limbo/transfer_authorship/:id_quizu" => "limbo#quiz_authorship", :as => 'limbo_transfer_quiz_authorship'
+  get "limbo/transfer_ownership/:id_quizu" => "limbo#quiz_ownership", :as => 'limbo_transfer_quiz_ownership'
 
   post "limbo/transfer_quiz_to_group/:id_quizu" => "limbo#transfer_quiz_to_group", :as => 'limbo_transfer_quiz_to_group'
-  post "limbo/transfer_authorship/:id_quizu" => "limbo#transfer_quiz_authorship", :as => 'limbo_transfer_quiz_authorship'
+  post "limbo/transfer_ownership/:id_quizu" => "limbo#transfer_quiz_ownership", :as => 'limbo_transfer_quiz_ownership'
   post "limbo/delete_user_answers/:id_quizu" => "limbo#delete_user_answers", :as => 'limbo_delete_user_answers'
 
 

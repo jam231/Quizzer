@@ -27,10 +27,12 @@ class LimboController < ApplicationController
 		end
 
 		# GET
-		def quiz_authorship
+		def quiz_ownership
 			@limbo = GrupaQuizowa.Limbo
-			@users = Uzytkownik.scoped.select {|uzytkownik| not (uzytkownik.superuser? or uzytkownik.limbo?) }
-			render :template => 'limbo/index', :locals => {:what => 'quiz_authorship'}
+			@quiz = Quiz.find(params[:id_quizu])
+			@current_owner = Uzytkownik.find(@quiz.id_wlasciciela)
+			@available_users = Uzytkownik.scoped.select {|uzytkownik| not (uzytkownik.superuser? or uzytkownik.limbo?) }
+			render :template => 'limbo/index', :locals => {:what => 'quiz_ownership'}
 		end
 
 		# DELETE
@@ -55,8 +57,8 @@ class LimboController < ApplicationController
 					rendered == 'quiz_group_transfer_form'
 				when :delete_user_answers
 					rendered == 'delete_user_answers'
-				when :transfer_authorship
-					rendered == 'transfer_authorship'
+				when :transfer_ownership
+					rendered == 'transfer_ownership'
 				when :moderators
 					rendered == 'moderators'
 				else

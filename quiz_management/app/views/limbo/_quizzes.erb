@@ -3,7 +3,7 @@
 <% for quiz in @quizzes %>
     <tr>
       <td>
-        <%= link_to quiz.nazwa, quiz_url(@limbo, quiz)%>
+        <%= link_to quiz.nazwa, quiz_url(@limbo, quiz) %>
       </td>
        <td>
             <%= link_to 'Edytuj', quiz_edit_url(@limbo, quiz),
@@ -14,7 +14,7 @@
                         :class => 'btn btn-warning', :method => 'get' %>
           </td>
           <td>
-            <%= link_to 'Nadaj autora', limbo_transfer_quiz_authorship_url(quiz),
+            <%= link_to 'Nadaj autora', limbo_transfer_quiz_ownership_url(quiz),
                         :class => 'btn btn-primary', :method => 'get' %>
           </td>
       <td>
