@@ -1,35 +1,87 @@
 <div class="container-fluid">
   <div class="row-fluid">
-    <h2 class="header centered"> Przeniesienie autorstwa quizu <i> <%= @quiz.nazwa %> </i> </h2>
-    <h3> Informacje o quizie: </h3>
+    <h2 class="header centered">  <i> <%= @quiz.nazwa %> </i> ( id = <%= @quiz.id_quizu %> ) </h2>
+    <h3> Informacje o quizie </h3>
 
-    <%= content_tag :h4, "Data utworzenia : #{@quiz.data_utworzenia} ", :class => "header" if @quiz.data_utworzenia %>
-    <%= content_tag :h4, "Limit czasowy  : #{@quiz.limit_czasowy} ", :class => "header" if @quiz.limit_czasowy %>
-    <%= content_tag :h4 , "Limit podejść  : #{@quiz.limit_podejsc} ", :class => "header" if @quiz.limit_podejsc %>
+    <%= content_tag :h4, "Data utworzenia : #{@quiz.data_utworzenia} ", :class => "header left-padded-30px" if @quiz.data_utworzenia %>
+    <%= content_tag :h4, "Limit czasowy  : #{@quiz.limit_czasowy} ", :class => "header left-padded-30px" if @quiz.limit_czasowy %>
+    <%= content_tag :h4 , "Limit podejść  : #{@quiz.limit_podejsc} ", :class => "header left-padded-30px" if @quiz.limit_podejsc %>
     </br>
-    <%= content_tag :h3 , "Historia", :class => "header centered" %>
+
+
+    <%= content_tag :h3 , "Obecny właściel", :class => "header centered" %>
+    <div class="row-fluid text-center">
+      <div class="control-group">
+        <div class="controls form-inline offset3">
+          <%= label_tag :id_uz, 'Id użytkownika' , :class => 'span3 no-margin-left' %>
+          <%= label_tag :nazwa_uz, 'Nazwa użytkownika' , :class => 'span3 no-margin-left'  %>
+          <%= label_tag :ranga, 'Ranga użytkownika' , :class => 'span3 no-margin-left'  %>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="control-group">
+        <div class="controls form-inline offset3" id='current-owner'>
+          <%= text_field_tag :id_uz, @current_owner.id_uz , :class => 'span3 normal-cursor text-center', :id => 'current-owner-id', :disabled => true, :placeholder => 'Id użytkownika' %>
+          <%= text_field_tag :nazwa_uz, @current_owner.nazwa_uz , :class => 'span3 normal-cursor text-center', :id => 'current-owner-name', :disabled => true, :placeholder => 'Nazwa użytkownika' %>
+          <%= text_field_tag :ranga, @current_owner.ranga , :class => 'span3 normal-cursor text-center', :id => 'current-owner-rank', :disabled => true, :placeholder => 'Ranga użytkownika' %>
+        </div>
+      </div>
+    </div>
+    </br>
+
+    <%= content_tag :h3 , "Użytkownicy", :class => "header centered" %>
     <table class="table table-hover">
       <thead>
       <tr>
-        <th>Zdobyte punkty</th>
-        <th>Punkty do zdobycia</th>
-        <th>Data</th>
+        <th>ID użytkownka</th>
+        <th>Nazwa użytkownka</th>
+        <th>Ranga</th>
       </tr>
       </thead>
-      <% @attempts.each do |score, max_points, date| %>
-          <tr>
-            <%= content_tag :td, score , :class => score_tag_class(score, max_points)%>
-            <td>
-              <%= max_points %>
+      <% @available_users.each do |user| %>
+          <tr class="user">
+            <td class="id">
+              <%= user.id_uz %>
             </td>
-            <td>
-              <%= date %>
+            <td class="name">
+              <%= user.nazwa_uz %>
+            </td>
+            <td class="rank">
+              <%= user.ranga %>
             </td>
           </tr>
       <% end %>
     </table>
-    <div class="row-fluid text-center">
-      <%= link_to "Powrót do grupy", grupa_url, :class => "btn btn-primary" %>
-    </div>
+
+    </br>
+    <%= content_tag :h3 , "Nowy właściel", :class => "header centered" %>
+
+    <%= form_tag limbo_transfer_quiz_ownership_url, :class => 'form-inline', :id => 'new-owner'  do %>
+
+        <div class="row-fluid text-center">
+          <div class="control-group">
+            <div class="controls form-inline offset3">
+              <%= label_tag :id_uz, 'Id użytkownika' , :class => 'span3 no-margin-left' %>
+              <%= label_tag :nazwa_uz, 'Nazwa użytkownika' , :class => 'span3 no-margin-left'  %>
+              <%= label_tag :ranga, 'Ranga użytkownika' , :class => 'span3 no-margin-left'  %>
+            </div>
+          </div>
+     </div>
+     <div class="row-fluid">
+       <div class="control-group">
+         <div class="controls form-inline offset3">
+           <%= hidden_field_tag :new_owner_id, @current_owner.id_uz %>
+           <%= text_field_tag :id_uz, @current_owner.id_uz , :class => 'span3 text-center', :id => 'new-owner-id', :disabled => true, :placeholder => 'Id użytkownika' %>
+           <%= text_field_tag :nazwa_uz, @current_owner.nazwa_uz , :class => 'span3 text-center', :id => 'new-owner-name', :disabled => true, :placeholder => 'Nazwa użytkownika' %>
+           <%= text_field_tag :ranga, @current_owner.ranga , :class => 'span3 text-center', :id => 'new-owner-rank', :disabled => true, :placeholder => 'Ranga użytkownika' %>
+        </div>
+      </div>
+      <div class="control-group form-buttons">
+        <button type="submit" class="btn btn-success" name='commit'>Zapisz zmiany</button>
+        <%= link_to "Anuluj", grupa_limbo_url, :class => "btn btn-primary" %>
+      </div>
+     </div>
   </div>
+ <% end %>
 </div>

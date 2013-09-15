@@ -5,7 +5,7 @@ class Quiz < ActiveRecord::Base
     belongs_to :grupa_quizowa, :class_name => "GrupaQuizowa"
     belongs_to :uzytkownik, :class_name => "Uzytkownik"
 
-  attr_accessible :pytania, :grupa_quizowa
+  attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela
 
 
 	def podejscia_uzytkownika(uzytkownik)

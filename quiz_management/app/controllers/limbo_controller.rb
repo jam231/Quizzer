@@ -34,6 +34,14 @@ class LimboController < ApplicationController
 			@available_users = Uzytkownik.scoped.select {|uzytkownik| not (uzytkownik.superuser? or uzytkownik.limbo?) }
 			render :template => 'limbo/index', :locals => {:what => 'quiz_ownership'}
 		end
+		# POST
+		def transfer_quiz_ownership
+			logger.debug "Nowym właścieielem quizu #{params[:id_quizu]} zostaje uzytkownik o id = #{params[:new_owner_id]}"
+			quiz = Quiz.find(params[:id_quizu])
+			quiz.id_wlasciciela = params[:new_owner_id]
+			quiz.save
+			redirect_to limbo_transfer_quiz_ownership_url, :notice => "Zapisano zmiany."
+		end
 
 		# DELETE
 		def delete_user_answers

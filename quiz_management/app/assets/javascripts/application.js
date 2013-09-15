@@ -18,5 +18,34 @@
 $(document).ready(function() {
     $("button[data-dismiss='alert']").click(function() {
         $(this).parent().remove();
-    })
+    });
+    registerOnUserClick();
+    registerOnCurrentOwnerClick();
 });
+
+
+//= require jquery
+function applyNewOwner(UserId, UserName, UserRank) {
+    $("#new-owner-id").val(UserId);
+    $("#new-owner-name").val(UserName);
+    $("#new-owner-rank").val(UserRank);
+    $("#new_owner_id").val(UserId);
+}
+
+function registerOnUserClick() {
+    $("tr.user").click(function () {
+        var newOwnerId = $(this).children("td.id").text(),
+            newOwnerName = $(this).children("td.name").text(),
+            newOwnerRank =  $(this).children("td.rank").text();
+        applyNewOwner(newOwnerId, newOwnerName, newOwnerRank);
+    });
+}
+
+function registerOnCurrentOwnerClick() {
+    $("#current-owner").click(function () {
+        var newOwnerId = $("#current-owner-id").val(),
+            newOwnerName = $("#current-owner-name").val(),
+            newOwnerRank = $("#current-owner-rank").val();
+        applyNewOwner(newOwnerId, newOwnerName, newOwnerRank);
+    });
+}
