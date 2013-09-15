@@ -4,7 +4,7 @@ class LimboController < ApplicationController
 
 		before_filter :logged?
 		before_filter :can_access_limbo?
-		before_filter :quiz_in_limbo?, :except => [:index, :moderators]
+		before_filter :quiz_in_limbo?, :except => [:index, :quizzes, :moderators]
 
 
 		helper_method :active?
