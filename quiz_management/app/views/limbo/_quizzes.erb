@@ -1,9 +1,18 @@
 <h3 class="header centered">Quizy</h3>
 <table class="table table-hover">
 <% for quiz in @quizzes %>
+      <thead>
+      <tr>
+        <th class="centered">Nazwa</th>
+        <th class="centered">Id</th>
+      </tr>
+      </thead>
     <tr>
       <td class="centered">
         <%= link_to quiz.nazwa, quiz_url(@limbo, quiz) %>
+      </td>
+      <td class="centered">
+        <%= quiz.id_quizu %>
       </td>
       <td class="centered">
         <%= link_to 'Info', limbo_quiz_info_url(quiz),
