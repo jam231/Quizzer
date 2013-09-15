@@ -1,35 +1,26 @@
-<% if defined? f %>
-<p>
-    <div class="fields">
-        <div class="field">
-          Tresc odpowiedzi:
-          <% if :ost_modyfikacja %>
-              <br><%= f.object.tresc_odp %>
-          <% else %>
-            <%= f.text_area :tresc_odp, :size=> "60x2" %>
-          <%end %>
-        </div>
+<div class="fields span12">
+<div class="well span10" style="margin-left: 0px">
+  <div class="field">
+    <%=f.label :tresc_odp, "Treść odpowiedzi" %>
+    <%= f.text_area :tresc_odp, :rows => 1, :class => "span11" %>
+  </div>
 
-        <div class="field">
-          <%= f.label :komentarz, "Komentarz do odpowiedzi" %>
-          <%= f.text_area :komentarz,  :size => "60x1" %>
-        </div>
-
-        <div class="field">
-          <%= f.label :poziom_poprawnosci, "Poziom poprawnosci" %>
-          <%= f.text_field :poziom_poprawnosci, :size => 5 %>
-        </div>
+  <div class="field">
+    <%= f.label :komentarz, "Komentarz do odpowiedzi" %>
+    <%= f.text_area :komentarz, :rows => 1, :class => "span11" %>
+  </div>
 
 
-        <div class="actions">
-          <%= f.submit "Zapisz", :class => 'btn btn-success' %>
-        </div>
-      <%= f.hidden_field(:_destroy) + link_to_function("usun", "remove_fields(this)") %>
-    </div>
+  <div class="field">
+    <%= f.label :poziom_poprawnosci, "Poziom poprawności", :class => "span2", :style => "padding-top: 5px" %>
+    <%= f.text_field :poziom_poprawnosci, :class => "span1" %>
+  </div>
 
 
-<%#= button_to "Usuń", odpowiedz_wzorcowa_url(odpowiedz, :odpowiedz_wzorcowa => odpowiedz.attributes), {:method => "delete", :class => 'btn btn-danger'} if odpowiedz.ost_modyfikacja %>
-</p>
-    <% else %>
-    wtf
-<% end %>
+  <div class="actions">
+    <%#= f.submit "Zapisz", :class => 'btn btn-success span2' %>
+    <%= f.hidden_field(:_destroy) + button_to_function("usun", "remove_fields(this)", :class => 'btn btn-danger span2') %>
+  </div>
+</div>
+</div>
+

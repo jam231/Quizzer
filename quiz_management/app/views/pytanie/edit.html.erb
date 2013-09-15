@@ -1,11 +1,9 @@
-<%= session[:user_id].to_i %>
 <% if session[:user_id] == @pytanie.id_autora %>
     <h2>Pytanie</h2>
     <%= form_for(@pytanie, :method => "post") do |f| %>
         <% if @pytanie.errors.any? %>
             <div id="error_explanation">
               <h2><%= "blad" %> nie pozwolil uzytkownikowi na zapis:</h2>
-
               <ul>
                 <% @pytanie.errors.full_messages.each do |msg| %>
                     <li><%= msg %></li>
@@ -14,45 +12,53 @@
             </div>
         <% end %>
 
-        <div class="field">
-          <%= f.label "Tresc" %>
-          <br/>
-          <%= f.text_area :tresc, :size => "30x4" %>
+        <div class="field control-group">
+          <%= f.label "Treść" %>
+          <%= f.text_area :tresc, :rows => 4, :class => "span10" %>
         </div>
 
-        <div class="field">
+        <div class="select-field">
           <%= f.label "Typ" %>
-          <%= f.select(:id_typu, options_for_select(Typ.all.map { |t| [t.nazwa, t.id_typu] }, @pytanie.id_typu),:multiple => true) %>
+          <%= f.select(:id_typu, options_for_select(Typ.all.map { |t| [t.nazwa, t.id_typu] }, @pytanie.id_typu),
+                       {})%>
         </div>
 
-        <div class="field">
+        <div class="select-field control-group">
           <%= f.label "Kategoria" %>
-          <%= f.select :id_kategorii, options_for_select(Kategoria.all.map { |k| [k.nazwa, k.id_kategorii] }, @pytanie.id_kategorii) %>
+          <%= f.select :id_kategorii, options_for_select(Kategoria.all.map { |k| [k.nazwa, k.id_kategorii] }, @pytanie.id_kategorii),
+                       {}%>
+        </div>
+        <div class="select-field control-group">
+          <%= f.label "Punkty"%>
+          <%= f.text_field :pkt %>
         </div>
 
-        <div class="field">
-          <%= f.label "Punkty" %>
-          <%= f.text_field :pkt, :size => 5 %>
-        </div>
 
         <%= f.hidden_field :id_pyt %>
+
+        <div style="height: 100px"></div>
+
 
         <%= f.fields_for(:odpowiedzi) do |builder| %>
             <%= render :partial => "odpowiedz_edit_form", :locals => { :pytanie => @pytanie, :f => builder } %>
         <% end %>
 
-        <div class="actions">
-          <%= f.submit "Zapisz" %>
 
+
+        <div>
+
+          <%= button_to_add_fields "Dodaj odpowiedź", f, :odpowiedzi, "odpowiedz_edit_form" %>
+          <div style="margin-top:50px">
+          <%= f.submit "Zapisz", :class => 'btn btn-success span2' %>
+          </div>
         </div>
+
+
 
 
     <% end %>
 
 
-
-    <%= render :partial => "odpowiedz_edit_form", :locals => {:odpowiedz => @nowa_odpowiedz, :action => "create" } %>
-
 <% else %>
-    to nie jest twoj quiz
+    To nie jest twój quiz.
 <% end %>

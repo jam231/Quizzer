@@ -31,12 +31,13 @@
 
     <div class="field">
       <%= f.label "Kategoria" %>
-    <%= f.select :id_kategorii, options_for_select(Kategoria.all.map{ |k| [k.nazwa, k.id_kategorii] }, :selected => :id_kategorii) %>
+    <%= f.select(:id_kategorii, options_for_select(Kategoria.all.map{ |k| [k.nazwa, k.id_kategorii] }, :selected => :id_kategorii,),
+                 {}, {:class => "btn dropdown-toggle"}) %>
     </div>
 
     <div class="field">
-      <%= f.label "Punkty" %>
-    <%= f.text_field :pkt, :size => 5 %>
+      <%= f.label "Punkty", :class => "span1" %>
+    <%= f.text_field :pkt, :class => "span1" %>
     </div>
 
     <%= f.hidden_field :id_pyt if pytanie.id_pyt %>
@@ -46,8 +47,10 @@
         <%= render :partial => "odpowiedz_edit_form", :locals => { :pytanie => pytanie, :f => builder } %>
     <% end %>
 
+
     <div class="actions">
-      <%= f.submit (pytanie.id_pyt.nil? == true ?"Stwórz":"Edytuj") %>
+      <%= f.submit (pytanie.id_pyt.nil? == true ?"Stwórz":"Edytuj"), :class => 'btn btn-success span2'  %>
+      <%= button_to_add_fields "Dodaj odpowiedź", f, :odpowiedzi, "odpowiedz_edit_form" %>
     </div>
 
 <% end %>

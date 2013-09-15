@@ -12,8 +12,7 @@ class Pytanie < ActiveRecord::Base
     attr_accessible :id_quizu, :tresc, :id_kategorii, :pkt, :id_typu, :id_autora, :id_pyt,
                     :odpowiedzi, :odpowiedzi_attributes
 
-    accepts_nested_attributes_for :odpowiedzi,  :allow_destroy => true
-    #accepts_nested_attributes_for :odpowiedzi_uzytkownika
+    accepts_nested_attributes_for :odpowiedzi,  allow_destroy: true
 
   def r_odpowiedzi
     result = []
