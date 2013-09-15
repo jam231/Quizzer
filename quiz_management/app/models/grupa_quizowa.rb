@@ -17,7 +17,7 @@
 			self.id_grupy == 0
     end
 
-    def Limbo
+    def self.Limbo
 			GrupaQuizowa.find(0)
     end
 

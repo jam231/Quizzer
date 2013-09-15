@@ -26,7 +26,7 @@ class Uzytkownik < ActiveRecord::Base
 		self.id_uz == 0
   end
 
-  def Limbo
+  def self.Limbo
 		Uzytkownk.find(0)
   end
 
