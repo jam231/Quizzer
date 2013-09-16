@@ -3,8 +3,11 @@
     self.table_name = 'grupa_quizowa'
     self.primary_key = :id_grupy
 
+    after_initialize :default_value_for_na_zaproszenie
+
     has_many :dostep_grupa, :foreign_key => 'id_grupy', :class_name => "DostepGrupa"
     has_many :quizzes, :foreign_key => 'id_grupy', :class_name =>  "Quiz"
+    belongs_to :wlasciciel, :foreign_key => 'id_wlasciciela', :class_name => "Uzytkownik"
 
     @@privileges = {:participation_in_quizzes => 1 << 13,
                     :participation_in_discussions => 1 << 12,
@@ -13,8 +16,18 @@
                     :editing_and_deleting_discussions => 1 << 9,
                     :access_to_group => 0}
 
+    attr_accessible :nazwa, :wlasciciel
+
+    validates :id_wlasciciela, :presence => true, :length => {:maximum =>  60}
+    validates :nazwa, :presence => true, :uniqueness => true, :length => {:maximum =>  60}
+    validates :haslo, :length => {:in => 0..30}
+
     def limbo?
 			self.id_grupy == 0
+    end
+
+    def self.Limbo
+			GrupaQuizowa.find(0)
     end
 
     def has_privileges?(user, *privilege_names)
@@ -37,6 +50,12 @@
 
 	    logger.debug "Czy użytkownik #{user.nazwa_uz} ma dostęp do grupy #{self.nazwa} ? : #{dostep_grupa != nil}"
 			user.superuser? || (dostep_grupa && dostep_grupa.prawa_dost.to_i(2) & privileges == privileges)
+    end
+
+
+    private
+    def default_value_for_na_zaproszenie
+	    self.na_zaproszenie ||= false
     end
 
   end

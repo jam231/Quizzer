@@ -1,0 +1,30 @@
+// Place all the styles related to the limbo controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+/*
+ * Bootstrap's nav-justify doesn't seem to work
+ * and my skill is too weak for any worthy solution.   ;-(
+ *
+ */
+.two-part-menu {
+  width: 50% !important;
+  text-align: center !important;
+}
+
+.left-padded-30px {
+  padding-left: 30px !important;
+}
+
+.no-margin-left {
+  margin-left: 0px !important;
+}
+
+.normal-cursor {
+  cursor:auto !important;
+}
+
+.hand-cursor {
+  cursor : pointer !important;
+}

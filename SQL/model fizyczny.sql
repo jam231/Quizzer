@@ -131,7 +131,7 @@ $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS transfer_quiz_to_limbo ON quiz;
 CREATE TRIGGER transfer_quiz_to_limbo BEFORE DELETE ON quiz 
 	FOR ROW EXECUTE PROCEDURE quiz_on_delete(); 
-	
+-------------------------------------------------------------------------	
 CREATE OR REPLACE FUNCTION dostep_grupa_on_insert() RETURNS TRIGGER AS $$
 BEGIN
 	INSERT INTO ranking(id_uz,id_grupy) VALUES(new.id_uz,new.id_grupy);
@@ -141,8 +141,18 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER dodaj_ranking AFTER INSERT ON dostep_grupa
 	FOR EACH ROW EXECUTE PROCEDURE dostep_grupa_on_insert();
+------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION grupa_on_insert() RETURNS TRIGGER AS $$
+BEGIN
+	INSERT INTO dostep_grupa(id_grupy,id_uz, prawa_dost ) VALUES(new.id_grupy,new.id_wlasciciela, B'1111111111111111');
+	return new;
+END
+$$ LANGUAGE plpgsql;
 
-
+CREATE TRIGGER dodaj_wlasciciela AFTER INSERT ON grupa_quizowa
+	FOR EACH ROW EXECUTE PROCEDURE grupa_on_insert();
+------------------------------------------------------------------------
+	
 	
 CREATE OR REPLACE FUNCTION kategoria_on_delete() RETURNS TRIGGER AS $$
 DECLARE
@@ -370,5 +380,12 @@ RETURNS TABLE(zdobyte_pkt REAL, max_pkt REAL, data_wyslania TIMESTAMP) AS $$
 	GROUP BY data_wyslania
 	ORDER BY data_wyslania;
 $$ LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION usun_odpowiedzi_uzytkownikow(id_quizu integer) 
+RETURNS VOID AS $$
+	DELETE FROM odpowiedz_uzytkownika WHERE id_pyt IN 
+	(SELECT id_pyt FROM quiz JOIN pytanie using(id_quizu) where id_quizu = $1)
+$$ LANGUAGE sql;
+
 
 

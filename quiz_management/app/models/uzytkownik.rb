@@ -22,9 +22,21 @@ class Uzytkownik < ActiveRecord::Base
   attr_accessible :nazwa_uz, :login, :haslo, :email, :password, :ranga
   attr_accessor :password
 
+  def limbo?
+		self.id_uz == 0
+  end
+
+  def self.Limbo
+		Uzytkownk.find(0)
+  end
+
+  def can_create_new_groups?
+	  self.superuser? or self.ranga =~  /nauczyciel|teacher/
+  end
+
   def self.authenticate(login, password)
     user = find_by_login(login)
-    if user && user.password = password
+    if user && user.haslo == password
       user
     else
       nil
@@ -32,7 +44,7 @@ class Uzytkownik < ActiveRecord::Base
   end
 
   def superuser?
-	  is_superuser = !(self.ranga =~ /u.ytkownik.|u..ytkownik.*/)
+	  is_superuser = !(self.ranga =~ /u.ytkownik.?|u..ytkownik.?/)
 	  logger.debug "Czy użytkownik #{self.nazwa_uz} jest superużytkownikiem ? : #{is_superuser} "
     is_superuser
 	end

@@ -26,7 +26,7 @@ h2.header {
     padding-bottom: 40px;
 }
 h3.header {
-    padding-bottom: 30px;
+    padding-bottom: 30px !important;
 }
 
 h4.header {
@@ -82,6 +82,7 @@ a.warn:hover {
     padding-right: 30px !important;
 }
 
+
 .select-field { 
 	float: left; 
 	margin-right: 140px;} 
@@ -95,4 +96,9 @@ a.warn:hover {
 }
 .right {
 	float: right;
+}
+
+.centered-block {
+    float: none !important;
+    margin: auto !important;
 }

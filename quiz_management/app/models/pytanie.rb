@@ -5,6 +5,7 @@ class Pytanie < ActiveRecord::Base
     self.primary_key = :id_pyt
 
     has_many :odpowiedzi, :foreign_key => 'id_pyt', :class_name => "OdpowiedzWzorcowa"
+    has_many :odpowiedzi_uzytkownika, :foreign_key => 'id_pyt', :class_name => "OdpowiedzUzytkownika"
     belongs_to :typ, :foreign_key => 'id_typu', :class_name => "Typ"
     belongs_to :quiz, :foreign_key => 'id_quizu', :class_name => "Quiz"
     belongs_to :kategoria, :foreign_key => 'id_kategorii', :class_name => "Kategoria"
@@ -13,10 +14,13 @@ class Pytanie < ActiveRecord::Base
                     :odpowiedzi, :odpowiedzi_attributes
 
     accepts_nested_attributes_for :odpowiedzi,  allow_destroy: true
+    accepts_nested_attributes_for :odpowiedzi_uzytkownika
 
-    validates_presence_of :tresc, :message => "Wpisz treść pytania"
-    validates_presence_of :pkt, :message => "Wpisz liczbę punktów za pytanie"
-    validates_numericality_of :pkt, :greater_than_or_equal_to => 0.0, :message => "Liczba punktów za pytanie musi być większa od 0"
+    validates_presence_of :tresc
+    validates_presence_of :pkt
+    validates_numericality_of :pkt, :greater_than_or_equal_to => 0.0, :message =>
+
+
 
   def r_odpowiedzi
     result = []

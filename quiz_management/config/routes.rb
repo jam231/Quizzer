@@ -1,6 +1,6 @@
 QuizManagement::Application.routes.draw do
 
-  root :to => "sessions#new"
+  root :to => "grupa_quizowa#index", :id_grupy => 1
 
   post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update', :as => 'odpowiedz_wzorcowa'
   post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
@@ -31,23 +31,42 @@ QuizManagement::Application.routes.draw do
   get "grupa/:id_grupy/quiz/:id_quizu" => "quiz#index", :as => 'quiz'
 
   post "grupa/:id_grupy/quiz/create" => "quiz#create", :as => 'quiz_create'
-  post "grupa/:id_grupy/quiz/:id_quizu/submit" => "quiz#submit", :as => 'quiz_submit'
+  post "grupa/:id_grupy/quiz/:id_quizu/submit" => "quiz#submit", :as => 'quiz_submit', :id_grupy => /[1-9][0-9]*/
 
   get "grupa/:id_grupy/quiz/:id_quizu/edit" => "quiz#edit", :as => 'quiz_edit'
-  delete "grupa/:id_grupy/quiz/:id_quizu/destroy" => "quiz#destroy", :as => 'quiz_destroy'
-  get "grupa/:id_grupy/quiz/:id_quizu/info" => "quiz#info", :as => 'quiz_info'
+  delete "grupa/:id_grupy/quiz/:id_quizu/destroy" => "quiz#destroy", :as => 'quiz_destroy', :id_grupy => /[1-9][0-9]*/
+  get "grupa/:id_grupy/quiz/:id_quizu/info" => "quiz#info", :as => 'quiz_info',  :id_grupy => /[1-9][0-9]*/
 
 
   ############################# GRUPY QUIZOWE ######################################
 
   get "public" => "grupa_quizowa#index", :id_grupy => 1, :as => 'grupa_public'
-  get "limbo" => "grupa_quizowa#index", :id_grupy => 0, :as => 'grupa_limbo'
 
-  get "grupa/:id_grupy" => "grupa_quizowa#index", :as => 'grupa'
-  get "grupa/:id_grupy/index" => "grupa_quizowa#index", :as => 'grupa'
-  get "grupa/:id_grupy/quizy" => "grupa_quizowa#quizzes", :as => 'quizy'
-  get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking'
-  get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy'
+  get "grupa/:id_grupy" => "grupa_quizowa#index", :as => 'grupa', :id_grupy => /[1-9][0-9]*/
+  get "grupa/:id_grupy/index" => "grupa_quizowa#index", :as => 'grupa', :id_grupy => /[1-9][0-9]*/
+  get "grupa/:id_grupy/quizy" => "grupa_quizowa#quizzes", :as => 'quizy', :id_grupy => /[1-9][0-9]*/
+  get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking', :id_grupy => /[1-9][0-9]*/
+  get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy', :id_grupy => /[1-9][0-9]*/
+
+  get "grupa/new" => "grupa_quizowa#new", :as => 'grupa_new'
+  post "grupa/create" => "grupa_quizowa#create", :as => 'grupa_create'
+
+
+
+  ############################# Grupa LIMBO ###############
+
+
+  get "limbo" => "limbo#index", :as => 'grupa_limbo'
+  get "limbo/quizzes" => "limbo#quizzes", :as => 'quizzes'
+  get "limbo/info/:id_quizu" => "limbo#info", :as => 'limbo_quiz_info'
+  get "limbo/moderators" => "limbo#moderators", :as => 'moderators'
+  get "limbo/transfer_quiz_to_group/:id_quizu" => "limbo#quiz_group_transfer_form", :as => 'limbo_transfer_quiz_to_group'
+  get "limbo/transfer_ownership/:id_quizu" => "limbo#quiz_ownership", :as => 'limbo_transfer_quiz_ownership'
+
+  post "limbo/transfer_quiz_to_group/:id_quizu" => "limbo#transfer_quiz_to_group", :as => 'limbo_transfer_quiz_to_group'
+  post "limbo/transfer_ownership/:id_quizu" => "limbo#transfer_quiz_ownership", :as => 'limbo_transfer_quiz_ownership'
+  delete "limbo/delete_user_answers/:id_quizu" => "limbo#delete_user_answers", :as => 'limbo_delete_user_answers'
+
 
   ############################# Rejestracja, logowanie, profil, etc. ###############
 

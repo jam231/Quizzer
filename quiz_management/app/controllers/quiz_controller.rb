@@ -1,5 +1,10 @@
 # encoding: UTF-8
 class QuizController < ApplicationController
+	include GrupaQuizowaHelper
+	include QuizHelper
+
+	before_filter :logged?, :group_available?
+	before_filter  :quiz_available?, :except => [:new, :create]
 	before_filter :has_access_to_quiz?, :only => [:info, :index]
 	before_filter :has_quiz_creation_privilege?, :only => [:new, :create]
 	before_filter :has_quiz_modify_privilege?, :only => [:edit, :update]
@@ -45,17 +50,14 @@ class QuizController < ApplicationController
   end
 
   def destroy
-		if @grupa.limbo?
-	    flash[:alert] = "Quizy przeniosione do limbo nie mogą zostać z niego usunięte, a jedynie przeniesione."
-		else
-	     if Quiz.destroy(params[:id_quizu])
-				logger.info "Quiz #{quiz.nazwa} {:id => #{quiz.id_quizu}} został usunięty przez użytkownika #{current_user.nazwa_uz}."
-				flash[:notice] = "Quiz #{quiz.nazwa} został usunięty."
-			else
-				flash[:alert] = "Usunięcie quizu się nie powiodło."
-			end
-	  end
-		redirect_to grupa_url
+	quiz = Quiz.find(params[:id_quizu])
+	if quiz.destroy
+		logger.info "Quiz #{quiz.nazwa} {:id => #{quiz.id_quizu}} został usunięty przez użytkownika #{current_user.nazwa_uz}."
+		flash[:notice] = "Quiz #{quiz.nazwa} został usunięty."
+	else
+		flash[:alert] = "Usunięcie quizu się nie powiodło."
+	end
+	redirect_to grupa_url
   end
 
   def edit
