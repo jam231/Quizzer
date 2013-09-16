@@ -31,9 +31,9 @@ class PytanieController < ApplicationController
   end
 
   def destroy
-    @pytanie = Pytanie.find(params[:pytanie][:id_pyt])
+    @pytanie = Pytanie.find(params[:id_pyt])
     @pytanie.destroy
-    redirect_to quiz_edit_url(:id => @pytanie.id_quizu), notice: 'Pytanie usuniete.'
+    redirect_to quiz_edit_url(:id => @pytanie.id_quizu), notice: 'Pytanie usunięte.'
   end
 
 end
