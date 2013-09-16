@@ -11,7 +11,7 @@ class UzytkownikController < ApplicationController
     @user = Uzytkownik.new params[:uzytkownik]
 
     if @user.save
-      redirect_to log_in_url, :notice => "Użytkownik #{@user.nazwa_uz} został zarejestrowany."
+      redirect_to log_in_url, :notice => "Użytkownik został #{@user.nazwa_uz} zarejestrowany."
     else
       alert_msg = ''
       alert_msg = @user.errors.messages.values.first.first.to_s if @user.errors.any?

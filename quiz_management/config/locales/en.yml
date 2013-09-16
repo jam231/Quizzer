@@ -6,6 +6,14 @@ en:
   activerecord:
     errors:
       models:
+        grupa_quizowa:
+          attributes:
+            id_wlasciciela:
+              blank:    "Grupa musi miec wlasciciela"
+            nazwa:
+              blank:    "Nazwa grupy nie moze byc pusta"
+              too_long: "Nazwa grupy musi miec nie wiecej niż 60 znakow"
+              taken:    "Ta nazwa grupy jest juz zajeta."
         uzytkownik:
          attributes:
           email:

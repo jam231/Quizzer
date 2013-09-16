@@ -26,7 +26,7 @@ h2.header {
     padding-bottom: 40px;
 }
 h3.header {
-    padding-bottom: 30px !imporant;
+    padding-bottom: 30px !important;
 }
 
 h4.header {
@@ -80,4 +80,9 @@ a.warn:hover {
 .horizontally-padded-container {
     padding-left: 30px !important;
     padding-right: 30px !important;
+}
+
+.centered-block {
+    float: none !important;
+    margin: auto !important;
 }

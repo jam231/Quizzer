@@ -1,6 +1,6 @@
 QuizManagement::Application.routes.draw do
 
-  root :to => "sessions#new"
+  root :to => "grupa_quizowa#index", :id_grupy => 1
 
   post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update', :as => 'odpowiedz_wzorcowa'
   post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
@@ -57,6 +57,10 @@ QuizManagement::Application.routes.draw do
   get "grupa/:id_grupy/quizy" => "grupa_quizowa#quizzes", :as => 'quizy', :id_grupy => /[1-9][0-9]*/
   get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking', :id_grupy => /[1-9][0-9]*/
   get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy', :id_grupy => /[1-9][0-9]*/
+
+  get "grupa/new" => "grupa_quizowa#new", :as => 'grupa_new'
+  post "grupa/create" => "grupa_quizowa#create", :as => 'grupa_create'
+
 
 
   ############################# Grupa LIMBO ###############
