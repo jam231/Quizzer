@@ -21,8 +21,13 @@ class PytanieController < ApplicationController
     @pytanie = Pytanie.find(params[:pytanie][:id_pyt])
     @pytanie.update_attributes(params[:pytanie].except(:id_pyt))
     @pytanie.save
-    puts @pytanie.inspect, @params.inspect
-    redirect_to pytanie_edit_url(:id => @pytanie.id_pyt), notice: 'Pytanie zapisane.'
+    puts @pytanie.inspect.to_s + "........" + @params.inspect.to_s
+    puts @pytanie.errors.inspect
+    if @pytanie.errors.any?
+      redirect_to pytanie_edit_url(:id => @pytanie.id_pyt), alert: "Pytanie nie zapisane.\n" + @pytanie.errors.full_messages.join("\n")
+    else
+      redirect_to pytanie_edit_url(:id => @pytanie.id_pyt), notice: 'Pytanie zapisane.'
+    end
   end
 
   def destroy

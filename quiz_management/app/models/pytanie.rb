@@ -14,6 +14,10 @@ class Pytanie < ActiveRecord::Base
 
     accepts_nested_attributes_for :odpowiedzi,  allow_destroy: true
 
+    validates_presence_of :tresc, :message => "Wpisz treść pytania"
+    validates_presence_of :pkt, :message => "Wpisz liczbę punktów za pytanie"
+    validates_numericality_of :pkt, :greater_than_or_equal_to => 0.0, :message => "Liczba punktów za pytanie musi być większa od 0"
+
   def r_odpowiedzi
     result = []
     result += odpowiedzi.shuffle[0..(typ.liczba_odp-1)]

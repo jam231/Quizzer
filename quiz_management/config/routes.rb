@@ -15,10 +15,9 @@ QuizManagement::Application.routes.draw do
 
 
   post "grupa/:id_grupy/quiz/:id_quizu/pytanie/create" => "pytanie#create", :as => 'pytanie_create'
-  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt" => "pytanie#edit", :as => 'pytanie_edit_2'
   post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/edit" => "pytanie#edit", :as => 'pytanie_edit'
+  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt" => "pytanie#update"
   post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/update" => "pytanie#update", :as => 'pytanie_update'
-  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/update" => "pytanie#update", :as => 'pytanie_update_2'
 
   get "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/edit" => "pytanie#edit", :as => 'pytanie_edit'
 

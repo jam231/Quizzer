@@ -60,8 +60,7 @@ class QuizController < ApplicationController
 
   def edit
     @quiz = Quiz.find(params[:id_quizu])
-    @nowe_pytanie = Pytanie.new(:id_quizu => params[:id_quizu])
-    @nowe_pytanie.tresc = "Nowe pytanie"
+    @grupa = GrupaQuizowa.find(params[:id_grupy])
   end
 
   def submit

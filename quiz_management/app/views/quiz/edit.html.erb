@@ -1,10 +1,32 @@
-<!--- Na przyszłość: nie wiem, dlaczego ale quiz_url(params) nie dziala    ---->
-<%= link_to "Pokaż quiz", quiz_url(:id_grupy => params[:id_grupy], :id_quizu => params[:id_quizu]) %>
-<% if current_user.id_uz == @quiz.id_wlasciciela %>
-    <% for pytanie in @quiz.pytania %>
-        <%= render :partial => "pytanie_edit_form", :locals => { :pytanie => pytanie } %>
-    <% end %>
-    <%= render :partial => "pytanie_edit_form", :locals => {:pytanie => @nowe_pytanie } %>
-<% else %>
-    "To nie jest twoj quiz"
+<h3 class="header centered">Pytania dla <%= @quiz.nazwa %></h3>
+<table class="table table-hover">
+  <% for pytanie in @quiz.pytania %>
+      <tr>
+        <td>
+          <%= link_to pytanie.tresc, pytanie_edit_path(:id_grupy => @quiz.id_grupy, :id_quizu => @quiz.id_quizu, :id_pyt => pytanie.id_pyt)%>
+        </td>
+
+        <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
+            <td>
+              <%= link_to 'Edytuj', pytanie_edit_path(:id_grupy => @quiz.id_grupy, :id_quizu =>  @quiz.id_quizu, :id_pyt => pytanie.id_pyt),
+                          :class => 'btn btn-info' %>
+            </td>
+        <% end %>
+        <td>
+          <%= link_to 'Ukryj', pytanie_edit_path(:id_grupy => @quiz.id_grupy, :id_quizu =>  @quiz.id_quizu, :id_pyt => pytanie.id_pyt),
+                      :class => 'btn btn-warning' %>
+        </td>
+        <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
+            <td>
+              <%= link_to 'Usuń', pytanie_destroy_path(:id_grupy => @quiz.id_grupy, :id_quizu =>  @quiz.id_quizu, :id_pyt => pytanie.id_pyt),
+                          :class => 'btn btn-danger', :method => 'delete', :confirm => 'Jesteś pewny?' %>
+            </td>
+        <% end %>
+      </tr>
+  <% end %>
+</table>
+<% if @grupa.has_privileges? current_user, :creation_of_quizzes %>
+    <div class="control-group">
+      <%= link_to 'Nowe pytanie', pytanie_create_path(:id_grupy => @quiz.id_grupy, :id_quizu =>  @quiz.id_quizu), :class => 'btn btn-primary'%>
+    </div>
 <% end %>

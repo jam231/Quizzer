@@ -1,4 +1,13 @@
 <% if session[:user_id] == @pytanie.id_autora %>
+    <% if @pytanie.errors.any? %>
+        <div class="alert alert-block">
+          <ul>
+            <% @author.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
     <h2>Pytanie</h2>
     <%= form_for(@pytanie, :method => "post") do |f| %>
         <% if @pytanie.errors.any? %>
@@ -30,7 +39,7 @@
         </div>
         <div class="select-field control-group">
           <%= f.label "Punkty"%>
-          <%= f.text_field :pkt %>
+          <%= f.number_field :pkt %>
         </div>
 
 
