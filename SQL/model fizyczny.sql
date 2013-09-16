@@ -354,18 +354,6 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION przelicz_grupe(grupa integer) RETURNS VOID AS $$
-DECLARE
-	pkt REAL;
-	uz INTEGER;
-BEGIN
-	FOR uz IN (SELECT id_uz FROM dostep_grupa dg WHERE id_grupy = grupa)
-	LOOP
-		PERFORM przelicz_ranking_uz_grupa(uz, grupa);
-	END LOOP;
-END
-$$ LANGUAGE plpgsql;
-
 
 CREATE OR REPLACE FUNCTION podejscia_uzytkownika(id_uz integer, id_quizu integer) 
 RETURNS TABLE(zdobyte_pkt REAL, max_pkt REAL, data_wyslania TIMESTAMP) AS $$

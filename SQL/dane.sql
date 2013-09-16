@@ -4,9 +4,7 @@ SELECT setval('grupa_quizowa_id_grupy_seq',1,false);
 INSERT INTO grupa_quizowa(id_grupy, id_wlasciciela,nazwa,na_zaproszenie) VALUES(0, 0,'LIMBO',false);
 INSERT INTO dostep_grupa(id_grupy,id_uz,prawa_dost) VALUES(0,1,B'1111111111111111');
 INSERT INTO grupa_quizowa(id_wlasciciela,nazwa,na_zaproszenie) VALUES(1,'public',false);
-INSERT INTO dostep_grupa(id_grupy,id_uz,prawa_dost) VALUES(1,1,B'1111111111111111');
 INSERT INTO grupa_quizowa(id_wlasciciela,nazwa,na_zaproszenie) VALUES(1,'testowa',false);
-INSERT INTO dostep_grupa(id_grupy,id_uz,prawa_dost) VALUES(2,1,B'1111111111111111');
 
 
 INSERT INTO typ(nazwa, liczba_odp) VALUES('jednokrotny 2', 2);
