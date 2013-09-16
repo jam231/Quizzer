@@ -33,3 +33,11 @@ en:
             blank:      "Haslo nie moze byc puste."
             too_short:  "Haslo musi miec co najmniej 5 znakow."
             too_long:   "Haslo moze miec co najwyzej 30 znakow."
+        pytanie:
+         attributes:
+          tresc:
+            blank:      "Wpisz tresc pytania"
+          pkt:
+            blank:      "Wpisz liczbe punktow za pytanie"
+            too_short:   "Liczba punktow za pytanie musi być wieksza od 0"
+

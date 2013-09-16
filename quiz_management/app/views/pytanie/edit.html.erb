@@ -9,7 +9,7 @@
         </div>
     <% end %>
     <h2>Pytanie</h2>
-    <%= form_for(@pytanie, :method => "post", :validate => true) do |f| %>
+    <%= form_for @pytanie, :url =>  {:controller => :pytanie, :action => :update}, :method => :post, :validate => true do |f| %>
         <% if @pytanie.errors.any? %>
             <div id="error_explanation">
               <h2><%= "blad" %> nie pozwolil uzytkownikowi na zapis:</h2>

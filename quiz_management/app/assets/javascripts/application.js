@@ -38,7 +38,7 @@ function add_fields(link, association, content) {
     var new_id = new Date().getTime();
     var regexp = new RegExp("new_" + association, "g")
     $(link).parent().before(content.replace(regexp, new_id));
-
+}
 
 // Z gory przepraszam za takiego DRY jak ponizej, ale nie umiem js a zeby cos z tego wyszlo musialby troche nad tym przysiasc.
 

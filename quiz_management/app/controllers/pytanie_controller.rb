@@ -1,7 +1,13 @@
 # encoding: UTF-8
 
 class PytanieController < ApplicationController
-  before_filter :has_quiz_modify_privilege?, :only => [:edit, :update]
+	include GrupaQuizowaHelper
+	include QuizHelper
+	include PytanieHelper
+
+	before_filter :logged?, :group_available?, :quiz_available?
+	before_filter :pytanie_available?, :except => [:create]
+  before_filter :has_quiz_modify_privilege?, :only => [:create, :edit, :update, :destroy]
 
   def edit
     id_pytania = params[:id_pyt] || params[:id] || params[:pytanie][:id_pyt]
@@ -21,10 +27,10 @@ class PytanieController < ApplicationController
     @pytanie = Pytanie.find(params[:pytanie][:id_pyt])
     @pytanie.update_attributes(params[:pytanie].except(:id_pyt))
     @pytanie.save
-    puts @pytanie.inspect.to_s + "........" + @params.inspect.to_s
-    puts @pytanie.errors.inspect
+    logger.debug "#{@pytanie.inspect} ........ #{@params.inspect}"
+    logger.debug "#{@pytanie.errors.inspect}"
     if @pytanie.errors.any?
-      redirect_to pytanie_edit_url(:id => @pytanie.id_pyt), alert: "Pytanie nie zapisane.\n" + @pytanie.errors.full_messages.join("\n")
+      redirect_to pytanie_edit_url(:id => @pytanie.id_pyt), alert: "Pytanie nie zapisane.\n" + @pytanie.errors.messages.values.join("\n")
     else
       redirect_to pytanie_edit_url(:id => @pytanie.id_pyt), notice: 'Pytanie zapisane.'
     end

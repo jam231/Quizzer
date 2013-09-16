@@ -16,4 +16,16 @@ module PytanieHelper
 
 		tag_class
 	end
+
+	def pytanie_available?
+		begin
+			quiz = Quiz.find(params[:id_quizu])
+			pytanie = Pytanie.find(params[:id_pyt])
+			unless pytanie.id_quizu == quiz.id_quizu
+					redirect_to quiz_edit_url(:id_grupy => quiz.id_grupy, :id_quizu => quiz.id_quizu), :alert => "Pytanie nie jest dostępne w quizie."
+			end
+		rescue ActiveRecord::RecordNotFound
+			redirect_to quiz_edit_url(:id_grupy => quiz.id_grupy, :id_quizu => quiz.id_quizu), :alert => "Pytanie nie jest dostępne."
+		end
+	end
 end
