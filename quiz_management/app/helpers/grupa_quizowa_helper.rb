@@ -6,13 +6,13 @@ module GrupaQuizowaHelper
   end
 
 	def group_available?
-		begin
-			@grupa = GrupaQuizowa.find(params[:id_grupy])
-			user_from_grupa_dostep = @grupa.dostep_grupa.where(:id_uz => current_user.id)
-		rescue
-			redirect_to root_url, :alert => "Grupa nie istnieje."
-		end
+	begin
+		@grupa = GrupaQuizowa.find params[:id_grupy]
+		user_from_grupa_dostep =  @grupa.dostep_grupa.where :id_uz => current_user.id_uz
 		redirect_to root_url, :alert => "Brak dostepu do tej grupy." if user_from_grupa_dostep.empty?
+	rescue
+		redirect_to root_url, :alert => "Grupa nie istnieje."
+	end
 	end
 
 	def has_access_to_quiz?
