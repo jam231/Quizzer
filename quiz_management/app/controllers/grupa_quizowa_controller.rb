@@ -17,10 +17,11 @@ class GrupaQuizowaController < ApplicationController
   end
 
   def create
-	  @grupa = GrupaQuizowa.new params[:grupa]
+		logger.debug "#{params[:grupa_quizowa]}"
+	  @grupa = GrupaQuizowa.new params[:grupa_quizowa].merge :wlasciciel => current_user
 
 	  if @grupa.save
-		  redirect_to grupa_public_url, :notice => "Grupa #{@grupa.nazwa_uz} została pomyślnie stworzona."
+		  redirect_to grupa_public_url, :notice => "Grupa #{@grupa.nazwa} została pomyślnie stworzona."
 	  else
 		  alert_msg = ''
 		  alert_msg = @grupa.errors.messages.values.first.first.to_s if @grupa.errors.any?
