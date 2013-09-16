@@ -10,7 +10,7 @@ module GrupaQuizowaHelper
 		@grupa = GrupaQuizowa.find params[:id_grupy]
 		user_from_grupa_dostep =  @grupa.dostep_grupa.where :id_uz => current_user.id_uz
 		redirect_to root_url, :alert => "Brak dostepu do tej grupy." if user_from_grupa_dostep.empty?
-	rescue
+	rescue ActiveRecord::RecordNotFound
 		redirect_to root_url, :alert => "Grupa nie istnieje."
 	end
 	end
