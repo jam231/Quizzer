@@ -1,20 +1,32 @@
 # encoding: UTF-8
 
 class GrupaQuizowaController < ApplicationController
-  before_filter :group_available?
+  include GrupaQuizowaHelper
 
+	before_filter :logged?
+  before_filter :group_available?, :except => [:new, :create]
+  before_filter :can_create_groups?, :only => [:new, :create]
   helper_method :active?
+
   def index
     quizzes
   end
 
-  def show
-  end
-
   def new
+		@grupa = GrupaQuizowa.new
   end
 
   def create
+		logger.debug "#{params[:grupa_quizowa]}"
+	  @grupa = GrupaQuizowa.new params[:grupa_quizowa].merge :wlasciciel => current_user
+
+	  if @grupa.save
+		  redirect_to grupa_public_url, :notice => "Grupa #{@grupa.nazwa} została pomyślnie stworzona."
+	  else
+		  alert_msg = ''
+		  alert_msg = @grupa.errors.messages.values.first.first.to_s if @grupa.errors.any?
+		  redirect_to grupa_new_url, :alert => alert_msg
+	  end
   end
 
   def quizzes
@@ -31,7 +43,7 @@ class GrupaQuizowaController < ApplicationController
 
   def ranking
     @what = 'ranking'
-    @ranking = Ranking.where(:id_grupy => params[:id_grupy]).order("pkt DESC")
+    @ranking = Ranking.where(:id_grupy => @grupa.id_grupy).order("pkt DESC")
     render 'index'
   end
 

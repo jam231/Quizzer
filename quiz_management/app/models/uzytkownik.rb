@@ -30,6 +30,10 @@ class Uzytkownik < ActiveRecord::Base
 		Uzytkownk.find(0)
   end
 
+  def can_create_new_groups?
+	  self.superuser? or self.ranga =~  /nauczyciel|teacher/
+  end
+
   def self.authenticate(login, password)
     user = find_by_login(login)
     if user && user.haslo == password
