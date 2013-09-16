@@ -13,13 +13,13 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to grupa_public_url, :notice => "Użytkownik #{user.nazwa_uz} zalogowany"
     else
-      redirect_to root_url, :alert => "Niepoprawny login lub hasło."
+      redirect_to log_in_url, :alert => "Niepoprawny login lub hasło."
     end
   end
 
   def destroy
     nazwa_uz = current_user.nazwa_uz
     reset_session
-    redirect_to root_url, :notice => "Użytkownik #{nazwa_uz} wylogowany"
+    redirect_to log_in_url, :notice => "Użytkownik został #{nazwa_uz} wylogowany"
   end
 end
