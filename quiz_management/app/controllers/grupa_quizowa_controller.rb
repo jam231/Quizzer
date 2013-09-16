@@ -3,8 +3,9 @@
 class GrupaQuizowaController < ApplicationController
   include GrupaQuizowaHelper
 
-	before_filter :logged?, :group_available?
-
+	before_filter :logged?
+  before_filter :group_available?, :except => [:new, :create]
+  before_filter :can_create_groups?, :only => [:new, :create]
   helper_method :active?
 
   def index
@@ -12,9 +13,19 @@ class GrupaQuizowaController < ApplicationController
   end
 
   def new
+		@grupa = GrupaQuizowa.new
   end
 
   def create
+	  @grupa = GrupaQuizowa.new params[:grupa]
+
+	  if @grupa.save
+		  redirect_to grupa_public_url, :notice => "Grupa #{@grupa.nazwa_uz} została pomyślnie stworzona."
+	  else
+		  alert_msg = ''
+		  alert_msg = @grupa.errors.messages.values.first.first.to_s if @grupa.errors.any?
+		  redirect_to grupa_public_url, :alert => alert_msg
+	  end
   end
 
   def quizzes

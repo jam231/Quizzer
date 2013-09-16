@@ -1,2 +1,18 @@
-<h1>GrupaQuizowas#new</h1>
-<p>Find me in app/views/grupa_quizowas/new.html.erb</p>
+<div class="container-fluid">
+  <div class="row-fluid">
+<h1 class="header">Tworzenie nowej grupy </h1>
+<%= form_for @grupa, :url =>  {:controller => :grupa_quizowa, :action => :create},
+             :html => {:class => 'form-horizontal'} do |f| %>
+    <%= f.hidden_field :id_wlasciciela, :value => current_user.id_uz %>
+    <div class="control-group">
+      <%= f.label :nazwa, 'Nazwa grupy', :class => 'control-label span2,', :for => 'inputNazwaGrupy'%>
+      <div class="controls">
+        <%= f.text_field :nazwa, :class => 'span2', :id => 'inputNazwaGrupy', :placeholder => 'Nazwa grupy' %>
+      </div>
+    </div>
+    <div class="control-group form-buttons">
+      <button type="submit" class="btn btn-primary" name='commit'>Zarejestruj</button> <%= link_to 'Powrót', :back %>
+    </div>
+<%end %>
+  </div>
+</div>

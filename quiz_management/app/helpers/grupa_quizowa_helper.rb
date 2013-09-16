@@ -1,6 +1,10 @@
 # encoding: UTF-8
 module GrupaQuizowaHelper
 
+  def can_create_groups?
+		 redirect_to grupa_public_url, :alert => "Brak uprawnień do tworzenia nowej grupy" unless current_user.can_create_new_groups?
+  end
+
 	def group_available?
 		begin
 			@grupa = GrupaQuizowa.find(params[:id_grupy])

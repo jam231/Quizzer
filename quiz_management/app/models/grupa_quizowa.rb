@@ -14,6 +14,13 @@
                     :editing_and_deleting_discussions => 1 << 9,
                     :access_to_group => 0}
 
+
+
+    validates :id_wlasciciela, :presence => true, :uniqueness => true, :length => {:maximum =>  60}
+    validates :nazwa, :presence => true, :uniqueness => true, :length => {:maximum =>  60}
+    validates :haslo, :length => {:in => 5..30}
+
+
     def limbo?
 			self.id_grupy == 0
     end

@@ -58,6 +58,10 @@ QuizManagement::Application.routes.draw do
   get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking', :id_grupy => /[1-9][0-9]*/
   get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy', :id_grupy => /[1-9][0-9]*/
 
+  get "grupa/new" => "grupa_quizowa#new", :as => 'grupa_new'
+  post "grupa/create" => "grupa_quizowa#create", :as => 'grupa_create'
+
+
 
   ############################# Grupa LIMBO ###############
 
