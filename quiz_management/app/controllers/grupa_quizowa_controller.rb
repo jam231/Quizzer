@@ -25,7 +25,7 @@ class GrupaQuizowaController < ApplicationController
 	  else
 		  alert_msg = ''
 		  alert_msg = @grupa.errors.messages.values.first.first.to_s if @grupa.errors.any?
-		  redirect_to grupa_public_url, :alert => alert_msg
+		  redirect_to grupa_new_url, :alert => alert_msg
 	  end
   end
 
