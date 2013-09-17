@@ -61,4 +61,8 @@ class Pytanie < ActiveRecord::Base
   def poprawne?
     (odpowiedzi.count >= typ.liczba_odp) && (ma_prawidlowa_odpowiedz?)
   end
+
+	def ukryte
+		self.ukryty
+	end
 end

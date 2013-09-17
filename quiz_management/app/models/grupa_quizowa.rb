@@ -30,6 +30,11 @@
 			GrupaQuizowa.find(0)
     end
 
+    def owner? user
+	    id_uz = if user.is_a? Integer then user else user.id_uz end
+			self.wlasciciel.id_uz == id_uz
+    end
+
     def has_privileges?(user, *privilege_names)
 	    # Przeklejone z modelu fizycznego:
 	    #  --SPECYFIKACJA PRAW DOSTEPU OD NAJWIEKSZEGO BITU (get_bit, rzutowanie dziala od najw.):
