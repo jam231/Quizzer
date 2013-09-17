@@ -9,11 +9,11 @@
     has_many :quizzes, :foreign_key => 'id_grupy', :class_name =>  "Quiz"
     belongs_to :wlasciciel, :foreign_key => 'id_wlasciciela', :class_name => "Uzytkownik"
 
-    @@privileges = {:participation_in_quizzes => 1 << 13,
-                    :participation_in_discussions => 1 << 12,
-                    :creation_of_quizzes => 1 << 11,
-                    :editing_and_deleting_quizzes => 1 << 10,
-                    :editing_and_deleting_discussions => 1 << 9,
+    @@privileges = {:participation_in_quizzes => 1 << 15,
+                    :participation_in_discussions => 1 << 14,
+                    :creation_of_quizzes => 1 << 13,
+                    :editing_and_deleting_quizzes => 1 << 12,
+                    :editing_and_deleting_discussions => 1 << 11,
                     :access_to_group => 0}
 
     attr_accessible :nazwa, :wlasciciel
