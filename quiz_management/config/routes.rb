@@ -18,6 +18,9 @@ QuizManagement::Application.routes.draw do
   post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/edit" => "pytanie#edit", :as => 'pytanie_edit'
   post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/update" => "pytanie#update", :as => 'pytanie_update'
 
+  post "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/pokaz_ukryj" => "pytanie#pokaz_lub_ukryj", :as => 'pytanie_pokaz_ukryj'
+
+
   get "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/edit" => "pytanie#edit", :as => 'pytanie_edit'
 
   delete "grupa/:id_grupy/quiz/:id_quizu/pytanie/:id_pyt/destroy" => "pytanie#destroy", :as => 'pytanie_destroy'
