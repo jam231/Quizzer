@@ -9,7 +9,7 @@ module GrupaQuizowaHelper
 		begin
 			grupa = GrupaQuizowa.find params[:id_grupy]
 			user = Uzytkownik.find params[:id_uz]
-			redirect_to :back, :alert => "Użytkownik #{user.nazwa_uz} nie jest zapisany do grupy #{grupa.nazwa}." if grupa.zapisany? user
+			redirect_to :back, :alert => "Użytkownik #{user.nazwa_uz} nie jest zapisany do grupy #{grupa.nazwa}." unless grupa.zapisany? user
 			redirect_to :back, :alert => "Nie można wypisać z grupy public." if grupa.public?
 			redirect_to :back, :alert => "Brak odpowiednich przywilejów." unless current_user.superuser? or user.id_uz == current_user.id_uz
 		rescue ActiveRecord::RecordNotFound
@@ -22,7 +22,15 @@ module GrupaQuizowaHelper
 		begin
 			@grupa = GrupaQuizowa.find params[:id_grupy]
 			user_from_grupa_dostep =  @grupa.dostep_grupa.where :id_uz => current_user.id_uz
-			redirect_to root_url, :alert => "Brak dostepu do grupy #{@grupa.nazwa}." if user_from_grupa_dostep.empty?
+			# To ponizej wypadaloby zrefaktorowac.
+			if user_from_grupa_dostep.empty?
+			  unless @grupa.na_zaproszenie
+					@grupa.zapisz_uzytkownika! current_user
+					flash[:notice] = "Zostałeś zapisany do grupy #{@grupa.nazwa}"
+				else
+					redirect_to root_url, :alert => "Brak dostepu do grupy #{@grupa.nazwa}."
+				end
+			end
 		rescue ActiveRecord::RecordNotFound
 			redirect_to root_url, :alert => "Grupa nie istnieje."
 		end

@@ -48,7 +48,7 @@
 
 	    dostep_grupa = self.dostep_grupa.where(["id_uz = ?", user.id_uz]).first
 
-	    logger.debug "Czy użytkownik #{user.nazwa_uz} ma dostęp do grupy #{self.nazwa} ? : #{dostep_grupa != nil}"
+	    logger.debug "Czy użytkownik #{user.nazwa_uz} ma dostęp do grupy #{self.nazwa} ? : #{dostep_grupa != nil}."
 			user.superuser? || (dostep_grupa && dostep_grupa.prawa_dost.to_i(2) & privileges == privileges)
     end
 
@@ -64,6 +64,13 @@
 	    id_uz = if user.is_a? Integer then user else user.id_uz end
 		  query = ActiveRecord::Base.send :sanitize_sql_array, ["select * from wypisz_uzytkownika_z_grupy(%s, %s)", id_uz, self.id_grupy]
 		  query_results = self.connection.execute(query)
+    end
+
+    def zapisz_uzytkownika!(user)
+	    id_uz = if user.is_a? Integer then user else user.id_uz end
+	    logger.debug "Zapisz użytkownka o id = #{id_uz} do grupy o id = #{self.id_grupy}."
+	    query = ActiveRecord::Base.send :sanitize_sql_array, ["select * from zapisz_uzytkownika_do_grupy(%s, %s)", id_uz, self.id_grupy]
+	    query_results = self.connection.execute(query)
     end
 
     private

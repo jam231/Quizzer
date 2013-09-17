@@ -16,7 +16,7 @@
               <%= index + 1 %>
             </td>
             <td>
-              <%= link_to grupa.nazwa, grupa_url(grupa) %>
+              <%= link_to grupa.nazwa, grupa_url(grupa), unless grupa.zapisany? current_user then {:confirm => "Jesteś pewny, ze chcesz się zapisać do grupy #{grupa.nazwa} ?"} end  %>
             </td>
             <td>
               <%= grupa.dostep_grupa.select {|dg| not (dg.uzytkownik.superuser? or dg.uzytkownik.limbo?)} .count %>

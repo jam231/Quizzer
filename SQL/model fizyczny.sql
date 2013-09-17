@@ -393,9 +393,13 @@ $$ LANGUAGE sql;
 CREATE OR REPLACE FUNCTION wypisz_uzytkownika_z_grupy(id_uz integer, id_grupy integer) 
 RETURNS VOID AS $$
 BEGIN
-	DELETE FROM ranking WHERE id_uz = $1 AND id_grupy = $2;
-	DELETE FROM dostep_grupy WHERE id_uz = $1 AND id_grupy = $2;
+	DELETE FROM ranking WHERE ranking.id_uz = $1 AND ranking.id_grupy = $2;
+	DELETE FROM dostep_grupa WHERE dostep_grupa.id_uz = $1 AND dostep_grupa.id_grupy = $2;
 	PERFORM usun_odpowiedzi_uzytkownika_w_grupie($1, $2);
 END
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION zapisz_uzytkownika_do_grupy(id_uz integer, id_grupy integer)
+RETURNS VOID AS $$
+	INSERT INTO dostep_grupa(id_grupy, id_uz) VALUES($2, $1);
+$$ LANGUAGE sql;
