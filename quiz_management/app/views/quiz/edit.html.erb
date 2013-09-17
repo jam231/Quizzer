@@ -13,7 +13,7 @@
             </td>
         <% end %>
         <td>
-          <%= link_to (pytanie.ukryte==true ?"Pokaż":"Ukryj"), pytanie_pokaz_ukryj_path(:id_grupy => @quiz.id_grupy,
+          <%= link_to (if pytanie.ukryty then "Pokaż" else "Ukryj" end), pytanie_pokaz_ukryj_path(:id_grupy => @quiz.id_grupy,
                                                                                         :id_quizu =>  @quiz.id_quizu,
                                                                                         :id_pyt => pytanie.id_pyt),
                       :class => 'btn btn-warning', :method => "post" %>
