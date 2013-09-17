@@ -2,14 +2,14 @@
 module GrupaQuizowaHelper
 
   def can_create_groups?
-		 redirect_to grupa_public_url, :alert => "Brak uprawnień do tworzenia nowej grupy" unless current_user.can_create_new_groups?
+		 redirect_to grupa_public_url, :alert => "Brak uprawnień do tworzenia nowej grupy." unless current_user.can_create_new_groups?
   end
 
 	def group_available?
 	begin
 		@grupa = GrupaQuizowa.find params[:id_grupy]
 		user_from_grupa_dostep =  @grupa.dostep_grupa.where :id_uz => current_user.id_uz
-		redirect_to root_url, :alert => "Brak dostepu do tej grupy." if user_from_grupa_dostep.empty?
+		redirect_to root_url, :alert => "Brak dostepu do grupy #{@grupa.nazwa}." if user_from_grupa_dostep.empty?
 	rescue ActiveRecord::RecordNotFound
 		redirect_to root_url, :alert => "Grupa nie istnieje."
 	end
