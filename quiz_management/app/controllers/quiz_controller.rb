@@ -6,8 +6,9 @@ class QuizController < ApplicationController
 	before_filter :logged?, :group_available?
 	before_filter :quiz_available?, :except => [:new, :create]
 	before_filter :has_access_to_quiz?, :only => [:info, :index]
+	before_filter :quiz_active?, :only => [:submit, :index, :deactivate]
 	before_filter :has_quiz_creation_privilege?, :only => [:new, :create]
-	before_filter :has_quiz_modify_privilege?, :only => [:activate, :edit, :update]
+	before_filter :has_quiz_modify_privilege?, :only => [:activate, :deactivate, :edit, :update]
 	before_filter :has_quiz_destroy_privilege?, :only => [:destroy]
 
 
