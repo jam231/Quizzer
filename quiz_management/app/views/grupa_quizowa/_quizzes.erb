@@ -1,13 +1,24 @@
 <h3 class="header centered">Quizy</h3>
 <table class="table table-hover">
   <% for quiz in @quizzes %>
-    <tr>
+   <% if quiz.active? or @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
+   <tr>
       <td>
-        <%= link_to quiz.nazwa, quiz_url(:id_grupy => @grupa.id_grupy, :id_quizu => quiz.id_quizu)%>
+        <%= if quiz.active? then link_to quiz.nazwa, quiz_url(@grupa, quiz) else quiz.nazwa end%>
       </td>
+      <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
+          <td>
+            <% if quiz.active? %>
+                <%= link_to 'Ukryj', quiz_deactivate_url(@grupa, quiz), :class => 'btn btn-warning',
+                                        :method => :put %>
+            <% else %>
+                <%= link_to 'Udostępnij', quiz_activate_url(@grupa, quiz), :class => 'btn btn-success',
+                                         :method => :put %>
+            <% end %>
+          </td>
+      <% end %>
       <td>
-        <%= link_to 'Info', quiz_info_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
-                            :class => 'btn btn-info' %>
+        <%= link_to 'Info', quiz_info_url(@grupa, quiz), :class => 'btn btn-info' %>
       </td>
       <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
         <td>
@@ -17,15 +28,16 @@
       <% end %>
       <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
           <td>
-            <%= link_to 'Usuń', quiz_destroy_url(:id_grupy => @grupa.id_grupy, :id_quizu =>  quiz.id_quizu),
+            <%= link_to 'Usuń', quiz_destroy_url(@grupa, quiz),
                                 :class => 'btn btn-danger', :method => 'delete', :confirm => 'Jesteś pewny?' %>
           </td>
       <% end %>
     </tr>
   <% end %>
+ <% end %>
 </table>
 <% if @grupa.has_privileges? current_user, :creation_of_quizzes %>
     <div class="control-group">
-      <%= link_to 'Nowy quiz', quiz_new_url(:id_grupy => @grupa.id_grupy), :class => 'btn btn-primary'%>
+      <%= link_to 'Nowy quiz', quiz_new_url(@grupa), :class => 'btn btn-primary'%>
     </div>
 <% end %>
