@@ -4,7 +4,7 @@ CREATE TABLE uzytkownik(
 	haslo		VARCHAR(30) NOT NULL,
 	nazwa_uz	VARCHAR(30) UNIQUE NOT NULL,
 	email		VARCHAR(60) UNIQUE NOT NULL,
-	ranga		VARCHAR(30) NOT NULL DEFAULT 'użytkownik'
+	ranga		VARCHAR(30) NOT NULL DEFAULT 'user'
 );
 
 CREATE TABLE grupa_quizowa(
@@ -23,7 +23,7 @@ CREATE TABLE quiz(
 	limit_podejsc	INTEGER,
 	limit_czasowy	INTERVAL,
 	data_utworzenia	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	ukryty			BOOLEAN NOT NULL DEFAULT FALSE
+	ukryty      	BOOLEAN NOT NULL DEFAULT FALSE
 );
 	
 CREATE TABLE dyskusja(
@@ -66,7 +66,7 @@ CREATE TABLE pytanie(
 	pkt				REAL NOT NULL DEFAULT 1.00,
 	id_quizu		INTEGER NOT NULL REFERENCES quiz(id_quizu),
 	id_kategorii 	INTEGER NOT NULL REFERENCES kategoria(id_kategorii),
-	ukryty			BOOLEAN NOT NULL DEFAULT FALSE
+	ukryty      	BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE podkategoria(
@@ -103,10 +103,10 @@ CREATE TABLE ranking(
 
 ----DANE KONFLIKTUJACE Z WYZWALACZAMI
 DELETE FROM uzytkownik;
-INSERT INTO uzytkownik(id_uz,login,haslo,nazwa_uz,ranga,email) VALUES(0,'limbo','bardzotajemnehaslo','Uzytkownik usuniety',0,'costam');
+INSERT INTO uzytkownik(id_uz,login,haslo,nazwa_uz,ranga,email) VALUES(0,'limbo','bardzotajemnehaslo','Uzytkownik usuniety','limo','costam');
 
 SELECT setval('uzytkownik_id_uz_seq',1,false);
-INSERT INTO uzytkownik(login,haslo,nazwa_uz,ranga,email) VALUES('admin','h_admina','Administrator',1,'pokoj42@czysciec.de');
+INSERT INTO uzytkownik(login,haslo,nazwa_uz,ranga,email) VALUES('admin','h_admina','Administrator','administrator','pokoj42@czysciec.de');
 
 ----WYZWALACZE I FUNKCJE
 CREATE OR REPLACE FUNCTION uzytkownik_on_insert() RETURNS TRIGGER AS $$
@@ -378,4 +378,30 @@ RETURNS VOID AS $$
 $$ LANGUAGE sql;
 
 
+CREATE OR REPLACE FUNCTION usun_odpowiedzi_uzytkownika(id_quizu integer, id_uz integer)
+RETURNS VOID AS $$
+	DELETE FROM odpowiedz_uzytkownika 
+	WHERE id_pyt IN (SELECT id_pyt FROM quiz JOIN pytanie using(id_quizu) where id_quizu = $1) AND
+		  id_uz = $2
+$$ LANGUAGE sql;
 
+CREATE OR REPLACE FUNCTION usun_odpowiedzi_uzytkownika_w_grupie(id_uz integer, id_grupy integer)
+RETURNS VOID AS $$
+	DELETE FROM odpowiedz_uzytkownika 
+	WHERE id_pyt IN (SELECT id_pyt FROM quiz JOIN pytanie using(id_quizu) where id_grupy = $2) AND
+		  id_uz = $1
+$$ LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION wypisz_uzytkownika_z_grupy(id_uz integer, id_grupy integer) 
+RETURNS VOID AS $$
+BEGIN
+	DELETE FROM ranking WHERE ranking.id_uz = $1 AND ranking.id_grupy = $2;
+	DELETE FROM dostep_grupa WHERE dostep_grupa.id_uz = $1 AND dostep_grupa.id_grupy = $2;
+	PERFORM usun_odpowiedzi_uzytkownika_w_grupie($1, $2);
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION zapisz_uzytkownika_do_grupy(id_uz integer, id_grupy integer)
+RETURNS VOID AS $$
+	INSERT INTO dostep_grupa(id_grupy, id_uz) VALUES($2, $1);
+$$ LANGUAGE sql;

@@ -14,7 +14,7 @@ class Uzytkownik < ActiveRecord::Base
             :format => {:with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/}
   validates :nazwa_uz, :presence => true, :uniqueness => true, :length => {:maximum => 30}
   validates :login, :presence => true, :uniqueness => true, :length => {:maximum => 15}
-  validates :haslo, :presence => true, :length => {:in => 5..30}
+  validates :haslo, :presence => true, :length => {:in => 1..30}
 
 
   # Po co ?
@@ -31,7 +31,7 @@ class Uzytkownik < ActiveRecord::Base
   end
 
   def can_create_new_groups?
-	  self.superuser? or self.ranga =~  /nauczyciel|teacher/
+	  self.superuser? or self.teacher?
   end
 
   def self.authenticate(login, password)
@@ -43,8 +43,20 @@ class Uzytkownik < ActiveRecord::Base
     end
   end
 
+  def normal_user?
+		is_normal_user = (self.ranga == 'user')
+		logger.debug "Czy użytkownik #{self.nazwa_uz} jest zwykłym użytkownikiem ? : #{is_normal_user} "
+		is_normal_user
+  end
+
+  def teacher?
+	  is_teacher = (self.ranga == 'teacher')
+	  logger.debug "Czy użytkownik #{self.nazwa_uz} jest nauczycielem ? : #{is_teacher} "
+	  is_teacher
+  end
+
   def superuser?
-	  is_superuser = !(self.ranga =~ /u.ytkownik.?|u..ytkownik.?/)
+	  is_superuser = ['administrator','moderator'].include? self.ranga
 	  logger.debug "Czy użytkownik #{self.nazwa_uz} jest superużytkownikiem ? : #{is_superuser} "
     is_superuser
 	end

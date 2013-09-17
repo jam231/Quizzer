@@ -2,17 +2,38 @@
 module GrupaQuizowaHelper
 
   def can_create_groups?
-		 redirect_to grupa_public_url, :alert => "Brak uprawnień do tworzenia nowej grupy" unless current_user.can_create_new_groups?
+		 redirect_to grupa_public_url, :alert => "Brak uprawnień do tworzenia nowej grupy." unless current_user.can_create_new_groups?
   end
 
+  def can_delete_user?
+		begin
+			grupa = GrupaQuizowa.find params[:id_grupy]
+			user = Uzytkownik.find params[:id_uz]
+			redirect_to :back, :alert => "Użytkownik #{user.nazwa_uz} nie jest zapisany do grupy #{grupa.nazwa}." unless grupa.zapisany? user
+			redirect_to :back, :alert => "Nie można wypisać z grupy public." if grupa.public?
+			redirect_to :back, :alert => "Brak odpowiednich przywilejów." unless current_user.superuser? or user.id_uz == current_user.id_uz
+		rescue ActiveRecord::RecordNotFound
+			redirect_to :back, :alert => "Użytownik #{user.nazwa_uz} nie istnieje."
+		end
+  end
+
+
 	def group_available?
-	begin
-		@grupa = GrupaQuizowa.find params[:id_grupy]
-		user_from_grupa_dostep =  @grupa.dostep_grupa.where :id_uz => current_user.id_uz
-		redirect_to root_url, :alert => "Brak dostepu do tej grupy." if user_from_grupa_dostep.empty?
-	rescue ActiveRecord::RecordNotFound
-		redirect_to root_url, :alert => "Grupa nie istnieje."
-	end
+		begin
+			@grupa = GrupaQuizowa.find params[:id_grupy]
+			user_from_grupa_dostep =  @grupa.dostep_grupa.where :id_uz => current_user.id_uz
+			# To ponizej wypadaloby zrefaktorowac.
+			if user_from_grupa_dostep.empty?
+			  unless @grupa.na_zaproszenie
+					@grupa.zapisz_uzytkownika! current_user
+					flash[:notice] = "Zostałeś zapisany do grupy #{@grupa.nazwa}"
+				else
+					redirect_to root_url, :alert => "Brak dostepu do grupy #{@grupa.nazwa}."
+				end
+			end
+		rescue ActiveRecord::RecordNotFound
+			redirect_to root_url, :alert => "Grupa nie istnieje."
+		end
 	end
 
 	def has_access_to_quiz?

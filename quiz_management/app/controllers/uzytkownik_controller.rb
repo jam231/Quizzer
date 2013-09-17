@@ -1,7 +1,10 @@
 # encoding: UTF-8
 class UzytkownikController < ApplicationController
-  layout 'notlogged_application', :only => [:new, :create]
-  before_filter :logged?, :only => [:update, :edit]
+  include UzytkownikHelper
+
+	layout 'notlogged_application', :only => [:new, :create]
+
+  before_filter :logged?, :can_edit?, :only => [:update, :edit]
 
   def new
     @user = Uzytkownik.new
