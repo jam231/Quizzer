@@ -25,11 +25,16 @@
               <%= grupa.quizzes.select {|quiz| quiz.active?} .count %>
             </td>
             <td>
-              <%= if !(grupa.na_zaproszenie) then 'TAK' else 'NIE' end %>
+              <%= if !!grupa.na_zaproszenie then 'TAK' else 'NIE' end %>
             </td>
             <td>
               <%= if grupa.haslo.blank? then 'NIE' else 'TAK' end %>
             </td>
+            <% if grupa.zapisany? current_user and not grupa.public?%>
+            <td>
+               <%= link_to 'Wypisz', grupa_delete_user_url(grupa, current_user), :class => "btn btn-danger", :method => :delete,  :confirm => "Jesteś pewny?" %>
+            </td>
+            <% end %>
           </tr>
   <% end %>
 </table>

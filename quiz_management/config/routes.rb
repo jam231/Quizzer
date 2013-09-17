@@ -55,6 +55,8 @@ QuizManagement::Application.routes.draw do
   get "grupa/new" => "grupa_quizowa#new", :as => 'grupa_new'
   post "grupa/create" => "grupa_quizowa#create", :as => 'grupa_create'
 
+  delete "grupa/:id_grupy/delete_user/:id_uz" => "grupa_quizowa#delete_user", :as => 'grupa_delete_user'
+
 
 
   ############################# Grupa LIMBO ###############

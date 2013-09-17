@@ -6,12 +6,22 @@ class GrupaQuizowaController < ApplicationController
 	before_filter :logged?
   before_filter :group_available?, :except => [:index, :new, :create]
   before_filter :can_create_groups?, :only => [:new, :create]
+  before_filter :can_delete_user?, :only => [:delete_user]
+
   helper_method :active?
 
   def index
-		@grupy = GrupaQuizowa.scoped.select { |grupa| not grupa.limbo? }
-
-  end
+		# ruby i inne sensownie jezyki programowania <3
+	  @grupy =
+		unless current_user.superuser?
+			GrupaQuizowa.scoped.reject do |grupa|
+				grupa.limbo? or
+				(!!(grupa.na_zaproszenie) and grupa.grupa_dostep.where(:id_uz => current_user.id_uz).blank?)
+			end
+		else
+			GrupaQuizowa.scoped.reject { |grupa| grupa.limbo? }
+		end
+	end
 
   def show
 		quizzes
@@ -50,6 +60,13 @@ class GrupaQuizowaController < ApplicationController
     @what = 'ranking'
     @ranking = Ranking.where(:id_grupy => @grupa.id_grupy).order("pkt DESC")
     render 'show'
+  end
+
+  # DELETE
+  def delete_user
+		user = Uzytkownik.find(params[:id_uz])
+		@grupa.wypisz_uzytkownika! user
+		redirect_to :back, :notice => "Użytkownik #{user.nazwa_uz} został wypisany z grupy #{@grupa.nazwa}."
   end
 
   protected

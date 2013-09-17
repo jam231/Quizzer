@@ -52,6 +52,19 @@
 			user.superuser? || (dostep_grupa && dostep_grupa.prawa_dost.to_i(2) & privileges == privileges)
     end
 
+    def public?
+			self.id_grupy == 1
+    end
+
+    def zapisany? user
+	    not self.dostep_grupa.where(:id_uz => user.id_uz).blank?
+    end
+
+    def wypisz_uzytkownika!(user)
+	    id_uz = if user.is_a? Integer then user else user.id_uz end
+		  query = ActiveRecord::Base.send :sanitize_sql_array, ["select * from wypisz_uzytkownika_z_grupy(%s, %s)", id_uz, self.id_grupy]
+		  query_results = self.connection.execute(query)
+    end
 
     private
     def default_value_for_na_zaproszenie
