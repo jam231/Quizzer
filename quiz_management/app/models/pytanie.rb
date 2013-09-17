@@ -51,4 +51,14 @@ class Pytanie < ActiveRecord::Base
   def wielokrotnego_wyboru?
     typ.wielokrotnego_wyboru
   end
+
+  def ma_prawidlowa_odpowiedz?
+    #Pytanie ma prawidlowa odpowiedz jesli nie jest wielokrotnego wyboru (takie moze nie miec) oraz
+    # ma przynajmniej 1 odpowiedz z poziomem poprawnosci 100
+    (wielokrotnego_wyboru?) || (odpowiedzi.select{|odp| odp.poziom_poprawnosci == 100 }.count > 0)
+  end
+
+  def poprawne?
+    (odpowiedzi.count >= typ.liczba_odp) && (ma_prawidlowa_odpowiedz?)
+  end
 end

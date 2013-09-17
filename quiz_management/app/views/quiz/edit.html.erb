@@ -13,8 +13,10 @@
             </td>
         <% end %>
         <td>
-          <%= link_to 'Ukryj', pytanie_edit_path(:id_grupy => @quiz.id_grupy, :id_quizu =>  @quiz.id_quizu, :id_pyt => pytanie.id_pyt),
-                      :class => 'btn btn-warning' %>
+          <%= link_to (pytanie.ukryte==true ?"Pokaż":"Ukryj"), pytanie_pokaz_ukryj_path(:id_grupy => @quiz.id_grupy,
+                                                                                        :id_quizu =>  @quiz.id_quizu,
+                                                                                        :id_pyt => pytanie.id_pyt),
+                      :class => 'btn btn-warning', :method => "post" %>
         </td>
         <% if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
             <td>
