@@ -31,7 +31,7 @@ class Uzytkownik < ActiveRecord::Base
   end
 
   def can_create_new_groups?
-	  self.superuser? or self.ranga =~  /nauczyciel|teacher/
+	  self.superuser? or self.teacher?
   end
 
   def self.authenticate(login, password)

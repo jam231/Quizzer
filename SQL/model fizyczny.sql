@@ -22,7 +22,8 @@ CREATE TABLE quiz(
 	id_grupy		INTEGER NOT NULL DEFAULT 1 REFERENCES grupa_quizowa(id_grupy) ON DELETE CASCADE,
 	limit_podejsc	INTEGER,
 	limit_czasowy	INTERVAL,
-	data_utworzenia	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	data_utworzenia	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	ukryty      	BOOLEAN NOT NULL DEFAULT FALSE
 );
 	
 CREATE TABLE dyskusja(
@@ -64,7 +65,8 @@ CREATE TABLE pytanie(
 	id_autora		INTEGER NOT NULL REFERENCES uzytkownik(id_uz),
 	pkt				REAL NOT NULL DEFAULT 1.00,
 	id_quizu		INTEGER NOT NULL REFERENCES quiz(id_quizu),
-	id_kategorii 	INTEGER NOT NULL REFERENCES kategoria(id_kategorii)
+	id_kategorii 	INTEGER NOT NULL REFERENCES kategoria(id_kategorii),
+	ukryty      	BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE podkategoria(

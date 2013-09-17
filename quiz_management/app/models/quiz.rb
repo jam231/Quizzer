@@ -25,8 +25,7 @@ class Quiz < ActiveRecord::Base
   end
 
   def active?
-		# stub
-		true
+		not self.ukryty
 	end
 
   def pytania_widoczne
