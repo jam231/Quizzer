@@ -8,7 +8,7 @@
       </span>
        -->
      <%= form_tag quiz_submit_url, :class => 'form-horizontal'  do %>
-       <% for pytanie in @quiz.pytania %>
+       <% for pytanie in @quiz.pytania_widoczne %>
          <%= render :partial => "question", :locals => { :pytanie => pytanie, :score => params[:commit] } %>
        <% end %>
        <% if params[:commit] %>

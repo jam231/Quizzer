@@ -22,6 +22,10 @@ class Quiz < ActiveRecord::Base
 			{:zdobyte_pkt => dict["zdobyte_pkt"].to_i, :max_pkt => dict["max_pkt"].to_i,
 			 :data_wyslania => Time.zone.parse(dict["data_wyslania"]) }
 		end
-	end
+  end
+
+  def pytania_widoczne
+    pytania.select{|p| p.ukryte == false}
+  end
 
 end
