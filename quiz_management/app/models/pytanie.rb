@@ -16,9 +16,9 @@ class Pytanie < ActiveRecord::Base
     accepts_nested_attributes_for :odpowiedzi,  allow_destroy: true
     accepts_nested_attributes_for :odpowiedzi_uzytkownika
 
-    validates_presence_of :tresc
-    validates_presence_of :pkt
-    validates_numericality_of :pkt, :greater_than_or_equal_to => 0.0, :message =>
+    validates_presence_of :tresc, :message => "Musisz określić treść pytania"
+    validates_presence_of :pkt, :message => "Musisz określić punkty za pytanie"
+    validates_numericality_of :pkt, :greater_than_or_equal_to => 0.0, :message => "Pytanie nie może dawać ujemnych punktów"
 
 
 
@@ -61,8 +61,4 @@ class Pytanie < ActiveRecord::Base
   def poprawne?
     (odpowiedzi.count >= typ.liczba_odp) && (ma_prawidlowa_odpowiedz?)
   end
-
-	def ukryte
-		self.ukryty
-	end
 end

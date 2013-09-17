@@ -29,7 +29,7 @@ class Quiz < ActiveRecord::Base
 	end
 
   def pytania_widoczne
-    pytania.select{|p| p.ukryte == false}
+    pytania.select{|p| p.ukryty == false}
   end
 
 end
