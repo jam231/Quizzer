@@ -65,21 +65,23 @@ ActiveRecord::Schema.define(:version => 20130909221012) do
   add_index "podkategoria", ["id_podkategorii"], :name => "podkategoria_id_podkategorii_key", :unique => true
 
   create_table "pytanie", :primary_key => "id_pyt", :force => true do |t|
-    t.string  "tresc",        :limit => nil,                  :null => false
-    t.integer "id_typu",                                      :null => false
-    t.integer "id_autora",                                    :null => false
-    t.float   "pkt",                         :default => 1.0, :null => false
-    t.integer "id_quizu",                                     :null => false
-    t.integer "id_kategorii",                                 :null => false
+    t.string  "tresc",        :limit => nil,                    :null => false
+    t.integer "id_typu",                                        :null => false
+    t.integer "id_autora",                                      :null => false
+    t.float   "pkt",                         :default => 1.0,   :null => false
+    t.integer "id_quizu",                                       :null => false
+    t.integer "id_kategorii",                                   :null => false
+    t.boolean "ukryty",                      :default => false, :null => false
   end
 
   create_table "quiz", :primary_key => "id_quizu", :force => true do |t|
-    t.integer  "id_wlasciciela",                                :null => false
-    t.string   "nazwa",           :limit => 60,                 :null => false
-    t.integer  "id_grupy",                       :default => 1, :null => false
+    t.integer  "id_wlasciciela",                                    :null => false
+    t.string   "nazwa",           :limit => 60,                     :null => false
+    t.integer  "id_grupy",                       :default => 1,     :null => false
     t.integer  "limit_podejsc"
     t.string   "limit_czasowy",   :limit => nil
-    t.datetime "data_utworzenia",                               :null => false
+    t.datetime "data_utworzenia",                                   :null => false
+    t.boolean  "ukryty",                         :default => false, :null => false
   end
 
   create_table "ranking", :id => false, :force => true do |t|
