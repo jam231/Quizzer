@@ -74,7 +74,7 @@ QuizManagement::Application.routes.draw do
 
   ############################# Rejestracja, logowanie, profil, etc. ###############
 
-  get "uzytkownik/profil" => "uzytkownik#edit", :as => 'user_edit'
+  get "uzytkownik/profil/:id_uz" => "uzytkownik#edit", :as => 'user_edit'
 
   delete "log_out" => "sessions#destroy", :as => 'log_out'
 

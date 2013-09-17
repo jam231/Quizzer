@@ -14,7 +14,7 @@ class Uzytkownik < ActiveRecord::Base
             :format => {:with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/}
   validates :nazwa_uz, :presence => true, :uniqueness => true, :length => {:maximum => 30}
   validates :login, :presence => true, :uniqueness => true, :length => {:maximum => 15}
-  validates :haslo, :presence => true, :length => {:in => 5..30}
+  validates :haslo, :presence => true, :length => {:in => 1..30}
 
 
   # Po co ?
