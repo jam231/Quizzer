@@ -1,17 +1,41 @@
-<h1 class="header">Grupa <%= @grupa.nazwa %></h1>
-<ul class="nav nav-pills">
-  <li class= "three-part-menu <%= active?(:quizy) ? 'active' : '' %>">
-    <%= link_to "Quizy", quizy_url %>
-  </li>
-  <li class= "three-part-menu <%= active?(:uzytkownicy) ? 'active' : '' %>">
-    <%= link_to "Użytkownicy", uzytkownicy_url %>
-  </li>
-  <li class= "three-part-menu <%= active?(:ranking) ? 'active' : '' %>">
-    <%= link_to "Ranking", ranking_url %>
-  </li>
-</ul>
-<div class="container-fluid">
-  <div class="row-fluid">
-    <%= render :partial => @what %>
-  </div>
-</div>
+<h3 class="header centered">Dostępne grupy</h3>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Nazwa grupy</th>
+    <th>Liczba zapisanych użytkowników</th>
+    <th>Liczba quizów</th>
+    <th>Na zaproszenie ?</th>
+    <th>Chroniona hasłem ?</th>
+  </tr>
+  </thead>
+  <% @grupy.each_with_index do |grupa, index| %>
+          <tr>
+            <td>
+              <%= index + 1 %>
+            </td>
+            <td>
+              <%= link_to grupa.nazwa, grupa_url(grupa), unless grupa.zapisany? current_user then {:confirm => "Jesteś pewny, ze chcesz się zapisać do grupy #{grupa.nazwa} ?"} end  %>
+            </td>
+            <td>
+              <%= grupa.dostep_grupa.select {|dg| not (dg.uzytkownik.superuser? or dg.uzytkownik.limbo?)} .count %>
+            </td>
+            <td>
+              <%= grupa.quizzes.select {|quiz| quiz.active?} .count %>
+            </td>
+            <td>
+              <%= if !!grupa.na_zaproszenie then 'TAK' else 'NIE' end %>
+            </td>
+            <td>
+              <%= if grupa.haslo.blank? then 'NIE' else 'TAK' end %>
+            </td>
+            <% if grupa.zapisany? current_user and not grupa.public?%>
+            <td>
+               <%= link_to 'Wypisz', grupa_delete_user_url(grupa, current_user), :class => "btn btn-danger", :method => :delete,  :confirm => "Jesteś pewny?" %>
+            </td>
+            <% end %>
+          </tr>
+  <% end %>
+</table>
+

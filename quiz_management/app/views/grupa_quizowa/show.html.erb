@@ -1,2 +1,17 @@
-<h1>GrupaQuizowas#show</h1>
-<p>Find me in app/views/grupa_quizowas/show.html.erb</p>
+<h1 class="header">Grupa <%= @grupa.nazwa %></h1>
+<ul class="nav nav-pills">
+  <li class= "three-part-menu <%= active?(:quizy) ? 'active' : '' %>">
+    <%= link_to "Quizy", quizy_url %>
+  </li>
+  <li class= "three-part-menu <%= active?(:uzytkownicy) ? 'active' : '' %>">
+    <%= link_to "Użytkownicy", uzytkownicy_url %>
+  </li>
+  <li class= "three-part-menu <%= active?(:ranking) ? 'active' : '' %>">
+    <%= link_to "Ranking", ranking_url %>
+  </li>
+</ul>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <%= render :partial => @what %>
+  </div>
+</div>

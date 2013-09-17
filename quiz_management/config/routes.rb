@@ -1,6 +1,6 @@
 QuizManagement::Application.routes.draw do
 
-  root :to => "grupa_quizowa#index", :id_grupy => 1
+  root :to => "grupa_quizowa#index"
 
   post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update', :as => 'odpowiedz_wzorcowa'
   post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
@@ -42,16 +42,20 @@ QuizManagement::Application.routes.draw do
 
   ############################# GRUPY QUIZOWE ######################################
 
-  get "public" => "grupa_quizowa#index", :id_grupy => 1, :as => 'grupa_public'
+  get "public" => "grupa_quizowa#show", :id_grupy => 1, :as => 'grupa_public'
 
-  get "grupa/:id_grupy" => "grupa_quizowa#index", :as => 'grupa', :id_grupy => /[1-9][0-9]*/
-  get "grupa/:id_grupy/index" => "grupa_quizowa#index", :as => 'grupa', :id_grupy => /[1-9][0-9]*/
+  get "grupy" => "grupa_quizowa#index", :as => 'grupy'
+
+  get "grupa/:id_grupy" => "grupa_quizowa#show", :as => 'grupa', :id_grupy => /[1-9][0-9]*/
+  get "grupa/:id_grupy/show" => "grupa_quizowa#show", :as => 'grupa', :id_grupy => /[1-9][0-9]*/
   get "grupa/:id_grupy/quizy" => "grupa_quizowa#quizzes", :as => 'quizy', :id_grupy => /[1-9][0-9]*/
   get "grupa/:id_grupy/ranking" => "grupa_quizowa#ranking", :as => 'ranking', :id_grupy => /[1-9][0-9]*/
   get "grupa/:id_grupy/uzytkownicy" => "grupa_quizowa#users", :as => 'uzytkownicy', :id_grupy => /[1-9][0-9]*/
 
   get "grupa/new" => "grupa_quizowa#new", :as => 'grupa_new'
   post "grupa/create" => "grupa_quizowa#create", :as => 'grupa_create'
+
+  delete "grupa/:id_grupy/delete_user/:id_uz" => "grupa_quizowa#delete_user", :as => 'grupa_delete_user'
 
 
 
@@ -72,7 +76,7 @@ QuizManagement::Application.routes.draw do
 
   ############################# Rejestracja, logowanie, profil, etc. ###############
 
-  get "uzytkownik/profil" => "uzytkownik#edit", :as => 'user_edit'
+  get "uzytkownik/profil/:id_uz" => "uzytkownik#edit", :as => 'user_edit'
 
   delete "log_out" => "sessions#destroy", :as => 'log_out'
 

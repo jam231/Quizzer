@@ -24,6 +24,10 @@ class Quiz < ActiveRecord::Base
 		end
   end
 
+  def active?
+		not self.ukryty
+	end
+
   def pytania_widoczne
     pytania.select{|p| p.ukryte == false}
   end
