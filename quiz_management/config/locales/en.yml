@@ -22,7 +22,7 @@ en:
             taken:      "Ten adres e-mail jest zajety."
             invalid:    "Adres e-mail ma zly format."
           nazwa_uz:
-            blank:       "Nazwa uzytkownika nie moze byc pusta."
+            blank:      "Nazwa uzytkownika nie moze byc pusta."
             taken:      "Ta nazwa uzytkownika jest juz zajeta."
             too_long:   "Nazwa uzytkownika moze miec co najwyzej 30 znakow."
           login:
