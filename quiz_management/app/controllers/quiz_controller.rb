@@ -4,10 +4,11 @@ class QuizController < ApplicationController
 	include QuizHelper
 
 	before_filter :logged?, :group_available?
-	before_filter  :quiz_available?, :except => [:new, :create]
+	before_filter :quiz_available?, :except => [:new, :create]
 	before_filter :has_access_to_quiz?, :only => [:info, :index]
+	before_filter :quiz_active?, :only => [:submit, :index, :deactivate]
 	before_filter :has_quiz_creation_privilege?, :only => [:new, :create]
-	before_filter :has_quiz_modify_privilege?, :only => [:edit, :update]
+	before_filter :has_quiz_modify_privilege?, :only => [:activate, :deactivate, :edit, :update]
 	before_filter :has_quiz_destroy_privilege?, :only => [:destroy]
 
 
@@ -38,6 +39,22 @@ class QuizController < ApplicationController
 	# POST - zwaliduj otrzymany formularz, nastepnie zapisz quiz lub przekieruj do new z zaznaczonymi bledami.
 	def create
 		redirect_to :back, :alert => "Not implemented yet."
+	end
+
+	# PUT
+	def activate
+		quiz = Quiz.find params[:id_quizu]
+		quiz.ukryty = false
+		quiz.save
+		redirect_to grupa_url, :notice => "Quiz #{quiz.nazwa} został udostepniony grupie."
+	end
+
+	# PUT
+	def deactivate
+		quiz = Quiz.find params[:id_quizu]
+		quiz.ukryty = true
+		quiz.save
+		redirect_to grupa_url, :notice => "Quiz #{quiz.nazwa} został ukryty."
 	end
 
   def info

@@ -103,7 +103,7 @@ CREATE TABLE ranking(
 
 ----DANE KONFLIKTUJACE Z WYZWALACZAMI
 DELETE FROM uzytkownik;
-INSERT INTO uzytkownik(id_uz,login,haslo,nazwa_uz,ranga,email) VALUES(0,'limbo','bardzotajemnehaslo','Uzytkownik usuniety','limo','costam');
+INSERT INTO uzytkownik(id_uz,login,haslo,nazwa_uz,ranga,email) VALUES(0,'limbo','bardzotajemnehaslo','Uzytkownik usuniety','limbo','costam');
 
 SELECT setval('uzytkownik_id_uz_seq',1,false);
 INSERT INTO uzytkownik(login,haslo,nazwa_uz,ranga,email) VALUES('admin','h_admina','Administrator','administrator','pokoj42@czysciec.de');

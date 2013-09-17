@@ -45,7 +45,7 @@ class PytanieController < ApplicationController
   def pokaz_lub_ukryj(id_pyt = nil)
     id_pyt ||= params[:id_pyt]
     @pytanie = Pytanie.find(id_pyt)
-    if @pytanie.poprawne? || (@pytanie.ukryte == false)
+    if @pytanie.poprawne? or  not @pytanie.ukryte
       @pytanie.ukryte = (!@pytanie.ukryte)
       @pytanie.save
       redirect_to quiz_edit_url(:id => @pytanie.id_quizu), notice: 'Pytanie zapisane.'

@@ -32,10 +32,20 @@
             </td>
             <% if grupa.zapisany? current_user and not grupa.public?%>
             <td>
-               <%= link_to 'Wypisz', grupa_delete_user_url(grupa, current_user), :class => "btn btn-danger", :method => :delete,  :confirm => "Jesteś pewny?" %>
+               <%= button_to 'Wypisz', grupa_delete_user_url(grupa, current_user), :class => "btn btn-danger",
+                                       :method => :delete,  :confirm => "Jesteś pewny?", :disabled => grupa.owner?(current_user) %>
             </td>
             <% end %>
           </tr>
   <% end %>
 </table>
+
+<br />
+
+<% if current_user.can_create_new_groups? or true %>
+    <div class="row-fluid">
+        <%= link_to 'Nowa grupa', grupa_new_url, :class => 'btn btn-primary' %>
+    </div>
+<% end %>
+
 

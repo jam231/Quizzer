@@ -28,7 +28,9 @@ QuizManagement::Application.routes.draw do
 
   ############################# QUIZ ###############################################
 
-  # GET i POST
+  put "grupa/:id_grupy/quiz/:id_quizu/activate" => "quiz#activate", :as => 'quiz_activate'
+  put "grupa/:id_grupy/quiz/:id_quizu/deactivate" => "quiz#deactivate", :as => 'quiz_deactivate'
+
   get "grupa/:id_grupy/quiz/new" => "quiz#new", :as => 'quiz_new'
   get "grupa/:id_grupy/quiz/:id_quizu" => "quiz#index", :as => 'quiz'
 

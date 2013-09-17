@@ -36,7 +36,7 @@ class GrupaQuizowaController < ApplicationController
 	  @grupa = GrupaQuizowa.new params[:grupa_quizowa].merge :wlasciciel => current_user
 
 	  if @grupa.save
-		  redirect_to grupa_public_url, :notice => "Grupa #{@grupa.nazwa} została pomyślnie stworzona."
+		  redirect_to root_url, :notice => "Grupa #{@grupa.nazwa} została pomyślnie stworzona."
 	  else
 		  alert_msg = ''
 		  alert_msg = @grupa.errors.messages.values.first.first.to_s if @grupa.errors.any?
