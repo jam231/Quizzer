@@ -9,6 +9,8 @@ class GrupaQuizowaController < ApplicationController
   helper_method :active?
 
   def index
+		@grupy = GrupaQuizowa.scoped.select { |grupa| not grupa.limbo? }
+
   end
 
   def show

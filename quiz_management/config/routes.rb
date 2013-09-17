@@ -1,6 +1,6 @@
 QuizManagement::Application.routes.draw do
 
-  root :to => "grupa_quizowa#show", :id_grupy => 1
+  root :to => "grupa_quizowa#index"
 
   post "odpowiedz_wzorcowa/update" => 'OdpowiedzWzorcowa#update', :as => 'odpowiedz_wzorcowa'
   post "odpowiedz_wzorcowa/create" => 'OdpowiedzWzorcowa#create'
