@@ -15,20 +15,18 @@ class PytanieController < ApplicationController
   end
 
   def create
-    # ohydne. biję się w pierś
     logger.debug "Tworzenie pytania: #{params.inspect}"
-    @pytanie = Pytanie.new
-    @pytanie.tresc = "Nowe pytanie z #{Time.now.to_s}"
+    @pytanie = Pytanie.default
+
     @pytanie.id_autora = session[:user_id]
     @pytanie.id_quizu  = params[:id_quizu]
-    @pytanie.id_typu = 1      #bonus points for hardcoding
-    @pytanie.id_kategorii = 1
+
     @pytanie.save
 
     redirect_to pytanie_edit_url(@pytanie, :id_pyt => @pytanie.id_pyt,
                                            :id_quizu => params[:id_quizu],
                                            :id_grupy => params[:id_grupy]),
-                notice: 'Pytanie utworzone.'
+                notice: 'Pytanie zostało utworzone.'
   end
 
   def update

@@ -61,4 +61,13 @@ class Pytanie < ActiveRecord::Base
   def poprawne?
     (odpowiedzi.count >= typ.liczba_odp) && (ma_prawidlowa_odpowiedz?)
   end
+
+  def self.default
+    pytanie = Pytanie.new
+    pytanie.tresc = "Nowe pytanie z #{Time.now.to_s}"
+    pytanie.id_typu = Typ.default[:id_typu]
+    pytanie.id_kategorii = Kategoria.default[:id_kategorii]
+    pytanie.ukryty = true
+    return pytanie
+  end
 end
