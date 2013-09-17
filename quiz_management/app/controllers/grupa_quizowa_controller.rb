@@ -4,12 +4,15 @@ class GrupaQuizowaController < ApplicationController
   include GrupaQuizowaHelper
 
 	before_filter :logged?
-  before_filter :group_available?, :except => [:new, :create]
+  before_filter :group_available?, :except => [:index, :new, :create]
   before_filter :can_create_groups?, :only => [:new, :create]
   helper_method :active?
 
   def index
-    quizzes
+  end
+
+  def show
+		quizzes
   end
 
   def new
@@ -32,19 +35,19 @@ class GrupaQuizowaController < ApplicationController
   def quizzes
     @quizzes = @grupa.quizzes.all
     @what = 'quizzes'
-    render 'index'
+    render 'show'
   end
 
   def users
     @users = Uzytkownik.find(@grupa.dostep_grupa.where("id_uz <> 1").select(:id_uz).uniq.all.map(&:id_uz))
     @what = 'users'
-    render 'index'
+    render 'show'
   end
 
   def ranking
     @what = 'ranking'
     @ranking = Ranking.where(:id_grupy => @grupa.id_grupy).order("pkt DESC")
-    render 'index'
+    render 'show'
   end
 
   protected
