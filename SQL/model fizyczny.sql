@@ -1,7 +1,8 @@
 CREATE TABLE uzytkownik(
 	id_uz		SERIAL PRIMARY KEY,
 	login		VARCHAR(15) UNIQUE NOT NULL,
-	haslo		VARCHAR(30) NOT NULL,
+	haslo		VARCHAR(60) NOT NULL,
+	haslo_salt	VARCHAR(30) NOT NULL,
 	nazwa_uz	VARCHAR(30) UNIQUE NOT NULL,
 	email		VARCHAR(60) UNIQUE NOT NULL,
 	ranga		VARCHAR(30) NOT NULL DEFAULT 'user'
@@ -12,7 +13,8 @@ CREATE TABLE grupa_quizowa(
 	id_wlasciciela	INTEGER NOT NULL REFERENCES uzytkownik(id_uz),
 	nazwa			VARCHAR(60) UNIQUE NOT NULL,
 	na_zaproszenie	BOOLEAN NOT NULL,
-	haslo			VARCHAR(30)
+	haslo			VARCHAR(60),
+	haslo_salt		VARCHAR(30)
 );
 
 CREATE TABLE quiz(
@@ -103,10 +105,14 @@ CREATE TABLE ranking(
 
 ----DANE KONFLIKTUJACE Z WYZWALACZAMI
 DELETE FROM uzytkownik;
-INSERT INTO uzytkownik(id_uz,login,haslo,nazwa_uz,ranga,email) VALUES(0,'limbo','bardzotajemnehaslo','Uzytkownik usuniety','limbo','costam');
+-- haslo = bardzotajemnehaslo
+INSERT INTO uzytkownik(id_uz, login, haslo, haslo_salt, nazwa_uz, ranga, email) 
+	VALUES(0,'limbo','$2a$10$SMfbF9JrApPmN6AAaGO4oO6L98IR.DVlxddQxF56TVhaIZACaweC2','$2a$10$SMfbF9JrApPmN6AAaGO4oO','Uzytkownik usuniety','limbo','costam');
 
 SELECT setval('uzytkownik_id_uz_seq',1,false);
-INSERT INTO uzytkownik(login,haslo,nazwa_uz,ranga,email) VALUES('admin','h_admina','Administrator','administrator','pokoj42@czysciec.de');
+-- haslo = h_admina
+INSERT INTO uzytkownik(login, haslo, haslo_salt, nazwa_uz, ranga, email) 
+	VALUES('admin','$2a$10$Mkv99nUjpQfBWVlRZZ91m.DExRiWcE4cgRh3VyJAqRLXlOvdKMweq', '$2a$10$Mkv99nUjpQfBWVlRZZ91m.', 'Administrator','administrator','pokoj42@czysciec.de');
 
 ----WYZWALACZE I FUNKCJE
 CREATE OR REPLACE FUNCTION uzytkownik_on_insert() RETURNS TRIGGER AS $$

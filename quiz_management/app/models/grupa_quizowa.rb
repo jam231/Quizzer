@@ -16,23 +16,51 @@
                     :editing_and_deleting_discussions => 1 << 11,
                     :access_to_group => 0}
 
-    attr_accessible :nazwa, :wlasciciel
+    attr_accessible :nazwa, :wlasciciel, :password, :password_confirmation, :na_zaproszenie
+
+    attr_accessor :password
+    before_save :encrypt_password
 
     validates :id_wlasciciela, :presence => true, :length => {:maximum =>  60}
     validates :nazwa, :presence => true, :uniqueness => true, :length => {:maximum =>  60}
-    validates :haslo, :length => {:in => 0..30}
+    validates :password, :length => {:in => 0..30}, :on => :create
+    validates_confirmation_of :password
+
+
+    def encrypt_password
+	    logger.debug "Hashuje haslo #{password}."
+	    if password.present?
+		    self.haslo_salt = BCrypt::Engine.generate_salt
+		    logger.debug "Wygenerowany salt = #{haslo_salt}."
+		    self.haslo = BCrypt::Engine.hash_secret(password, haslo_salt)
+		    logger.debug "Hash = #{self.haslo}."
+	    end
+    end
+
+    def authenticate password
+	    logger.debug "Uzyskiwanie dostępu do grupy #{self.nazwa}"
+	    logger.debug "Podane haslo to #{password}, salt to #{self.haslo_salt}."
+	    logger.debug "Hash = #{BCrypt::Engine.hash_secret(password, self.haslo_salt)}"
+
+	    self.password_protected? or self.haslo == BCrypt::Engine.hash_secret(password, self.haslo_salt)
+    end
+
 
     def limbo?
 			self.id_grupy == 0
     end
 
     def self.Limbo
-			GrupaQuizowa.find(0)
+			GrupaQuizowa.find 0
     end
 
     def owner? user
 	    id_uz = if user.is_a? Integer then user else user.id_uz end
 			self.wlasciciel.id_uz == id_uz
+    end
+
+    def password_protected?
+			not self.haslo.blank?
     end
 
     def has_privileges?(user, *privilege_names)

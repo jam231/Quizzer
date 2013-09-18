@@ -12,11 +12,10 @@ class UzytkownikController < ApplicationController
 
   def create
     @user = Uzytkownik.new params[:uzytkownik]
-
+    logger.debug "Rejestrowanie nowego uzytkownika o nazwie #{@user.nazwa_uz} i hasle #{@user.password}"
     if @user.save
       redirect_to log_in_url, :notice => "Użytkownik został #{@user.nazwa_uz} zarejestrowany."
     else
-      alert_msg = ''
       alert_msg = @user.errors.messages.values.first.first.to_s if @user.errors.any?
       redirect_to register_url, :alert => alert_msg
     end

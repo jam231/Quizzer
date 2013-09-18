@@ -30,7 +30,8 @@ ActiveRecord::Schema.define(:version => 20130909221012) do
     t.integer "id_wlasciciela",               :null => false
     t.string  "nazwa",          :limit => 60, :null => false
     t.boolean "na_zaproszenie",               :null => false
-    t.string  "haslo",          :limit => 30
+    t.string  "haslo",          :limit => 60
+    t.string  "haslo_salt",     :limit => 30
   end
 
   add_index "grupa_quizowa", ["nazwa"], :name => "grupa_quizowa_nazwa_key", :unique => true
@@ -109,11 +110,12 @@ ActiveRecord::Schema.define(:version => 20130909221012) do
   add_index "typ", ["nazwa"], :name => "typ_nazwa_key", :unique => true
 
   create_table "uzytkownik", :primary_key => "id_uz", :force => true do |t|
-    t.string "login",    :limit => 15,                     :null => false
-    t.string "haslo",    :limit => 30,                     :null => false
-    t.string "nazwa_uz", :limit => 30,                     :null => false
-    t.string "email",    :limit => 60,                     :null => false
-    t.string "ranga",    :limit => 30, :default => "user", :null => false
+    t.string "login",      :limit => 15,                     :null => false
+    t.string "haslo",      :limit => 60,                     :null => false
+    t.string "haslo_salt", :limit => 30,                     :null => false
+    t.string "nazwa_uz",   :limit => 30,                     :null => false
+    t.string "email",      :limit => 60,                     :null => false
+    t.string "ranga",      :limit => 30, :default => "user", :null => false
   end
 
   add_index "uzytkownik", ["email"], :name => "uzytkownik_email_key", :unique => true

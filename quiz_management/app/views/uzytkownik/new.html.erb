@@ -14,9 +14,15 @@
       </div>
     </div>
     <div class="control-group">
-      <%= f.label :haslo, 'Hasło', :class => 'control-label span2', :for => 'inputPassword' %>
+      <%= f.label :password, 'Hasło', :class => 'control-label span2', :for => 'inputPassword' %>
       <div class="controls">
-        <%= f.password_field :haslo, :class => 'span2', :id => 'inputPassword', :placeholder => 'Hasło' %>
+        <%= f.password_field :password, :class => 'span2', :id => 'inputPassword', :placeholder => 'Hasło' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :password_confirmation, 'Powtórz hasło', :class => 'control-label span2', :for => 'inputPassword' %>
+      <div class="controls">
+        <%= f.password_field :password_confirmation, :class => 'span2', :id => 'inputPassword', :placeholder => 'Powtórz hasło' %>
       </div>
     </div>
     <div class="control-group">
