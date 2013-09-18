@@ -1,6 +1,16 @@
 <% for odpowiedz in session[:pytania][pytanie.id_pyt] %>
-    <%= check_box_tag "odpowiedzi[#{pytanie.id_pyt}][]", odpowiedz. tresc_odp, controller.checked?(pytanie.id_pyt, odpowiedz.tresc_odp), :disabled => quiz_completed%>
-    <%= label_tag "odpowiedz label", odpowiedz.tresc_odp %>
-    <br />
+    <%#=label_tag "odpowiedzi_#{pytanie.id_pyt}_#{odpowiedz.tresc_odp}", odpowiedz.tresc_odp, :class => 'span_after_label' %>
+
+    <label class="checkbox">
+      <%= check_box_tag "odpowiedzi[#{pytanie.id_pyt}][#{odpowiedz.tresc_odp}]", odpowiedz.tresc_odp,
+                        controller.checked?(pytanie.id_pyt, odpowiedz.tresc_odp),
+                        :name => "odpowiedzi[#{pytanie.id_pyt}][]", :disabled => quiz_completed, :class => "checkbox" %>
+      <%= odpowiedz.tresc_odp %>
+    </label>
+    <%#= check_box_tag "odpowiedzi[#{pytanie.id_pyt}][#{odpowiedz.tresc_odp}]", odpowiedz.tresc_odp,
+                      controller.checked?(pytanie.id_pyt, odpowiedz.tresc_odp),
+                      :name => "odpowiedzi[#{pytanie.id_pyt}][]", :disabled => quiz_completed, :class => "checkbox" %>
+
+
 
 <% end %>

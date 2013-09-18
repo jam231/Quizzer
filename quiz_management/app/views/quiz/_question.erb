@@ -1,7 +1,8 @@
-<li>
+<fieldset>
+<legend>
   <%= pytanie.tresc %>
   <%= score_tag pytanie.punkty_za_odpowiedz(current_user, params[:date_submitted]), pytanie.pkt if params[:date_submitted] %>
-</li>
+</legend>
 
 <% if params[:date_submitted] %>
     <font color=”#0099ff”>
@@ -17,3 +18,4 @@
 <% else %>
     <%= render :partial => "singlechoice_question", :locals => { :pytanie => pytanie, :quiz_completed => !params[:date_submitted].nil? } %>
 <% end %>
+</fieldset>
