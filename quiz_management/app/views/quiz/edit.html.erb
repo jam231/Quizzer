@@ -1,4 +1,25 @@
 <h3 class="header centered">Pytania dla <%= @quiz.nazwa %></h3>
+<div class="row-fluid">
+  <%= form_tag quiz_update_url, :class => 'form-horizontal', :method => :put do %>
+      <div class="control-group">
+        <%= label_tag :nazwa, 'Nazwa quizu', :class => 'control-label span3', :for => 'inputNazwaQuizu'%>
+        <div class="controls">
+          <%= text_field_tag :nazwa, @quiz.nazwa, :class => 'span2', :id => 'inputNazwaQuizu', :placeholder => 'Nazwa quizu' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag :liczba_pytan, 'Maksymalna liczba widocznych pytań', :class => 'control-label span3', :for => 'inputLogin'%>
+        <div class="controls">
+          <%= text_field_tag :liczba_pytan, @quiz.liczba_pytan, :class => 'span2', :id => 'inputLiczbaPytan',
+                             :placeholder => 'Maksymalna liczba pytań widocznych dla użytkownika' %>
+        </div>
+      </div>
+      </div>
+      <div class="control-group form-buttons">
+        <button type="submit" class="btn btn-primary" name='commit'>Zapisz zmiany</button>
+      </div>
+  <% end %>
+  </div>
 <table class="table table-hover">
   <% for pytanie in @quiz.pytania %>
       <tr>

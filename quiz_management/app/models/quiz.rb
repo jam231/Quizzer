@@ -5,7 +5,9 @@ class Quiz < ActiveRecord::Base
     belongs_to :grupa_quizowa, :class_name => "GrupaQuizowa"
     belongs_to :uzytkownik, :class_name => "Uzytkownik"
 
-  attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela
+    validates :nazwa, :presence => true
+
+    attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela, :liczba_pytan, :nazwa
 
   def usun_odpowiedzi_uzytkownikow!
 		# ActiveRecord nie chce tego normalnie usuwac, bo niby nie ma primary key...
@@ -29,7 +31,12 @@ class Quiz < ActiveRecord::Base
 	end
 
   def pytania_widoczne
-    pytania.select{|p| p.ukryty == false}
+    p = pytania.select {|p| p.ukryty == false} .shuffle
+		if self.liczba_pytan.nil?
+			p
+		else
+			p.take self.liczba_pytan
+		end
   end
 
 end

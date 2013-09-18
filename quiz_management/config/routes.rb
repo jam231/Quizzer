@@ -31,6 +31,8 @@ QuizManagement::Application.routes.draw do
   put "grupa/:id_grupy/quiz/:id_quizu/activate" => "quiz#activate", :as => 'quiz_activate'
   put "grupa/:id_grupy/quiz/:id_quizu/deactivate" => "quiz#deactivate", :as => 'quiz_deactivate'
 
+  put "grupa/:id_grupy/quiz/:id_quizu/update" => "quiz#update", :as => 'quiz_update'
+
   get "grupa/:id_grupy/quiz/new" => "quiz#new", :as => 'quiz_new', :id_grupy => /[1-9][0-9]*/
   get "grupa/:id_grupy/quiz/:id_quizu" => "quiz#index", :as => 'quiz', :id_grupy => /[1-9][0-9]*/
 

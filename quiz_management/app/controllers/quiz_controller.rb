@@ -71,15 +71,28 @@ class QuizController < ApplicationController
   end
 
   def destroy
-	quiz = Quiz.find(params[:id_quizu])
-	if quiz.destroy
-		logger.info "Quiz #{quiz.nazwa} {:id => #{quiz.id_quizu}} został usunięty przez użytkownika #{current_user.nazwa_uz}."
-		flash[:notice] = "Quiz #{quiz.nazwa} został usunięty."
-	else
-		flash[:alert] = "Usunięcie quizu się nie powiodło."
-	end
-	redirect_to grupa_url
+		quiz = Quiz.find(params[:id_quizu])
+		if quiz.destroy
+			logger.info "Quiz #{quiz.nazwa} {:id => #{quiz.id_quizu}} został usunięty przez użytkownika #{current_user.nazwa_uz}."
+			flash[:notice] = "Quiz #{quiz.nazwa} został usunięty."
+		else
+			flash[:alert] = "Usunięcie quizu się nie powiodło."
+		end
+
+		redirect_to grupa_url
   end
+
+	# PUT
+	def update
+		@quiz = Quiz.find params[:id_quizu]
+		if @quiz.update_attributes :nazwa => params[:nazwa], :liczba_pytan => params[:liczba_pytan]
+			flash[:notice] = 'Zapisano zmiany.'
+		else
+			flash[:alert] = @quiz.errors.messages.values.join("<br>")
+		end
+		redirect_to quiz_edit_url
+	end
+
 
   def edit
     @quiz = Quiz.find(params[:id_quizu])

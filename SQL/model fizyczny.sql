@@ -25,7 +25,8 @@ CREATE TABLE quiz(
 	limit_podejsc	INTEGER,
 	limit_czasowy	INTERVAL,
 	data_utworzenia	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	ukryty      	BOOLEAN NOT NULL DEFAULT FALSE
+	ukryty      	BOOLEAN NOT NULL DEFAULT FALSE,
+	liczba_pytan	INTEGER DEFAULT NULL
 );
 	
 CREATE TABLE dyskusja(

@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20130909221012) do
     t.string   "limit_czasowy",   :limit => nil
     t.datetime "data_utworzenia",                                   :null => false
     t.boolean  "ukryty",                         :default => false, :null => false
+    t.integer  "liczba_pytan"
   end
 
   create_table "ranking", :id => false, :force => true do |t|
