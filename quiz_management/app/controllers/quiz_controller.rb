@@ -22,12 +22,9 @@ class QuizController < ApplicationController
 
     logger.info "Id quizu = #{@quiz.id_quizu}"
 
-    for pytanie in @quiz.pytania do
-
+    for pytanie in @quiz.pytania_widoczne do
 			logger.debug "Id pytania = #{pytanie.id_pyt}"
       session[:pytania][pytanie.id_pyt] ||= pytanie.r_odpowiedzi
-      puts session[:pytania][pytanie.id_pyt].class
-
     end
   end
 
@@ -86,8 +83,8 @@ class QuizController < ApplicationController
     date = Time.now.strftime("%F %T.%L")
 
     @quiz = Quiz.find(params[:id_quizu])
-
-    @quiz.pytania.each do |pytanie|
+    logger.debug session.inspect
+    @quiz.pytania_widoczne.each do |pytanie|
       odp = OdpowiedzUzytkownika.new
       odp.id_uz = session[:user_id]
       odp.id_pyt = pytanie.id_pyt

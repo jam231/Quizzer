@@ -32,3 +32,4 @@
       <%= link_to 'Nowe pytanie', pytanie_create_path(:id_grupy => @quiz.id_grupy, :id_quizu =>  @quiz.id_quizu), :class => 'btn btn-primary'%>
     </div>
 <% end %>
+<%= link_to 'Powrót do ekranu grupy', grupa_path(:id_grupy => @quiz.id_grupy) %>

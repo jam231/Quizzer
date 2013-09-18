@@ -9,4 +9,12 @@ class OdpowiedzWzorcowa < ActiveRecord::Base
   validates_presence_of :tresc_odp, :message => "Treść odpowiedzi nie może być pusta"
   validates_presence_of :poziom_poprawnosci, :message => "Poziom poprawności musi być określony"
   validates_inclusion_of :poziom_poprawnosci, :in => 0..100, :message => "Poziom poprawności musi być wartością między 0 a 100"
+
+  validates_inclusion_of :poziom_poprawnosci, :in => [0,100], :message => "Poziom poprawnosci musi byc 0 lub 100 dla pytan wielokrotnego wyboru",
+                         :if => :nalezy_do_pytania_wielokrotnego_wyboru?
+
+  #brzydkie, ale nie potrafie tego zrobic inaczej
+  def nalezy_do_pytania_wielokrotnego_wyboru?
+    pytanie.wielokrotnego_wyboru?
+  end
 end

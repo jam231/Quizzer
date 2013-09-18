@@ -119,6 +119,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER dodaj_do_public AFTER INSERT ON uzytkownik
 	FOR EACH ROW EXECUTE PROCEDURE uzytkownik_on_insert();
 
+	
 CREATE OR REPLACE FUNCTION quiz_on_delete() RETURNS TRIGGER AS $$
 BEGIN
 	--- Przenies quiz do LIMBO, id_grupy = 0
@@ -133,6 +134,8 @@ $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS transfer_quiz_to_limbo ON quiz;
 CREATE TRIGGER transfer_quiz_to_limbo BEFORE DELETE ON quiz 
 	FOR ROW EXECUTE PROCEDURE quiz_on_delete(); 
+
+	
 -------------------------------------------------------------------------	
 CREATE OR REPLACE FUNCTION dostep_grupa_on_insert() RETURNS TRIGGER AS $$
 BEGIN
@@ -143,6 +146,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER dodaj_ranking AFTER INSERT ON dostep_grupa
 	FOR EACH ROW EXECUTE PROCEDURE dostep_grupa_on_insert();
+
 ------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION grupa_on_insert() RETURNS TRIGGER AS $$
 BEGIN
@@ -187,6 +191,22 @@ CREATE TRIGGER zmiana_autora BEFORE DELETE ON uzytkownik
 	FOR EACH ROW EXECUTE PROCEDURE uzytkownik_on_delete();
 	
 	
+CREATE OR REPLACE FUNCTION poziom_poprawnosci_poprawny() RETURNS TRIGGER AS $$
+DECLARE
+	pytanie_wielokrotnego BOOLEAN := false;
+BEGIN
+	pytanie_wielokrotnego := (SELECT wielokrotnego_wyboru FROM typ t JOIN pytanie p ON t.id_typu = p.id_typu WHERE p.id_pyt = new.id_pyt);
+	IF NOT (pytanie_wielokrotnego = FALSE OR (new.poziom_poprawnosci IN (0,100))) THEN
+		RAISE EXCEPTION 'Pytanie wielokrotnego_wyboru musi mieæ poziom_poprawnosci 0 lub 100';
+	END IF;
+	
+	RETURN new;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER weryfikacja_poziomu_poprawnosci BEFORE INSERT OR UPDATE ON odpowiedz_wzorcowa
+	FOR EACH ROW EXECUTE PROCEDURE poziom_poprawnosci_poprawny();
+	
 CREATE OR REPLACE FUNCTION usun_dane_uz(id integer) RETURNS VOID AS $$
 BEGIN
 	DELETE FROM pytanie WHERE id_autora=id;
@@ -200,14 +220,14 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION max_pkt_za_quiz(uz integer, quiz integer) RETURNS REAL AS $$
 DECLARE
 	pkt REAL;
-	pkt_najlepszy REAL = 0.00;
+	pkt_najlepszy REAL := 0.00;
 	data_podejscia TIMESTAMP;
 	pytanie INTEGER;
 BEGIN
 
 	FOR data_podejscia IN (SELECT distinct data_wyslania FROM odpowiedz_uzytkownika ou WHERE ou.id_uz = uz)
 	LOOP
-		pkt = 0;
+		pkt := 0;
 		FOR pytanie IN (SELECT distinct ou.id_pyt FROM odpowiedz_uzytkownika ou JOIN pytanie p ON ou.id_pyt = p.id_pyt WHERE ou.id_uz = uz AND p.id_quizu = quiz)
 		LOOP
 			pkt := pkt + (SELECT * FROM pkt_za_pytanie(uz, pytanie, data_podejscia));
@@ -237,7 +257,7 @@ BEGIN
 	SELECT * INTO typ_pytania FROM typ WHERE id_typu = pyt.id_typu;
 
 	IF typ_pytania.wielokrotnego_wyboru THEN
-		pkt_za_trafienie = pyt.pkt/typ_pytania.liczba_odp;
+		pkt_za_trafienie := pyt.pkt/typ_pytania.liczba_odp;
 		pkt_zdobyte := pyt.pkt - (SELECT 
 				sum(CASE WHEN (zaznaczona!=poziom_poprawnosci::BOOLEAN) THEN pkt_za_trafienie ELSE 0.00 END) 
 				FROM odpowiedz_uzytkownika ou JOIN odpowiedz_wzorcowa op ON(ou.id_pyt=op.id_pyt AND ou.tresc_odp=op.tresc_odp) 
@@ -251,7 +271,6 @@ BEGIN
 	END IF;
 	RETURN COALESCE(pkt_zdobyte,0::REAL);
 END
-
 $BODY$
   LANGUAGE plpgsql;
 
