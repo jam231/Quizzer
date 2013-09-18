@@ -1,9 +1,10 @@
 <% for odpowiedz in session[:pytania][pytanie.id_pyt] %>
-    <%= label_tag "odpowiedzi[#{pytanie.id_pyt}][]", odpowiedz.tresc_odp, :class => "radio inline" do %>
+
+
+    <label class="radio">
         <%= radio_button_tag "odpowiedzi[#{pytanie.id_pyt}][]", odpowiedz.tresc_odp, controller.checked?(pytanie.id_pyt, odpowiedz.tresc_odp), :disabled => quiz_completed %>
-        <%= odpowiedz.tresc_odp %>
-    <%#= label_tag("odpowiedzi[#{pytanie.id_pyt}][]", odpowiedz.tresc_odp, :value => odpowiedz.tresc_odp) %>
-    <% end %>
+      <%= odpowiedz.tresc_odp %>
+    </label
     <br>
 
 <% end %>
