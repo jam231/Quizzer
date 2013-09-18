@@ -9,7 +9,7 @@
 <% for quiz in @quizzes %>
     <tr>
       <td class="centered">
-        <%= link_to quiz.nazwa, quiz_url(@limbo, quiz) %>
+        <%= quiz.nazwa %>
       </td>
       <td class="centered">
         <%= quiz.id_quizu %>
