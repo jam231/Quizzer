@@ -49,6 +49,12 @@ function applyNewOwner(arg1, arg2, arg3, dest1, dest2, dest3, dest4) {
     $(String(dest4)).val(arg1);
 }
 
+function showw() {
+    //$(".formshow").show();
+    $(".formshow").css('visibility','visible');
+    //$(".formshow").style.visibility = "visible";
+}
+
 function registerOnRowClick(rowName, firstName, secondName, thirdName, dest1, dest2, dest3, dest4) {
     $("tr" + rowName).click(function () {
         var arg1 = $(this).children("td" + firstName).text(),

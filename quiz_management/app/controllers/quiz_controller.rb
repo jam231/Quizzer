@@ -12,6 +12,7 @@ class QuizController < ApplicationController
 	before_filter :has_quiz_destroy_privilege?, :only => [:destroy]
 
 
+
   def index
 
     logger.info "Użytkownik #{current_user.nazwa_uz} {id_uz => #{current_user.id_uz} }"
@@ -35,7 +36,13 @@ class QuizController < ApplicationController
 
 	# POST - zwaliduj otrzymany formularz, nastepnie zapisz quiz lub przekieruj do new z zaznaczonymi bledami.
 	def create
-		redirect_to :back, :alert => "Not implemented yet."
+    @quiz = Quiz.new(params[:quiz])
+    @quiz.data_utworzenia = Time.now
+    @quiz.save
+
+    redirect_to quiz_edit_url(@quiz, :id_quizu => @quiz.id_quizu,
+                                 :id_grupy => @quiz.id_grupy),
+                notice: 'Quiz został utworzony.'
 	end
 
 	# PUT

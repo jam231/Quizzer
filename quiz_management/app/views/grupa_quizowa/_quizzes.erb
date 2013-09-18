@@ -36,8 +36,18 @@
   <% end %>
  <% end %>
 </table>
-<% if @grupa.has_privileges? current_user, :creation_of_quizzes %>
-    <div class="control-group">
-      <%= link_to 'Nowy quiz', quiz_new_url(@grupa), :class => 'btn btn-primary'%>
-    </div>
+ <% if @grupa.has_privileges? current_user, :creation_of_quizzes %>
+    <%= button_to_function "Nowy quiz", "showw()", :class => "btn btn-primary"  %>
+    <%= form_for :quiz, :url => {:controller => "quiz", :action => "create" } do |f| %>
+        <div class="formshow" style="visibility: hidden">
+          <%= f.label :nazwa, "Nazwa nowego quizu" %>
+          <%= f.text_area :nazwa,  :size => "60x1" %>
+          <%= f.hidden_field :id_wlasciciela, :value => session[:user_id] %>
+          <%= f.hidden_field :id_grupy, :value => @grupa.id_grupy %>
+        <div class="actions">
+          <%= f.submit "Zapisz", :class => "btn btn-success" %>
+        </div>
+        </div>
+
+    <% end %>
 <% end %>
