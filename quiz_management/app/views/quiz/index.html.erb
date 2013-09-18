@@ -1,21 +1,19 @@
 <div class="container-fluid" style="">
   <div class="row-fluid">
      <h2 class="offset2 header" style="display: inline-block; padding-bottom: 40px"> <i> <%= @quiz.nazwa %> </i> </h2>
-       <!-- <span style="padding-left: 15px">
-         [<%= link_to("Edytuj", quiz_edit_url(:id_quizu => @quiz.id_quizu), :notice => 'Pytanie zostało zapisane.') if @grupa.has_privileges? current_user,  :editing_and_deleting_quizzes %>
-         |
-         <%= link_to("Usuń", quiz_destroy_url(:id_quizu => @quiz.id_quizu), :notice => 'Quiz został usunięty.', :class => 'warn', :method => 'delete') if session[:user_id] == @quiz.id_wlasciciela %>]
-      </span>
-       -->
-     <%= form_tag quiz_submit_url, :class => 'form-horizontal'  do %>
+
+     <%= form_tag quiz_submit_url, :class => 'form-horizontal', :method => 'post'  do %>
        <% for pytanie in @quiz.pytania_widoczne %>
          <%= render :partial => "question", :locals => { :pytanie => pytanie, :score => params[:commit] } %>
+         <br><br>
        <% end %>
        <% if params[:commit] %>
          <% controller.reset_session %>
          <% @MIEJSCE_NA_STRONE_GLOWNA = {:action => "index", :id_quizu => @quiz.id_quizu, :test => "abvc" } %>
          <%= link_to "Powrot", @MIEJSCE_NA_STRONE_GLOWNA %>
        <% else %>
+
+
          <div class="control-group form-buttons">
            <button type="submit" class="btn btn-success" name='commit'>Wyślij</button>
            <%= link_to 'Anuluj', grupa_url, :class => 'btn' %>
