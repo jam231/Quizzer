@@ -39,7 +39,7 @@ class Uzytkownik < ActiveRecord::Base
   def self.authenticate(login, password)
     user = find_by_login(login)
     logger.debug "Użytkownik o loginie #{login} stara sie zalogowac"
-    logger.debug "Haslo to #{password}, salt to #{user.haslo_salt}."
+    logger.debug "Podane haslo to #{password}, salt to #{user.haslo_salt}."
     logger.debug "#{BCrypt::Engine.hash_secret(password, user.haslo_salt)}"
     if user && user.haslo == BCrypt::Engine.hash_secret(password, user.haslo_salt)
       user
