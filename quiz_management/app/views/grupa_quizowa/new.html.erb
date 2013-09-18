@@ -10,6 +10,25 @@
           <%= f.text_field :nazwa, :class => 'span4', :id => 'inputNazwaUz', :placeholder => 'Nazwa grupy' %>
         </div>
       </div>
+      <div class="control-group text-center">
+        <%= f.label :password, 'Hasło', :class => 'control-label span3', :for => 'inputHaslo'%>
+        <div class="controls">
+          <%= f.password_field :password, :class => 'span4', :id => 'inputHaslo', :placeholder => 'Hasło' %>
+        </div>
+      </div>
+      <div class="control-group text-center">
+        <%= f.label :password_confirmation, 'Powtórz hasło', :class => 'control-label span3', :for => 'inputHaslo2'%>
+        <div class="controls">
+            <%= f.password_field :password_confirmation, :class => 'span4', :id => 'inputHaslo2', :placeholder => 'Powtórz hasło' %>
+        </div>
+      </div>
+      <div class="control-group text-center">
+        <%= f.label :na_zaproszenie, 'Grupa ma być na zaproszenie ?', :class => 'control-label span3', :for => 'checkboxNaZaproszenie'%>
+
+        <div class="controls">
+          <%= f.check_box :na_zaproszenie,:class => 'span2 checkbox', :id => 'checkboxNaZaproszenie' %>
+        </div>
+      </div>
     </div>
     <div class="control-group form-buttons">
       <button type="submit" class="btn btn-primary" name='commit'>Stwórz</button> <%= link_to 'Powrót', :back %>

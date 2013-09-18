@@ -2,42 +2,45 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
   activerecord:
     errors:
       models:
         grupa_quizowa:
           attributes:
             id_wlasciciela:
-              blank:    "Grupa musi miec wlasciciela"
+              blank:        "Grupa musi miec wlasciciela"
             nazwa:
-              blank:    "Nazwa grupy nie moze byc pusta"
-              too_long: "Nazwa grupy musi miec nie wiecej niż 60 znakow"
-              taken:    "Ta nazwa grupy jest juz zajeta."
+              blank:        "Nazwa grupy nie moze byc pusta"
+              too_long:     "Nazwa grupy musi miec nie wiecej niż 60 znakow"
+              taken:        "Ta nazwa grupy jest juz zajeta."
+            password:
+              confirmation: "Podane hasla sie nie zgadzaja."
         uzytkownik:
-         attributes:
-          email:
-            blank:      "Adres e-mail nie moze byc pusty."
-            too_long:   "Adres e-mail moze miec co najwyzej 60 znakow."
-            taken:      "Ten adres e-mail jest zajety."
-            invalid:    "Adres e-mail ma zly format."
-          nazwa_uz:
-            blank:      "Nazwa uzytkownika nie moze byc pusta."
-            taken:      "Ta nazwa uzytkownika jest juz zajeta."
-            too_long:   "Nazwa uzytkownika moze miec co najwyzej 30 znakow."
-          login:
-            blank:      "Login nie moze byc pusty."
-            taken:      "Ten login jest juz zajety."
-            too_long:   "Login moze miec co najwyzej 15 znakow."
-          haslo:
-            blank:      "Haslo nie moze byc puste."
-            too_short:  "Haslo musi miec co najmniej 5 znakow."
-            too_long:   "Haslo moze miec co najwyzej 30 znakow."
+          attributes:
+            email:
+              blank:        "Adres e-mail nie moze byc pusty."
+              too_long:     "Adres e-mail moze miec co najwyzej 60 znakow."
+              taken:        "Ten adres e-mail jest zajety."
+              invalid:      "Adres e-mail ma zly format."
+            nazwa_uz:
+              blank:        "Nazwa uzytkownika nie moze byc pusta."
+              taken:        "Ta nazwa uzytkownika jest juz zajeta."
+              too_long:     "Nazwa uzytkownika moze miec co najwyzej 30 znakow."
+            login:
+              blank:        "Login nie moze byc pusty."
+              taken:        "Ten login jest juz zajety."
+              too_long:     "Login moze miec co najwyzej 15 znakow."
+            haslo:
+              blank:        "Haslo nie moze byc puste."
+              too_short:    "Haslo musi miec co najmniej 5 znakow."
+              too_long:     "Haslo moze miec co najwyzej 30 znakow."
+            password:
+              confirmation: "Podane hasla sie nie zgadzaja."
         pytanie:
-         attributes:
-          tresc:
-            blank:      "Wpisz tresc pytania"
-          pkt:
-            blank:      "Wpisz liczbe punktow za pytanie"
-            too_short:   "Liczba punktow za pytanie musi być wieksza od 0"
+          attributes:
+            tresc:
+              blank:        "Wpisz tresc pytania"
+            pkt:
+              blank:        "Wpisz liczbe punktow za pytanie"
+              too_short:    "Liczba punktow za pytanie musi być wieksza od 0"
 
