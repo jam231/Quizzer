@@ -33,6 +33,7 @@ en:
             blank:      "Haslo nie moze byc puste."
             too_short:  "Haslo musi miec co najmniej 5 znakow."
             too_long:   "Haslo moze miec co najwyzej 30 znakow."
+            confirmation: "Podane hasla sie nie zgadzaja."
         pytanie:
          attributes:
           tresc:
