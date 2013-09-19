@@ -19,6 +19,12 @@
         <td>
           <%= user.nazwa_uz %>
         </td>
+        <% if @grupa.has_privileges? current_user, :deleting_users and not @grupa.owner? user%>
+        <td>
+          <%= link_to 'Usuń z grupy', grupa_delete_user_url(@grupa, user), :class => 'btn btn-danger', :method => :delete,
+                                      :confirm => "Jesteś pewny, że chcesz usunąć użytkownika #{user.nazwa_uz}" %>
+        </td>
+        <% end %>
       </tr>
   <% end %>
   </tbody>
