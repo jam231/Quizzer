@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     user = Uzytkownik.authenticate(params[:login], params[:password])
     if user
       session[:user_id] = user.id
-      redirect_to grupa_public_url, :notice => "Użytkownik #{user.nazwa_uz} zalogowany"
+      redirect_to root_url, :notice => "Użytkownik #{user.nazwa_uz} zalogowany"
     else
       redirect_to log_in_url, :alert => "Niepoprawny login lub hasło."
     end

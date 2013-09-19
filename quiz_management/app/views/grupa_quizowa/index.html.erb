@@ -30,7 +30,7 @@
             <td>
               <%= if grupa.haslo.blank? then 'NIE' else 'TAK' end %>
             </td>
-            <% if grupa.zapisany? current_user and not grupa.public?%>
+            <% if grupa.zapisany? current_user%>
             <td>
                <%= button_to 'Wypisz', grupa_delete_user_url(grupa, current_user), :class => "btn btn-danger",
                                        :method => :delete,  :confirm => "Jesteś pewny?", :disabled => grupa.owner?(current_user) %>

@@ -16,7 +16,7 @@ class GrupaQuizowaController < ApplicationController
 		unless current_user.superuser?
 			GrupaQuizowa.scoped.reject do |grupa|
 				grupa.limbo? or
-				(!!(grupa.na_zaproszenie) and grupa.grupa_dostep.where(:id_uz => current_user.id_uz).blank?)
+				(grupa.na_zaproszenie and grupa.zapisany? current_user)
 			end
 		else
 			GrupaQuizowa.scoped.reject { |grupa| grupa.limbo? }
@@ -38,7 +38,6 @@ class GrupaQuizowaController < ApplicationController
 	  if @grupa.save
 		  redirect_to root_url, :notice => "Grupa #{@grupa.nazwa} została pomyślnie stworzona."
 	  else
-		  alert_msg = ''
 		  alert_msg = @grupa.errors.messages.values.first.first.to_s if @grupa.errors.any?
 		  redirect_to grupa_new_url, :alert => alert_msg
 	  end
@@ -51,7 +50,8 @@ class GrupaQuizowaController < ApplicationController
   end
 
   def users
-    @users = Uzytkownik.find(@grupa.dostep_grupa.where("id_uz <> 1").select(:id_uz).uniq.all.map(&:id_uz))
+    @users = @grupa.dostep_grupa.map(&:uzytkownik)
+
     @what = 'users'
     render 'show'
   end
@@ -64,7 +64,7 @@ class GrupaQuizowaController < ApplicationController
 
   # DELETE
   def delete_user
-		user = Uzytkownik.find(params[:id_uz])
+		user = Uzytkownik.find params[:id_uz]
 		@grupa.wypisz_uzytkownika! user
 		redirect_to :back, :notice => "Użytkownik #{user.nazwa_uz} został wypisany z grupy #{@grupa.nazwa}."
   end
