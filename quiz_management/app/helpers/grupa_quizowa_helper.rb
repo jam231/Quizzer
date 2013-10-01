@@ -10,9 +10,9 @@ module GrupaQuizowaHelper
 			grupa = GrupaQuizowa.find params[:id_grupy]
 			user = Uzytkownik.find params[:id_uz]
 			redirect_to :back, :alert => "Użytkownik #{user.nazwa_uz} nie jest zapisany do grupy #{grupa.nazwa}." unless grupa.zapisany? user
-			redirect_to :back, :alert => "Nie można wypisać z grupy public." if grupa.public?
+			# redirect_to :back, :alert => "Nie można wypisać z grupy public." if grupa.public?
 			redirect_to :back, :alert => "Nie można wypisać właściciela." if grupa.owner? user
-			redirect_to :back, :alert => "Brak odpowiednich przywilejów." unless current_user.superuser? or user.id_uz == current_user.id_uz
+			redirect_to :back, :alert => "Brak odpowiednich przywilejów." unless grupa.has_privileges? current_user, :deleting_users or user.id_uz == current_user.id_uz
 		rescue ActiveRecord::RecordNotFound
 			redirect_to :back, :alert => "Użytownik #{user.nazwa_uz} nie istnieje."
 		end

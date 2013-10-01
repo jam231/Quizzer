@@ -7,7 +7,13 @@ class Quiz < ActiveRecord::Base
 
     validates :nazwa, :presence => true
 
-    attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela, :liczba_pytan, :nazwa
+    attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela, :nazwa, :id_grupy, :liczba_pytan
+
+    after_initialize :now_date
+
+  def now_date
+		self.data_utworzenia = DateTime.now
+  end
 
   def usun_odpowiedzi_uzytkownikow!
 		# ActiveRecord nie chce tego normalnie usuwac, bo niby nie ma primary key...
