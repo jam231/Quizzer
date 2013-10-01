@@ -1,5 +1,6 @@
+<div class="row-fluid span12">
 <h3 class="header centered">Pytania dla <%= @quiz.nazwa %></h3>
-<div class="row-fluid">
+  <div class="row-fluid"  style="padding-bottom: 30px">
   <%= form_tag quiz_update_url, :class => 'form-horizontal', :method => :put do %>
       <div class="control-group">
         <%= label_tag :nazwa, 'Nazwa quizu', :class => 'control-label span3', :for => 'inputNazwaQuizu'%>
@@ -14,12 +15,12 @@
                              :placeholder => 'Maksymalna liczba pytań widocznych dla użytkownika' %>
         </div>
       </div>
-      </div>
       <div class="control-group form-buttons">
         <button type="submit" class="btn btn-primary" name='commit'>Zapisz zmiany</button>
       </div>
-  <% end %>
   </div>
+  <% end %>
+
 <table class="table table-hover">
   <% for pytanie in @quiz.pytania %>
       <tr>
@@ -51,6 +52,7 @@
 <% if @grupa.has_privileges? current_user, :creation_of_quizzes %>
     <div class="control-group">
       <%= link_to 'Nowe pytanie', pytanie_create_path(:id_grupy => @quiz.id_grupy, :id_quizu =>  @quiz.id_quizu), :class => 'btn btn-primary'%>
+      <%= link_to 'Powrót do ekranu grupy', grupa_path(:id_grupy => @quiz.id_grupy) %>
     </div>
 <% end %>
-<%= link_to 'Powrót do ekranu grupy', grupa_path(:id_grupy => @quiz.id_grupy) %>
+</div>
