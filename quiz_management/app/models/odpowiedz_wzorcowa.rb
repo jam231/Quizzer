@@ -4,7 +4,7 @@ class OdpowiedzWzorcowa < ActiveRecord::Base
   self.primary_key = :id_odp_w
   belongs_to :pytanie, :foreign_key => :id_pyt, :class_name => "Pytanie"
 
-  attr_accessible :ost_modyfikacja, :komentarz, :poziom_poprawnosci, :id_pyt, :tresc_odp, :id_odp_w
+  attr_accessible :ost_modyfikacja, :komentarz, :poziom_poprawnosci, :id_pyt, :tresc_odp, :id_odp_w, :pytanie
 
   validates_presence_of :tresc_odp, :message => "Treść odpowiedzi nie może być pusta"
   validates_presence_of :poziom_poprawnosci, :message => "Poziom poprawności musi być określony"

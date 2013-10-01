@@ -11,7 +11,7 @@ class Pytanie < ActiveRecord::Base
     belongs_to :kategoria, :foreign_key => 'id_kategorii', :class_name => "Kategoria"
 
     attr_accessible :id_quizu, :tresc, :id_kategorii, :pkt, :id_typu, :id_autora, :id_pyt,
-                    :odpowiedzi, :odpowiedzi_attributes
+                    :odpowiedzi, :odpowiedzi_attributes, :quiz
 
     accepts_nested_attributes_for :odpowiedzi,  allow_destroy: true
     accepts_nested_attributes_for :odpowiedzi_uzytkownika

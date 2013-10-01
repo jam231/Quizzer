@@ -89,6 +89,10 @@
 			self.id_grupy == 1
     end
 
+    def self.Public
+			GrupaQuizowa.find(1)
+    end
+
     def zapisany? user
 	    not self.dostep_grupa.where(:id_uz => user.id_uz).blank?
     end

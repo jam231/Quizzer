@@ -5,7 +5,13 @@ class Quiz < ActiveRecord::Base
     belongs_to :grupa_quizowa, :class_name => "GrupaQuizowa"
     belongs_to :uzytkownik, :class_name => "Uzytkownik"
 
-  attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela
+  attr_accessible :pytania, :grupa_quizowa, :id_wlasciciela, :nazwa, :id_grupy
+
+  after_initialize :now_date
+
+  def now_date
+		self.data_utworzenia = DateTime.now
+  end
 
   def usun_odpowiedzi_uzytkownikow!
 		# ActiveRecord nie chce tego normalnie usuwac, bo niby nie ma primary key...
